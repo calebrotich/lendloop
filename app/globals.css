@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/*
+ * LendLoop design tokens.
+ * One neutral surface, one accent, no shadow stacking — the layout should read
+ * like a neighbourhood noticeboard, not a dashboard.
+ */
+@theme {
+  --color-surface: #faf9f7;
+  --color-surface-raised: #ffffff;
+  --color-ink: #1c1917;
+  --color-ink-muted: #57534e;
+  --color-line: #e7e5e4;
+  --color-accent: #047857;
+  --color-accent-strong: #065f46;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: color-mix(in oklab, var(--color-accent) 20%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}

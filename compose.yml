@@ -1,0 +1,120 @@
+# LendLoop — local development stack
+#
+#   cp .env.example .env    # then fill N8N_ENCRYPTION_KEY + POSTGRES_PASSWORD
+#   docker compose up -d
+#
+#   n8n       http://localhost:5678   (owner account created on first visit)
+#   Mailpit   http://localhost:8025   (every email the workflows send)
+#
+# All ports bind to 127.0.0.1 only. To let Convex Cloud reach n8n, expose it
+# through a tunnel rather than publishing the port:
+#   cloudflared tunnel --url http://localhost:5678
+#
+# Services are pinned where a tag is meaningful: n8n 2.46.4 (its workflow JSON
+# schema is stable within a major, and the exports in automation/workflows/ must
+# import into this exact instance) and Postgres 16. Mailpit is a dev-only SMTP
+# sink, so it tracks `latest`.
+
+name: lendloop
+
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:2.46.4
+    container_name: lendloop-n8n
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      # --- runtime ---
+      TZ: Africa/Nairobi
+      GENERIC_TIMEZONE: Africa/Nairobi
+      N8N_HOST: localhost
+      N8N_PORT: "5678"
+      N8N_PROTOCOL: http
+      WEBHOOK_URL: ${N8N_WEBHOOK_BASE:-http://localhost:5678}/
+      N8N_PROXY_HOPS: "1"
+
+      # --- persistence (Postgres, not SQLite) ---
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: n8n-db
+      DB_POSTGRESDB_PORT: "5432"
+      DB_POSTGRESDB_DATABASE: ${POSTGRES_DB:-n8n}
+      DB_POSTGRESDB_USER: ${POSTGRES_USER:-n8n}
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      DB_POSTGRESDB_SCHEMA: public
+
+      # --- secrets & credentials ---
+      # Encrypts stored credentials at rest. Losing this value makes every
+      # SMTP/Slack credential unreadable — treat it like a production secret.
+      N8N_ENCRYPTION_KEY: "${N8N_ENCRYPTION_KEY:?generate one with openssl rand -hex 32}"
+      # Shared secret for HMAC signing in both directions. The workflows read it
+      # via $env in Code nodes; it never appears in exported workflow JSON.
+      LENDLOOP_HMAC_SECRET: ${N8N_HMAC_SECRET:?set N8N_HMAC_SECRET in .env}
+      # Code nodes need $env access to read the HMAC secret. Consequence: any
+      # workflow author can read container env vars. Acceptable for a single
+      # trusted operator; documented as a production hardening item.
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
+
+      # --- values the workflows interpolate ---
+      LENDLOOP_CONVEX_SITE_URL: ${CONVEX_SITE_URL:-}
+      LENDLOOP_APP_BASE_URL: ${APP_BASE_URL:-http://localhost:3000}
+      LENDLOOP_MAIL_FROM: ${LENDLOOP_MAIL_FROM:-LendLoop <lendloop@example.test>}
+
+      # --- quiet the cloud/telemetry surface we do not need ---
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
+      N8N_TEMPLATES_ENABLED: "false"
+      N8N_HIRING_BANNER_ENABLED: "false"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      n8n-db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+
+  n8n-db:
+    image: postgres:16-alpine
+    container_name: lendloop-n8n-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-n8n}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-n8n}
+    volumes:
+      - n8n_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-n8n} -d ${POSTGRES_DB:-n8n}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: lendloop-mailpit
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8025:8025" # web UI
+      - "127.0.0.1:1025:1025" # SMTP
+    environment:
+      MP_MAX_MESSAGES: "1000"
+      MP_DATABASE: /data/mailpit.db
+      # Dev-only: workflows connect over plain SMTP with no TLS.
+      MP_SMTP_AUTH_ACCEPT_ANY: "1"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+      TZ: Africa/Nairobi
+    volumes:
+      - mailpit_data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8025/livez"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  n8n_data:
+  n8n_db_data:
+  mailpit_data:

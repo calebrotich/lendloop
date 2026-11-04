@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnp.*
+.yarn/*
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Convex
+.convex/
+
+# Environment — never commit real values
+.env
+.env.*
+!.env.example
+
+# Local tooling caches
+.npm-cache/
+.pnpm-store/
+
+# Tests & coverage
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# n8n bind-mounted data (if used instead of a named volume)
+automation/n8n-data/
+automation/.n8n/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
