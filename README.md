@@ -6,9 +6,9 @@ LendLoop is a neighbourhood tool-lending board. Neighbours list the tools they a
 lend, borrowers ask for a date range, owners approve or decline, and [n8n](https://n8n.io)
 automates the notifications and the overdue reminders in both directions.
 
-> **Status: Stage 3 — the loan lifecycle works.** Browse tools, request a date range, approve or
-> decline, and mark a loan returned. Availability is derived from approved loans, never stored.
-> Admin powers and the n8n automation layer are next; see [`AGENTS.md`](AGENTS.md).
+> **Status: Stage 4 — admin powers.** Moderators can remove any listing, see every loan, and mark
+> trusted lenders, with every action written to an audit log. The n8n automation layer is next; see
+> [`AGENTS.md`](AGENTS.md).
 
 ## Stack
 
@@ -41,6 +41,7 @@ set on the deployment instead, because functions cannot see either file:
 ```bash
 pnpm exec convex env set CLERK_JWT_ISSUER_DOMAIN '<value>'
 pnpm exec convex env set ADMIN_EMAIL_ALLOWLIST 'you@example.com'
+pnpm exec convex run admin:promoteFromAllowlist   # promote existing accounts to admin
 ```
 
 The first visit to <http://localhost:5678> creates the n8n owner account. Generate the two

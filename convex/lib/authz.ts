@@ -72,3 +72,15 @@ export async function requireRequestParty(ctx: AuthCtx, requestId: Id<"loanReque
 
   return { user, request };
 }
+
+/**
+ * T12/T18 — administration. The role is read from the `users` row, never from
+ * the token or the request, so a client cannot claim it.
+ */
+export async function requireAdmin(ctx: AuthCtx) {
+  const user = await requireUser(ctx);
+  if (user.role !== "admin") {
+    appError("FORBIDDEN", "That action is for admins.");
+  }
+  return user;
+}
