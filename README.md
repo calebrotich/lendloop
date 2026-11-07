@@ -6,9 +6,9 @@ LendLoop is a neighbourhood tool-lending board. Neighbours list the tools they a
 lend, borrowers ask for a date range, owners approve or decline, and [n8n](https://n8n.io)
 automates the notifications and the overdue reminders in both directions.
 
-> **Status: Stage 4 — admin powers.** Moderators can remove any listing, see every loan, and mark
-> trusted lenders, with every action written to an audit log. The n8n automation layer is next; see
-> [`AGENTS.md`](AGENTS.md).
+> **Status: Stage 5 — automation.** n8n now sends request notifications and overdue reminders in
+> both directions, with HMAC-signed calls, an outbox with retries, idempotent write-backs and an
+> error workflow. See [`docs/n8n.md`](docs/n8n.md).
 
 ## Stack
 
@@ -31,8 +31,12 @@ cp .env.example .env          # compose: n8n encryption key, Postgres, SMTP
 docker compose up -d          # n8n :5678 · Mailpit :8025 · Postgres
 pnpm exec convex dev          # first run: browser login, writes CONVEX_DEPLOYMENT
 pnpm exec convex run seed:seedDemoShelf   # six demo tools, safe to re-run
+pnpm exec convex run seed:seedDemoLoans   # pending + upcoming + overdue loan
 pnpm dev                      # http://localhost:3000
 ```
+
+The automation stack needs one more pass — a tunnel, five Convex env vars, an SMTP credential and
+the three workflow imports. It is written out step by step in [`docs/n8n.md`](docs/n8n.md).
 
 Two env files because two tools own them: `.env.local` is written by the Convex CLI and read by
 Next.js, `.env` is read by `docker compose`. Both are gitignored. Anything Convex functions read is
@@ -49,16 +53,18 @@ compose secrets with `openssl rand -hex 32`; `compose.yml` refuses to start with
 
 ## Commands
 
-| Command                                   | What it does                                              |
-| ----------------------------------------- | --------------------------------------------------------- |
-| `pnpm dev`                                | Next.js dev server                                        |
-| `pnpm build`                              | Production build                                          |
-| `pnpm check`                              | typecheck → lint → secret scan → unit tests (the CI gate) |
-| `pnpm test`                               | Vitest only                                               |
-| `pnpm format` / `pnpm format:check`       | Prettier                                                  |
-| `docker compose up -d`                    | n8n + Postgres + Mailpit                                  |
-| `pnpm exec convex dev`                    | Convex functions + schema push                            |
-| `pnpm exec convex run seed:seedDemoShelf` | Seed the demo shelf (idempotent, internal mutation)       |
+| Command                                                                                          | What it does                                              |
+| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| `pnpm dev`                                                                                       | Next.js dev server                                        |
+| `pnpm build`                                                                                     | Production build                                          |
+| `pnpm check`                                                                                     | typecheck → lint → secret scan → unit tests (the CI gate) |
+| `pnpm test`                                                                                      | Vitest only                                               |
+| `pnpm format` / `pnpm format:check`                                                              | Prettier                                                  |
+| `docker compose up -d`                                                                           | n8n + Postgres + Mailpit                                  |
+| `pnpm exec convex dev`                                                                           | Convex functions + schema push                            |
+| `pnpm exec convex run seed:seedDemoShelf`                                                        | Seed the demo shelf (idempotent, internal mutation)       |
+| `pnpm exec convex run seed:seedDemoLoans`                                                        | Seed pending/upcoming/overdue demo loans                  |
+| `docker compose run --rm --no-deps --entrypoint n8n n8n execute --id=lendloop-overdue-reminders` | Run W2 now (manual trigger)                               |
 
 ## Repository layout
 
@@ -74,18 +80,42 @@ compose.yml          n8n 2.46 + Postgres 16 + Mailpit, bound to 127.0.0.1
 AGENTS.md            internal build map: requirements, RBAC matrix, stages
 ```
 
+## Automation (n8n)
+
+Three committed workflows in `automation/workflows/`:
+
+| Workflow                      | Trigger                                  | What it does                                                                    |
+| ----------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------- |
+| **W1** `request-notification` | Convex webhook                           | Verifies HMAC, emails the owner on a new request and the borrower on a decision |
+| **W2** `overdue-reminders`    | Daily 09:00 `Africa/Nairobi`             | Fetches overdue loans, emails each borrower, writes the reminder back           |
+| **W3** `error-handler`        | n8n Error Trigger + Convex alert webhook | Records failures in Convex and emails the operator                              |
+
+```bash
+docker compose run --rm --no-deps --entrypoint n8n n8n execute --id=lendloop-overdue-reminders
+open http://localhost:8025   # the reminder email, in Mailpit
+```
+
+Every call is signed `HMAC-SHA256(secret, "${timestamp}.${rawBody}")` and verified before any side
+effect, in both directions. Convex mutations only enqueue an outbox row; a cron drains it with
+backoff and records every outcome, so a request cannot be approved without its notification being
+queued and a delivery failure cannot be silent. The full contract, setup and failure playbook are in
+[`docs/n8n.md`](docs/n8n.md).
+
 ## Security posture (short version)
 
 - Authorization is enforced in **Convex functions** — the UI never decides access.
-- Every Convex → n8n and n8n → Convex call is **HMAC-signed** with a timestamp window.
+- Every Convex → n8n and n8n → Convex call is **HMAC-signed** with a timestamp window; inbound
+  verification happens before parsing or any database write.
+- Mutations write to an **outbox**; the drain retries with backoff, and permanent failures surface in
+  the loan's activity feed and the admin health panel.
 - `secrets:check` runs in CI and fails on credential-shaped strings or a committed `.env`.
 - Notification payloads are **minimised**: a name, a tool, a date range, a deep link. No
   third-party emails, no descriptions.
 - Dependencies are pinned; TypeScript is held at 5.9 because `typescript-eslint` does not yet
   support the 7.x compiler line.
 
-The full threat model lands in `docs/security.md` (Stage 6). Until then, `AGENTS.md` §7–§8 is
-the source of truth.
+The full threat model lands in `docs/security.md` (Stage 6). Until then, `AGENTS.md` §7–§8 and
+[`docs/n8n.md`](docs/n8n.md) are the source of truth.
 
 ## License
 

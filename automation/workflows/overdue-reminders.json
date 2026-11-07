@@ -1,0 +1,360 @@
+[
+  {
+    "id": "lendloop-overdue-reminders",
+    "name": "W2 · overdue-reminders",
+    "active": true,
+    "nodes": [
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "days",
+                "daysInterval": 1,
+                "triggerAtHour": 9,
+                "triggerAtMinute": 0
+              }
+            ]
+          }
+        },
+        "id": "w2-schedule",
+        "name": "Daily at 09:00",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [-360, 0]
+      },
+      {
+        "parameters": {},
+        "id": "w2-manual",
+        "name": "Run now (demo)",
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [-360, 180]
+      },
+      {
+        "parameters": {
+          "jsCode": "const crypto = require('crypto');\n\nconst secret = $env.LENDLOOP_HMAC_SECRET || '';\nconst base = ($env.LENDLOOP_CONVEX_SITE_URL || '').replace(/\\/+$/, '');\nif (!secret || !base) {\n  throw new Error('LENDLOOP_HMAC_SECRET and LENDLOOP_CONVEX_SITE_URL must be set');\n}\n\nconst payload = JSON.stringify({ asOf: Date.now() });\nconst timestamp = String(Math.floor(Date.now() / 1000));\nconst signature = 'v1=' + crypto.createHmac('sha256', secret).update(timestamp + '.' + payload).digest('hex');\n\nreturn [{ json: { url: base + '/n8n/overdue-loans', payload, timestamp, signature } }];"
+        },
+        "id": "w2-build",
+        "name": "Build overdue request",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [-140, 0]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "={{ $json.url }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "X-LendLoop-Timestamp",
+                "value": "={{ $json.timestamp }}"
+              },
+              {
+                "name": "X-LendLoop-Signature",
+                "value": "={{ $json.signature }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ $json.payload }}",
+          "options": {
+            "timeout": 10000
+          }
+        },
+        "id": "w2-fetch",
+        "name": "Fetch overdue loans",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [80, 0],
+        "retryOnFail": true,
+        "maxTries": 3,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "jsCode": "const response = $input.first().json || {};\nconst loans = Array.isArray(response.loans) ? response.loans : [];\n\n// One sentinel keeps the summary branch alive when nothing is overdue.\nif (loans.length === 0) return [{ json: { __summaryOnly: true } }];\n\nreturn loans.map((loan) => ({ json: loan }));"
+        },
+        "id": "w2-fanout",
+        "name": "Fan out loans",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [300, 0]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "condition-1",
+                "leftValue": "={{ $json.__summaryOnly === true }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "false",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "w2-if",
+        "name": "Any loans?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [520, 0]
+      },
+      {
+        "parameters": {
+          "jsCode": "const crypto = require('crypto');\n\nconst loan = $input.item.json;\nconst secret = $env.LENDLOOP_HMAC_SECRET || '';\nconst base = ($env.LENDLOOP_CONVEX_SITE_URL || '').replace(/\\/+$/, '');\nconst app = ($env.LENDLOOP_APP_BASE_URL || '').replace(/\\/+$/, '');\nconst sentAt = Date.now();\n\nconst payload = JSON.stringify({\n  loanRequestId: loan.loanRequestId,\n  kind: 'overdue_reminder',\n  dayOffset: loan.daysOverdue,\n  dueDate: loan.dueDate,\n  channel: 'email',\n  status: 'sent',\n  sentAt,\n});\nconst timestamp = String(Math.floor(sentAt / 1000));\nconst signature = 'v1=' + crypto.createHmac('sha256', secret).update(timestamp + '.' + payload).digest('hex');\n\nreturn {\n  json: {\n    ...loan,\n    to: loan.borrowerEmail,\n    subject: 'Overdue: ' + loan.toolName + ' was due ' + loan.dueDate,\n    text: 'Hi ' + loan.borrowerName + ',\\n\\n' + loan.toolName + ' was due back on ' + loan.dueDate + ' (' + loan.daysOverdue + ' day(s) ago).\\n\\nIf you still have it, please arrange its return. If you have already returned it, ask the owner to mark it returned.\\n\\n' + app + '/my-requests\\n\\n— LendLoop',\n    url: base + '/n8n/reminders',\n    payload,\n    timestamp,\n    signature,\n    idempotencyKey: 'reminder:' + loan.loanRequestId + ':' + loan.dueDate + ':' + loan.daysOverdue,\n  },\n};",
+          "mode": "runOnceForEachItem"
+        },
+        "id": "w2-prepare",
+        "name": "Prepare reminder",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [740, -120]
+      },
+      {
+        "parameters": {
+          "fromEmail": "={{ $env.LENDLOOP_MAIL_FROM }}",
+          "toEmail": "={{ $json.to }}",
+          "subject": "={{ $json.subject }}",
+          "emailFormat": "text",
+          "text": "={{ $json.text }}",
+          "options": {}
+        },
+        "id": "w2-email",
+        "name": "Send reminder",
+        "type": "n8n-nodes-base.emailSend",
+        "typeVersion": 2.1,
+        "position": [960, -120],
+        "credentials": {
+          "smtp": {
+            "id": "lendloop-mailpit",
+            "name": "LendLoop Mailpit"
+          }
+        },
+        "retryOnFail": true,
+        "maxTries": 3,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "={{ $('Prepare reminder').item.json.url }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "X-LendLoop-Timestamp",
+                "value": "={{ $('Prepare reminder').item.json.timestamp }}"
+              },
+              {
+                "name": "X-LendLoop-Signature",
+                "value": "={{ $('Prepare reminder').item.json.signature }}"
+              },
+              {
+                "name": "X-LendLoop-Idempotency-Key",
+                "value": "={{ $('Prepare reminder').item.json.idempotencyKey }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ $('Prepare reminder').item.json.payload }}",
+          "options": {
+            "timeout": 10000
+          }
+        },
+        "id": "w2-writeback",
+        "name": "Write back reminder",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [1180, -120],
+        "retryOnFail": true,
+        "maxTries": 3,
+        "waitBetweenTries": 5000
+      },
+      {
+        "parameters": {
+          "jsCode": "const crypto = require('crypto');\n\nconst items = $input.all().map((item) => item.json).filter((json) => json && !json.__summaryOnly);\nconst sent = items.filter((json) => json.ok === true && json.accepted !== false).length;\nconst failed = items.filter((json) => json.ok !== true).length;\n\nconst secret = $env.LENDLOOP_HMAC_SECRET || '';\nconst base = ($env.LENDLOOP_CONVEX_SITE_URL || '').replace(/\\/+$/, '');\nconst payload = JSON.stringify({\n  kind: 'workflow.summary',\n  workflow: 'overdue-reminders',\n  executionId: $execution.id,\n  occurredAt: Date.now(),\n  counts: { sent, failed },\n});\nconst timestamp = String(Math.floor(Date.now() / 1000));\nconst signature = 'v1=' + crypto.createHmac('sha256', secret).update(timestamp + '.' + payload).digest('hex');\n\nreturn [{ json: { url: base + '/n8n/automation-events', payload, timestamp, signature } }];"
+        },
+        "id": "w2-summary",
+        "name": "Summarise run",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [1400, 0]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "={{ $json.url }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "X-LendLoop-Timestamp",
+                "value": "={{ $json.timestamp }}"
+              },
+              {
+                "name": "X-LendLoop-Signature",
+                "value": "={{ $json.signature }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ $json.payload }}",
+          "options": {
+            "timeout": 10000
+          }
+        },
+        "id": "w2-post-summary",
+        "name": "Post run summary",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [1620, 0],
+        "retryOnFail": true,
+        "maxTries": 3,
+        "waitBetweenTries": 5000
+      }
+    ],
+    "connections": {
+      "Daily at 09:00": {
+        "main": [
+          [
+            {
+              "node": "Build overdue request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Run now (demo)": {
+        "main": [
+          [
+            {
+              "node": "Build overdue request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Build overdue request": {
+        "main": [
+          [
+            {
+              "node": "Fetch overdue loans",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Fetch overdue loans": {
+        "main": [
+          [
+            {
+              "node": "Fan out loans",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Fan out loans": {
+        "main": [
+          [
+            {
+              "node": "Any loans?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Any loans?": {
+        "main": [
+          [
+            {
+              "node": "Prepare reminder",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Summarise run",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Prepare reminder": {
+        "main": [
+          [
+            {
+              "node": "Send reminder",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send reminder": {
+        "main": [
+          [
+            {
+              "node": "Write back reminder",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Write back reminder": {
+        "main": [
+          [
+            {
+              "node": "Summarise run",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Summarise run": {
+        "main": [
+          [
+            {
+              "node": "Post run summary",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "timezone": "Africa/Nairobi",
+      "executionTimeout": 300,
+      "errorWorkflow": "lendloop-error-handler"
+    }
+  }
+]

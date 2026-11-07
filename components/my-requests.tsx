@@ -5,6 +5,7 @@ import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import { useState } from "react";
 
 import { api } from "@/convex/_generated/api";
+import { AutomationActivity } from "@/components/automation-activity";
 import { RequestStatusBadge } from "@/components/request-status";
 import { appErrorMessage } from "@/lib/convex-error";
 import { formatRange } from "@/lib/format";
@@ -94,6 +95,8 @@ export function MyRequests() {
                 </button>
               )}
             </div>
+
+            <AutomationActivity loanRequestId={request._id} />
           </li>
         ))}
       </ul>

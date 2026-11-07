@@ -6,3 +6,9 @@ test-results
 pnpm-lock.yaml
 next-env.d.ts
 *.tsbuildinfo
+
+# Convex generates these; formatting them fights the generator.
+convex/_generated/
+
+# Hand-maintained build map with a hard 64 KiB instruction budget; Prettier table padding pushes it over.
+AGENTS.md

@@ -9,13 +9,19 @@
  */
 
 import type * as admin from "../admin.js";
+import type * as automation from "../automation.js";
+import type * as crons from "../crons.js";
+import type * as http from "../http.js";
 import type * as lib_authz from "../lib/authz.js";
 import type * as lib_constants from "../lib/constants.js";
 import type * as lib_dates from "../lib/dates.js";
 import type * as lib_env from "../lib/env.js";
 import type * as lib_errors from "../lib/errors.js";
+import type * as lib_hmac from "../lib/hmac.js";
 import type * as lib_limits from "../lib/limits.js";
 import type * as lib_loans from "../lib/loans.js";
+import type * as lib_n8n from "../lib/n8n.js";
+import type * as lib_outbox from "../lib/outbox.js";
 import type * as requests from "../requests.js";
 import type * as seed from "../seed.js";
 import type * as tools from "../tools.js";
@@ -29,13 +35,19 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   admin: typeof admin;
+  automation: typeof automation;
+  crons: typeof crons;
+  http: typeof http;
   "lib/authz": typeof lib_authz;
   "lib/constants": typeof lib_constants;
   "lib/dates": typeof lib_dates;
   "lib/env": typeof lib_env;
   "lib/errors": typeof lib_errors;
+  "lib/hmac": typeof lib_hmac;
   "lib/limits": typeof lib_limits;
   "lib/loans": typeof lib_loans;
+  "lib/n8n": typeof lib_n8n;
+  "lib/outbox": typeof lib_outbox;
   requests: typeof requests;
   seed: typeof seed;
   tools: typeof tools;

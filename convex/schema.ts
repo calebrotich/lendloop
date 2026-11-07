@@ -2,9 +2,14 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 import {
+  automationChannelValidator,
+  automationEventKindValidator,
+  automationEventStatusValidator,
   categoryValidator,
   conditionValidator,
   loanStatusValidator,
+  outboxStatusValidator,
+  outboxTargetValidator,
   roleValidator,
   toolStatusValidator,
 } from "./lib/constants";
@@ -75,4 +80,49 @@ export default defineSchema({
     .index("by_targetType_and_targetId", ["targetType", "targetId"])
     .index("by_actorId", ["actorId"])
     .index("by_createdAt", ["createdAt"]),
+
+  /**
+   * The visible trail of automation: one row per thing that was delivered,
+   * deduped, or failed. The activity feed and the admin health panel read this
+   * table; nothing is inferred from logs.
+   */
+  automationEvents: defineTable({
+    loanRequestId: v.optional(v.id("loanRequests")),
+    kind: automationEventKindValidator,
+    channel: automationChannelValidator,
+    status: automationEventStatusValidator,
+    // Unique by index + read-before-write (Convex has no unique constraint).
+    idempotencyKey: v.string(),
+    // Short, machine-ish context (e.g. "attempt 2", "HTTP 401"). Never PII.
+    detail: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_loanRequestId", ["loanRequestId"])
+    .index("by_idempotencyKey", ["idempotencyKey"])
+    .index("by_createdAt", ["createdAt"]),
+
+  /**
+   * Outbox for Convex → n8n. Mutations only enqueue (fast, transactional); the
+   * drain action does the network call and records the outcome. `nextAttemptAt`
+   * doubles as the lease deadline while a row is `sending`, so a crashed action
+   * cannot strand a row.
+   */
+  automationOutbox: defineTable({
+    kind: automationEventKindValidator,
+    target: outboxTargetValidator,
+    // The exact JSON string that is signed and sent. Stored, not rebuilt, so
+    // retries are byte-identical and HMAC signatures stay valid.
+    payload: v.string(),
+    idempotencyKey: v.string(),
+    // Carried so the success/failure event can appear in the loan's feed.
+    loanRequestId: v.optional(v.id("loanRequests")),
+    status: outboxStatusValidator,
+    attempts: v.number(),
+    nextAttemptAt: v.number(),
+    lastError: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_status_and_nextAttemptAt", ["status", "nextAttemptAt"])
+    .index("by_idempotencyKey", ["idempotencyKey"]),
 });

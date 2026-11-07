@@ -63,3 +63,26 @@ learned, and anything that contradicts the plan.
   `admin.promoteFromAllowlist` — there is no client-callable path to a role. The admin panel shows
   all loans, moderates listings, toggles trusted lenders and lists recent admin actions. Nine
   `convex-test` cases, each paired with its FORBIDDEN case, for 79 total.
+
+- **2026-11-07** — Stage 5. Two spikes first, because both could have invalidated the design:
+  (1) n8n 2.46 Code nodes have **no WebCrypto** and `require('crypto')` is blocked unless
+  `NODE_FUNCTION_ALLOW_BUILTIN=crypto` is set, and the raw body only exists when the Webhook node's
+  **`options.rawBody`** is on — it arrives base64 in `binary.data.data`, not as a string in
+  `$json.body`; (2) Convex Cloud reaches a cloudflared quick tunnel, but only when cloudflared is
+  started with an explicit empty `--config`, otherwise a local named-tunnel ingress 404s everything.
+  Both are written up in `docs/spikes/stage-5-raw-body-and-tunnel.md`; the first changed
+  `compose.yml`, the second changed the README/n8n runbook.
+  Built on that: `convex/lib/hmac.ts` (versioned `v1=` header, 300s window, timing-safe compare, Web
+  Crypto), an `automationOutbox` + `automationEvents` pair, a one-minute drain with 1m→30m backoff,
+  six attempts and a lease on `sending` rows, and three HMAC-verified endpoints. `requests.*` now
+  enqueue in the same transaction as the status change; `cancel` gained a notification, and a new
+  request notifies the **owner** (the person who must act) rather than the borrower. W1 (raw body →
+  verify → compose → SMTP), W2 (schedule + manual trigger → fetch → email → idempotent write-back →
+  summary) and W3 (Error Trigger **and** a signed Convex-alert webhook) are imported, published and
+  exported with stable ids, so `settings.errorWorkflow` survives re-import. A loan card shows its
+  automation trail ("Reminder sent 2 days ago"), and admins get a queued/failed health panel.
+  Verified live against Mailpit: W1 200 + email, unsigned 401, W2 reminder + write-back + summary,
+  forced SMTP failure → W3 recorded `workflow.error`, and a real outbox drain through the tunnel
+  (which also proved `crypto.subtle` works in the Convex runtime). 38 new tests (12 HMAC, 18
+  automation, 8 workflow-contract) for 117 total. Known limits recorded in `docs/n8n.md`: outbound
+  email is at-least-once, and the tunnel hostname changes on restart.

@@ -8,6 +8,7 @@ import { categoryValidator, loanPhaseValidator, loanStatusValidator } from "./li
 import { assertLoanWindow, loanPhase, parseDateInput } from "./lib/dates";
 import { appError } from "./lib/errors";
 import { findBookingOverlap } from "./lib/loans";
+import { enqueueRequestNotification } from "./lib/outbox";
 
 const MAX_BORROWER_REQUESTS = 100;
 const MAX_OWNER_REQUESTS = 100;
@@ -111,7 +112,8 @@ export const create = mutation({
       appError("CONFLICT", "You already have a pending request for those dates.");
     }
 
-    return await ctx.db.insert("loanRequests", {
+    const now = Date.now();
+    const requestId = await ctx.db.insert("loanRequests", {
       toolId: tool._id,
       ownerId: tool.ownerId,
       borrowerId: borrower._id,
@@ -119,8 +121,27 @@ export const create = mutation({
       endDate: end,
       status: "pending",
       note,
-      createdAt: Date.now(),
+      createdAt: now,
     });
+
+    // Same transaction as the insert: the owner hears about a request that
+    // committed, and a failed enqueue rolls the request back rather than
+    // leaving an invisible pending row.
+    await enqueueRequestNotification(
+      ctx,
+      "request.created",
+      {
+        _id: requestId,
+        toolId: tool._id,
+        ownerId: tool.ownerId,
+        borrowerId: borrower._id,
+        startDate: start,
+        endDate: end,
+      },
+      now,
+    );
+
+    return requestId;
   },
 });
 
@@ -222,7 +243,9 @@ export const approve = mutation({
       appError("CONFLICT", "Those dates overlap a loan you already approved.");
     }
 
-    await ctx.db.patch(request._id, { status: "approved", decidedAt: Date.now() });
+    const now = Date.now();
+    await ctx.db.patch(request._id, { status: "approved", decidedAt: now });
+    await enqueueRequestNotification(ctx, "request.approved", request, now);
     return null;
   },
 });
@@ -241,7 +264,9 @@ export const decline = mutation({
       appError("CONFLICT", "That request has already been decided.");
     }
 
-    await ctx.db.patch(request._id, { status: "declined", decidedAt: Date.now() });
+    const now = Date.now();
+    await ctx.db.patch(request._id, { status: "declined", decidedAt: now });
+    await enqueueRequestNotification(ctx, "request.declined", request, now);
     return null;
   },
 });
@@ -260,7 +285,9 @@ export const cancel = mutation({
       appError("CONFLICT", "Only a pending request can be cancelled.");
     }
 
+    const now = Date.now();
     await ctx.db.patch(request._id, { status: "cancelled" });
+    await enqueueRequestNotification(ctx, "request.cancelled", request, now);
     return null;
   },
 });
@@ -280,7 +307,9 @@ export const markReturned = mutation({
       appError("CONFLICT", "Only an approved loan can be marked returned.");
     }
 
-    await ctx.db.patch(request._id, { status: "returned", returnedAt: Date.now() });
+    const now = Date.now();
+    await ctx.db.patch(request._id, { status: "returned", returnedAt: now });
+    await enqueueRequestNotification(ctx, "request.returned", request, now);
     return null;
   },
 });

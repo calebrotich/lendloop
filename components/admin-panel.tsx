@@ -7,7 +7,7 @@ import { useState } from "react";
 import { api } from "@/convex/_generated/api";
 import { RequestStatusBadge } from "@/components/request-status";
 import { appErrorMessage } from "@/lib/convex-error";
-import { formatRange } from "@/lib/format";
+import { formatRange, timeAgo } from "@/lib/format";
 
 type Listing = FunctionReturnType<typeof api.tools.listAvailable>[number];
 
@@ -19,6 +19,7 @@ export function AdminPanel() {
   const users = useQuery(api.admin.listUsers, isAdmin ? {} : "skip");
   const audit = useQuery(api.admin.listAudit, isAdmin ? {} : "skip");
   const listings = useQuery(api.tools.listAvailable, isAdmin ? {} : "skip");
+  const health = useQuery(api.automation.adminHealth, isAdmin ? {} : "skip");
 
   const removeListing = useMutation(api.admin.removeListing);
   const setTrusted = useMutation(api.admin.setTrustedLender);
@@ -51,7 +52,13 @@ export function AdminPanel() {
     );
   }
 
-  if (loans === undefined || users === undefined || audit === undefined || listings === undefined) {
+  if (
+    loans === undefined ||
+    users === undefined ||
+    audit === undefined ||
+    listings === undefined ||
+    health === undefined
+  ) {
     return <p className="mt-8 text-sm text-ink-muted">Loading the admin view…</p>;
   }
 
@@ -181,6 +188,30 @@ export function AdminPanel() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section aria-labelledby="automation-heading">
+        <h2 id="automation-heading" className="text-sm font-medium text-ink-muted uppercase">
+          Automation health
+        </h2>
+        <p className="mt-3 text-sm text-ink-muted">
+          {health.pending} queued · {health.failed} failed
+        </p>
+        {health.recent.length === 0 ? (
+          <p className="mt-2 text-sm text-ink-muted">No automation activity yet.</p>
+        ) : (
+          <ul className="mt-2 grid gap-1 text-sm text-ink-muted">
+            {health.recent.map((event) => (
+              <li key={event._id} className="flex flex-wrap items-center gap-1.5">
+                <span className={event.status === "failed" ? "text-red-700" : undefined}>
+                  {event.kind} · {event.status}
+                </span>
+                {event.detail !== null && <span>· {event.detail}</span>}
+                <span>· {timeAgo(event.createdAt)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       <section aria-labelledby="audit-heading">

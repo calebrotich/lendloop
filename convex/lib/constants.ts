@@ -71,3 +71,55 @@ export const availabilityValidator = v.union(
   v.literal("paused"),
 );
 export type Availability = Infer<typeof availabilityValidator>;
+
+/**
+ * Every automation event the app can record. The `request.*` kinds are also the
+ * outbound n8n event names; `overdue.reminder` and the `workflow.*` kinds come
+ * back from n8n. Adding a kind here is the only place a new event type is
+ * declared — the schema, the outbox and the workflows all read this union.
+ */
+export const automationEventKindValidator = v.union(
+  v.literal("request.created"),
+  v.literal("request.approved"),
+  v.literal("request.declined"),
+  v.literal("request.cancelled"),
+  v.literal("request.returned"),
+  v.literal("overdue.reminder"),
+  v.literal("automation.failed"),
+  v.literal("workflow.error"),
+  v.literal("workflow.summary"),
+);
+export type AutomationEventKind = Infer<typeof automationEventKindValidator>;
+
+/** The four loan transitions that produce a notification. */
+export type RequestEventKind = Extract<
+  AutomationEventKind,
+  | "request.created"
+  | "request.approved"
+  | "request.declined"
+  | "request.cancelled"
+  | "request.returned"
+>;
+
+/** How an automation event reached (or failed to reach) a person. */
+export const automationChannelValidator = v.union(
+  v.literal("email"),
+  v.literal("slack"),
+  v.literal("webhook"),
+  v.literal("log"),
+);
+export type AutomationChannel = Infer<typeof automationChannelValidator>;
+
+export const automationEventStatusValidator = v.union(v.literal("sent"), v.literal("failed"));
+export type AutomationEventStatus = Infer<typeof automationEventStatusValidator>;
+
+export const outboxTargetValidator = v.union(v.literal("n8n_request"), v.literal("n8n_error"));
+export type OutboxTarget = Infer<typeof outboxTargetValidator>;
+
+export const outboxStatusValidator = v.union(
+  v.literal("pending"),
+  v.literal("sending"),
+  v.literal("sent"),
+  v.literal("failed"),
+);
+export type OutboxStatus = Infer<typeof outboxStatusValidator>;

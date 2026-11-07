@@ -54,11 +54,17 @@ services:
       # workflow author can read container env vars. Acceptable for a single
       # trusted operator; documented as a production hardening item.
       N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
+      # The Code node sandbox has no WebCrypto (`globalThis.crypto` is
+      # undefined), so HMAC uses Node's `crypto` module. Allow that one builtin
+      # — never `*` — and note it in docs/n8n.md. Verified by the Stage 5 spike.
+      NODE_FUNCTION_ALLOW_BUILTIN: crypto
 
       # --- values the workflows interpolate ---
       LENDLOOP_CONVEX_SITE_URL: ${CONVEX_SITE_URL:-}
       LENDLOOP_APP_BASE_URL: ${APP_BASE_URL:-http://localhost:3000}
       LENDLOOP_MAIL_FROM: ${LENDLOOP_MAIL_FROM:-LendLoop <lendloop@example.test>}
+      # Where W3 sends automation alerts. A dev sink address; Mailpit swallows it.
+      LENDLOOP_OPS_EMAIL: ${LENDLOOP_OPS_EMAIL:-ops@lendloop.test}
 
       # --- quiet the cloud/telemetry surface we do not need ---
       N8N_DIAGNOSTICS_ENABLED: "false"
