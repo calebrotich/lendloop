@@ -48,7 +48,7 @@ async function insertTool(
   ownerId: Id<"users">,
   overrides: Partial<{
     name: string;
-    status: "available" | "lent" | "unavailable";
+    status: "available" | "unavailable";
     removedAt: number;
     createdAt: number;
   }> = {},
@@ -65,6 +65,28 @@ async function insertTool(
         removedAt: overrides.removedAt,
         createdAt: overrides.createdAt ?? 1_700_000_000_000,
         updatedAt: overrides.createdAt ?? 1_700_000_000_000,
+      }),
+  );
+}
+
+async function insertLoan(
+  t: Tester,
+  toolId: Id<"tools">,
+  ownerId: Id<"users">,
+  overrides: Partial<{ status: "pending" | "approved"; startDate: number; endDate: number }> = {},
+) {
+  const borrower = await provision(t, "user_borrower", "borrower@example.test");
+  const now = Date.now();
+  return await t.run(
+    async (ctx) =>
+      await ctx.db.insert("loanRequests", {
+        toolId,
+        ownerId,
+        borrowerId: borrower.id,
+        startDate: overrides.startDate ?? now - 86_400_000,
+        endDate: overrides.endDate ?? now + 86_400_000,
+        status: overrides.status ?? "approved",
+        createdAt: now,
       }),
   );
 }
@@ -104,13 +126,14 @@ describe("tools.listPublic", () => {
     await expect(t.query(api.tools.listPublic, {})).resolves.toHaveLength(1);
   });
 
-  it("hides removed and unavailable listings", async () => {
+  it("hides removed, paused and currently-on-loan listings", async () => {
     const t = convexTest(schema, modules);
     const { id } = await provision(t, "owner_1", "owner@example.test");
     await insertTool(t, id, { name: "Still here" });
     await insertTool(t, id, { name: "Gone", removedAt: 1_700_000_000_100 });
     await insertTool(t, id, { name: "Packed away", status: "unavailable" });
-    await insertTool(t, id, { name: "On loan", status: "lent" });
+    const onLoan = await insertTool(t, id, { name: "On loan" });
+    await insertLoan(t, onLoan, id);
 
     const shelf = await t.query(api.tools.listPublic, {});
 
@@ -288,10 +311,11 @@ describe("tools.update", () => {
     expect(codeOf(error)).toBe("NOT_FOUND");
   });
 
-  it("refuses to edit a tool that is on loan", async () => {
+  it("refuses to edit a tool that is out on loan", async () => {
     const t = convexTest(schema, modules);
     const sam = await provision(t, "user_sam", "sam@example.test");
-    const toolId = await insertTool(t, sam.id, { status: "lent" });
+    const toolId = await insertTool(t, sam.id);
+    await insertLoan(t, toolId, sam.id);
 
     const error = await capturedError(
       sam.as.mutation(api.tools.update, {
@@ -337,10 +361,11 @@ describe("tools.remove", () => {
     expect(row?.removedAt).toBeUndefined();
   });
 
-  it("refuses to remove a tool that is on loan", async () => {
+  it("refuses to remove a tool that is out on loan", async () => {
     const t = convexTest(schema, modules);
     const sam = await provision(t, "user_sam", "sam@example.test");
-    const toolId = await insertTool(t, sam.id, { status: "lent" });
+    const toolId = await insertTool(t, sam.id);
+    await insertLoan(t, toolId, sam.id);
 
     const error = await capturedError(sam.as.mutation(api.tools.remove, { toolId }));
 

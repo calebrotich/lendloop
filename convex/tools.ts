@@ -1,11 +1,19 @@
 import { v } from "convex/values";
 
-import type { Doc } from "./_generated/dataModel";
+import type { Doc, Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import { requireOwnedTool, requireUser } from "./lib/authz";
-import { categoryValidator, conditionValidator, toolStatusValidator } from "./lib/constants";
+import type { Availability, Category, Condition } from "./lib/constants";
+import {
+  availabilityValidator,
+  categoryValidator,
+  conditionValidator,
+  toolStatusValidator,
+} from "./lib/constants";
+import { startOfDay } from "./lib/dates";
 import { appError } from "./lib/errors";
 import { LIMITS } from "./lib/limits";
+import { isToolOutOnLoan } from "./lib/loans";
 
 /** Bounded by design: the public page is a shelf, not a data export. */
 const MAX_PUBLIC_TOOLS = 60;
@@ -33,9 +41,20 @@ export const listPublic = query({
       .order("desc")
       .take(MAX_PUBLIC_TOOLS);
 
-    return tools
-      .filter((tool) => tool.removedAt === undefined)
-      .map((tool) => ({ name: tool.name, category: tool.category }));
+    // A tool that is out on loan is not available, even if its owner left the
+    // status alone. Derived here for the same reason the browse view does it.
+    const today = startOfDay(Date.now());
+    const shelf = [];
+    for (const tool of tools) {
+      if (tool.removedAt !== undefined) continue;
+      const approved = await ctx.db
+        .query("loanRequests")
+        .withIndex("by_tool_and_status", (q) => q.eq("toolId", tool._id).eq("status", "approved"))
+        .take(5);
+      if (approved.some((loan) => loan.startDate <= today && loan.endDate >= today)) continue;
+      shelf.push({ name: tool.name, category: tool.category });
+    }
+    return shelf;
   },
 });
 
@@ -157,8 +176,8 @@ export const update = mutation({
     const { tool } = await requireOwnedTool(ctx, args.toolId);
     const { name, description } = validateListing(args);
 
-    if (tool.status === "lent") {
-      appError("CONFLICT", "This tool is on loan. Mark it returned before editing it.");
+    if (await isToolOutOnLoan(ctx, tool._id, Date.now())) {
+      appError("CONFLICT", "This tool is out on loan. Mark it returned before editing it.");
     }
 
     await ctx.db.patch(tool._id, {
@@ -183,8 +202,8 @@ export const remove = mutation({
   handler: async (ctx, args) => {
     const { tool } = await requireOwnedTool(ctx, args.toolId);
 
-    if (tool.status === "lent") {
-      appError("CONFLICT", "This tool is on loan. Mark it returned before removing it.");
+    if (await isToolOutOnLoan(ctx, tool._id, Date.now())) {
+      appError("CONFLICT", "This tool is out on loan. Mark it returned before removing it.");
     }
 
     const now = Date.now();
@@ -194,5 +213,95 @@ export const remove = mutation({
       updatedAt: now,
     });
     return null;
+  },
+});
+
+const BROWSE_LIMIT = 60;
+
+const browseToolValidator = v.object({
+  _id: v.id("tools"),
+  name: v.string(),
+  category: categoryValidator,
+  condition: conditionValidator,
+  description: v.string(),
+  ownerName: v.string(),
+  availability: availabilityValidator,
+  busyUntil: v.union(v.null(), v.number()),
+});
+
+interface BrowseTool {
+  _id: Id<"tools">;
+  name: string;
+  category: Category;
+  condition: Condition;
+  description: string;
+  ownerName: string;
+  availability: Availability;
+  busyUntil: number | null;
+}
+
+/**
+ * T9 — every listing with its *derived* availability, optionally by category.
+ *
+ * `on_loan` comes from an approved request covering today, `paused` from the
+ * owner's own status. There is no stored availability flag that a missed cron
+ * could leave stale, and an overdue loan still reads as on_loan until it is
+ * marked returned.
+ */
+export const listAvailable = query({
+  args: { category: v.optional(categoryValidator) },
+  returns: v.array(browseToolValidator),
+  handler: async (ctx, args) => {
+    await requireUser(ctx);
+
+    const category = args.category;
+    const now = Date.now();
+    const today = startOfDay(now);
+    const rows = [];
+
+    for (const status of ["available", "unavailable"] as const) {
+      const batch =
+        category === undefined
+          ? await ctx.db
+              .query("tools")
+              .withIndex("by_status", (q) => q.eq("status", status))
+              .take(BROWSE_LIMIT)
+          : await ctx.db
+              .query("tools")
+              .withIndex("by_category_and_status", (q) =>
+                q.eq("category", category).eq("status", status),
+              )
+              .take(BROWSE_LIMIT);
+      rows.push(...batch);
+    }
+
+    const live = rows
+      .filter((tool) => tool.removedAt === undefined)
+      .sort((a, b) => b.createdAt - a.createdAt)
+      .slice(0, BROWSE_LIMIT);
+
+    const result: BrowseTool[] = [];
+    for (const tool of live) {
+      const owner = await ctx.db.get(tool.ownerId);
+      const approved = await ctx.db
+        .query("loanRequests")
+        .withIndex("by_tool_and_status", (q) => q.eq("toolId", tool._id).eq("status", "approved"))
+        .take(10);
+      const out = approved.find((loan) => loan.startDate <= today && loan.endDate >= today);
+
+      result.push({
+        _id: tool._id,
+        name: tool.name,
+        category: tool.category,
+        condition: tool.condition,
+        description: tool.description,
+        ownerName: owner?.name ?? "A neighbour",
+        availability:
+          tool.status === "unavailable" ? "paused" : out !== undefined ? "on_loan" : "available",
+        busyUntil: out?.endDate ?? null,
+      });
+    }
+
+    return result;
   },
 });

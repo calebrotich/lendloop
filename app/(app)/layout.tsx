@@ -16,16 +16,31 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-5xl flex-col px-6">
       <header className="flex items-center justify-between border-b border-line py-4">
-        <nav aria-label="Main" className="flex items-center gap-6">
+        <nav aria-label="Main" className="flex flex-wrap items-center gap-x-5 gap-y-2">
           <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-tight">
             <LoopMark className="size-4 text-accent" />
             LendLoop
+          </Link>
+          <Link href="/tools" className="text-sm text-ink-muted transition-colors hover:text-ink">
+            Browse
           </Link>
           <Link
             href="/my-listings"
             className="text-sm text-ink-muted transition-colors hover:text-ink"
           >
             My listings
+          </Link>
+          <Link
+            href="/my-requests"
+            className="text-sm text-ink-muted transition-colors hover:text-ink"
+          >
+            My requests
+          </Link>
+          <Link
+            href="/incoming-requests"
+            className="text-sm text-ink-muted transition-colors hover:text-ink"
+          >
+            Incoming
           </Link>
         </nav>
         <UserButton />

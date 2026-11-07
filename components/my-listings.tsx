@@ -15,13 +15,11 @@ type FormState = { kind: "closed" } | { kind: "new" } | { kind: "edit"; tool: My
 
 const STATUS_LABELS: Record<MyTool["status"], string> = {
   available: "Available",
-  lent: "On loan",
   unavailable: "Paused",
 };
 
 const STATUS_STYLES: Record<MyTool["status"], string> = {
   available: "border-accent/30 bg-accent/10 text-accent-strong",
-  lent: "border-line bg-surface text-ink-muted",
   unavailable: "border-line bg-surface text-ink-muted",
 };
 

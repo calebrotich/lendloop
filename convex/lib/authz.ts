@@ -53,3 +53,22 @@ export async function requireOwnedTool(ctx: AuthCtx, toolId: Id<"tools">) {
 
   return { user, tool };
 }
+
+/**
+ * Load a loan request and prove the caller is one of its two parties. Which
+ * party is allowed to do what is decided by each mutation, not here.
+ */
+export async function requireRequestParty(ctx: AuthCtx, requestId: Id<"loanRequests">) {
+  const user = await requireUser(ctx);
+  const request = await ctx.db.get(requestId);
+
+  if (request === null) {
+    appError("NOT_FOUND", "That request no longer exists.");
+  }
+
+  if (request.ownerId !== user._id && request.borrowerId !== user._id) {
+    appError("FORBIDDEN", "That request isn't yours.");
+  }
+
+  return { user, request };
+}

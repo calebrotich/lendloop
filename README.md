@@ -6,9 +6,9 @@ LendLoop is a neighbourhood tool-lending board. Neighbours list the tools they a
 lend, borrowers ask for a date range, owners approve or decline, and [n8n](https://n8n.io)
 automates the notifications and the overdue reminders in both directions.
 
-> **Status: Stage 2 — listings are self-serve.** Sign in, list a tool, edit or retire it.
-> Borrow requests, availability and the automation layer are next; see
-> [`AGENTS.md`](AGENTS.md) for the build map.
+> **Status: Stage 3 — the loan lifecycle works.** Browse tools, request a date range, approve or
+> decline, and mark a loan returned. Availability is derived from approved loans, never stored.
+> Admin powers and the n8n automation layer are next; see [`AGENTS.md`](AGENTS.md).
 
 ## Stack
 

@@ -71,13 +71,13 @@ export default function HomePage() {
             </Show>
             <Show when="signed-in">
               <Link
-                href="/my-listings"
+                href="/tools"
                 className="rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
               >
-                Manage my listings
+                Browse the shelf
               </Link>
               <span className="text-xs text-ink-muted">
-                Add a tool, or browse what neighbours are lending.
+                Ask a neighbour for dates, or list a tool you&apos;re happy to lend.
               </span>
             </Show>
           </div>
