@@ -463,7 +463,7 @@ export const drainOutbox = internalAction({
         await ctx.runMutation(internal.automation.finishOutbox, {
           id: row._id,
           outcome: "failed",
-          error: `missing ${!secret ? "N8N_HMAC_SECRET" : "webhook URL"}`,
+          error: !secret ? "N8N_HMAC_SECRET is not set" : "the webhook URL is not set",
           permanent: true,
         });
         failed += 1;

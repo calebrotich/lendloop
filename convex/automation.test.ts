@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+// secrets:allow-file — fixture secret for the signed webhook tests.
 // @vitest-environment edge-runtime
 import type { UserIdentity } from "convex/server";
 import type { TestConvex } from "convex-test";

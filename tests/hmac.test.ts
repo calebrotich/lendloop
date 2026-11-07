@@ -1,3 +1,4 @@
+// secrets:allow-file — fixture secret for the HMAC known-answer vectors.
 import { describe, expect, it } from "vitest";
 
 import {
