@@ -90,3 +90,15 @@ learned, and anything that contradicts the plan.
   IDs and verification transcripts removed. The convention now lives in
   [`docs/commit-messages.md`](commit-messages.md); requirement IDs stay in the local build map §10
   and pull request notes.
+
+- **2026-11-07** — Observability. Sentry 11 runs in all three Next runtimes through
+  `instrumentation.ts`, `instrumentation-client.ts` and `app/global-error.tsx`. The wizard's defaults
+  were not privacy-neutral: `dataCollection` collects user fields, cookies, headers, query strings
+  and request bodies unless each is disabled, so `sentry.options.ts` now turns all of them off and
+  Replay masks text, inputs and media. The shared module keeps only `NEXT_PUBLIC_*`/`NODE_ENV`
+  reads so the browser bundle never touches server-only env; `SENTRY_DSN` is a public key with an
+  env override. The `/monitoring` tunnel route is excluded from the Clerk proxy matcher (it needs
+  Sentry's `o`/`p`/`r` query params to rewrite). Delivery was verified with a temporary throwing
+  route and a debug build: the SDK captured the event, flushed it and logged no transport error,
+  and the tunnel reached Sentry's ingest. Added a `sntrys_` token rule to the secret scanner. 118
+  tests.

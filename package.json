@@ -22,6 +22,7 @@
   "dependencies": {
     "@clerk/nextjs": "^7.9.25",
     "@hookform/resolvers": "^7.0.3",
+    "@sentry/nextjs": "^11",
     "convex": "^1.49.0",
     "next": "16.4.5",
     "react": "19.3.1",

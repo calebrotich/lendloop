@@ -6,9 +6,9 @@ LendLoop is a neighbourhood tool-lending board. Neighbours list the tools they a
 lend, borrowers ask for a date range, owners approve or decline, and [n8n](https://n8n.io)
 automates the notifications and the overdue reminders in both directions.
 
-> **Status: Stage 5 — automation.** n8n now sends request notifications and overdue reminders in
-> both directions, with HMAC-signed calls, an outbox with retries, idempotent write-backs and an
-> error workflow. See [`docs/n8n.md`](docs/n8n.md).
+> **Status: Stage 6 in progress — hardening.** Automation is complete (n8n in both directions,
+> HMAC, outbox, error workflow) and Sentry now reports errors from the server, edge and browser.
+> UI polish, the Playwright happy path and the production note are next.
 
 ## Stack
 
@@ -20,6 +20,7 @@ automates the notifications and the overdue reminders in both directions.
 | Data + backend | Convex (schema v1 · dev deployment)                          |
 | Automation     | n8n 2.46 self-hosted via Docker Compose                      |
 | Dev email      | Mailpit (SMTP sink, UI on :8025)                             |
+| Monitoring     | Sentry 11 — errors, traces, masked session replay            |
 | Tests          | Vitest · `convex-test` · Playwright                          |
 
 ## Quickstart
@@ -100,6 +101,25 @@ backoff and records every outcome, so a request cannot be approved without its n
 queued and a delivery failure cannot be silent. The full contract, setup and failure playbook are in
 [`docs/n8n.md`](docs/n8n.md).
 
+## Observability
+
+Sentry is wired through Next's App Router hooks:
+
+- `instrumentation.ts` initialises the server and edge SDKs and forwards `onRequestError`;
+  `instrumentation-client.ts` initialises the browser SDK, Replay and router transitions.
+- `app/global-error.tsx` captures render failures, so an error before the app shell still reports.
+- Source maps upload during `pnpm build` when `SENTRY_AUTH_TOKEN` is present (a CI secret). Without
+  it the build still succeeds; the upload is skipped.
+- `/monitoring` tunnels browser traffic through Next so ad-blockers do not drop it, and it is
+  excluded from the Clerk proxy matcher so envelopes are never redirected to sign-in.
+- **Privacy:** `sendDefaultPii` is off and user info, cookies, headers, query strings and HTTP
+  bodies are all disabled. Replay masks every text node and input, and blocks media. Convex
+  functions are not instrumented by the Next SDK — their trail is `automationEvents` plus the admin
+  health panel.
+- The DSN is a public client key with a built-in fallback; `NEXT_PUBLIC_SENTRY_DSN` (browser) or
+  `SENTRY_DSN` (server) point a fork at its own project. `SENTRY_ORG` / `SENTRY_PROJECT` do the same
+  for source-map upload.
+
 ## Security posture (short version)
 
 - Authorization is enforced in **Convex functions** — the UI never decides access.
@@ -110,6 +130,8 @@ queued and a delivery failure cannot be silent. The full contract, setup and fai
 - `secrets:check` runs in CI and fails on credential-shaped strings or a committed `.env`.
 - Notification payloads are **minimised**: a name, a tool, a date range, a deep link. No
   third-party emails, no descriptions.
+- Sentry is configured **not** to collect user fields, cookies, headers, query strings or bodies,
+  and Replay masks the UI.
 - Dependencies are pinned; TypeScript is held at 5.9 because `typescript-eslint` does not yet
   support the 7.x compiler line.
 

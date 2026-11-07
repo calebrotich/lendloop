@@ -44,6 +44,8 @@ const RULES = [
   },
   { id: "svix-signing-secret", pattern: /\bwhsec_[A-Za-z0-9+/=]{16,}/g },
   { id: "n8n-api-key", pattern: /\bn8n_api_[A-Za-z0-9]{16,}/g },
+  // Sentry org/user auth tokens, used only for source-map upload.
+  { id: "sentry-auth-token", pattern: /\bsntry[s|u]_[A-Za-z0-9+/=_-]{20,}/g },
   { id: "aws-access-key-id", pattern: /\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/g },
   { id: "github-token", pattern: /\bgh[pousr]_[A-Za-z0-9]{30,}/g },
   { id: "slack-token", pattern: /\bxox[abprs]-[A-Za-z0-9-]{10,}/g },

@@ -9,6 +9,9 @@ import { NextResponse } from "next/server";
  *
  * Without keys (CI, a clean clone before setup) the handler is a pass-through so
  * the app still renders its "not configured" screen instead of 500ing.
+ *
+ * `/monitoring` is excluded: that is Sentry's tunnel route (see next.config.ts),
+ * and it must reach the rewrite without Clerk touching the envelope POST.
  */
 const isConfigured = Boolean(
   process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY,
@@ -19,7 +22,7 @@ export default isConfigured ? clerkMiddleware() : () => NextResponse.next();
 export const config = {
   matcher: [
     // Skip Next internals and static files unless they appear in a search param.
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!monitoring|_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     "/(api|trpc)(.*)",
   ],
 };

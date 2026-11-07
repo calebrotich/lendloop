@@ -27,6 +27,13 @@ describe("scanText", () => {
     ]);
   });
 
+  it("flags a Sentry auth token", () => {
+    const fakeSentryToken = ["sntrys", "ZGVhZGJlZWZkZWFkYmVlZg"].join("_");
+    expect(rules(scanText(`SENTRY_AUTH_TOKEN=${fakeSentryToken}`, "ci.yml"))).toEqual([
+      "sentry-auth-token",
+    ]);
+  });
+
   it("reports the line number of the leak", () => {
     const findings = scanText(`line one\nline two\nSTRIPE=${fakeStripeKey}\n`, "config.ts");
 
