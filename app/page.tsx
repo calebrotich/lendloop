@@ -1,4 +1,5 @@
 import { Show, SignInButton, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 import { Suspense } from "react";
 
 import { ToolShelf } from "@/components/tool-shelf";
@@ -69,8 +70,14 @@ export default function HomePage() {
               </span>
             </Show>
             <Show when="signed-in">
-              <span className="text-sm text-ink-muted">
-                You&apos;re signed in. Listing and requesting arrive in the next step.
+              <Link
+                href="/my-listings"
+                className="rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
+              >
+                Manage my listings
+              </Link>
+              <span className="text-xs text-ink-muted">
+                Add a tool, or browse what neighbours are lending.
               </span>
             </Show>
           </div>

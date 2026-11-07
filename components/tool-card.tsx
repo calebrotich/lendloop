@@ -1,5 +1,5 @@
 import type { Category } from "@/convex/lib/constants";
-import { CATEGORY_LABELS } from "@/lib/categories";
+import { CATEGORY_LABELS } from "@/lib/options";
 
 export function ToolCard({ name, category }: { name: string; category: Category }) {
   return (
