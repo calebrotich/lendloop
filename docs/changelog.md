@@ -86,3 +86,7 @@ learned, and anything that contradicts the plan.
   (which also proved `crypto.subtle` works in the Convex runtime). 38 new tests (12 HMAC, 18
   automation, 8 workflow-contract) for 117 total. Known limits recorded in `docs/n8n.md`: outbound
   email is at-least-once, and the tunnel hostname changes on restart.
+- **2026-11-07** — Commit messages rewritten for readers outside the build: stage labels, requirement
+  IDs and verification transcripts removed. The convention now lives in
+  [`docs/commit-messages.md`](commit-messages.md); requirement IDs stay in `AGENTS.md` §10 and pull
+  request notes.
