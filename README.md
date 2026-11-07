@@ -6,9 +6,10 @@ LendLoop is a neighbourhood tool-lending board. Neighbours list the tools they a
 lend, borrowers ask for a date range, owners approve or decline, and [n8n](https://n8n.io)
 automates the notifications and the overdue reminders in both directions.
 
-> **Status: Stage 0a — scaffold only.** The Next.js shell, styling, health endpoint, secret
-> scanner and test harness are in place. Authentication, data, and automation are being built
-> stage by stage; see [`AGENTS.md`](AGENTS.md) for the build map and the requirement IDs.
+> **Status: Stage 0b — auth and identity are wired.** Signing in through Clerk provisions a Convex
+> `users` row; the public page is shell-only and gets real tool data in Stage 1. Authorisation
+> already lives in Convex (`users.ensureCurrent` rejects anonymous callers on the live deployment).
+> See [`AGENTS.md`](AGENTS.md) for the build map and requirement IDs.
 
 ## Stack
 
@@ -16,8 +17,8 @@ automates the notifications and the overdue reminders in both directions.
 | -------------- | ------------------------------------------------------------ |
 | App            | Next.js 16 (App Router) · React 19 · TypeScript 5.9 (strict) |
 | Styling        | Tailwind CSS v4                                              |
-| Auth           | Clerk _(Stage 0b)_                                           |
-| Data + backend | Convex _(Stage 0b)_                                          |
+| Auth           | Clerk 7 (JWT template `convex`)                              |
+| Data + backend | Convex (schema v1 · dev deployment)                          |
 | Automation     | n8n 2.46 self-hosted via Docker Compose                      |
 | Dev email      | Mailpit (SMTP sink, UI on :8025)                             |
 | Tests          | Vitest · `convex-test` · Playwright                          |
@@ -26,20 +27,24 @@ automates the notifications and the overdue reminders in both directions.
 
 ```bash
 pnpm install
-cp .env.example .env      # fill N8N_HMAC_SECRET and N8N_ENCRYPTION_KEY at minimum
-docker compose up -d      # n8n :5678 · Mailpit :8025 · Postgres
-pnpm dev                  # http://localhost:3000
+cp .env.example .env.local    # app + Convex: Clerk keys, Convex URLs
+cp .env.example .env          # compose: n8n encryption key, Postgres, SMTP
+docker compose up -d          # n8n :5678 · Mailpit :8025 · Postgres
+pnpm exec convex dev          # first run: browser login, writes CONVEX_DEPLOYMENT
+pnpm dev                      # http://localhost:3000
 ```
 
-The first visit to <http://localhost:5678> creates the n8n owner account. Generate the two
-required secrets with `openssl rand -hex 32`; `compose.yml` refuses to start without them.
-
-Clerk and Convex keys are not needed to boot the app shell. They are needed from Stage 0b, and
-the values Convex must see are set on the deployment rather than in `.env`:
+Two env files because two tools own them: `.env.local` is written by the Convex CLI and read by
+Next.js, `.env` is read by `docker compose`. Both are gitignored. Anything Convex functions read is
+set on the deployment instead, because functions cannot see either file:
 
 ```bash
 pnpm exec convex env set CLERK_JWT_ISSUER_DOMAIN '<value>'
+pnpm exec convex env set ADMIN_EMAIL_ALLOWLIST 'you@example.com'
 ```
+
+The first visit to <http://localhost:5678> creates the n8n owner account. Generate the two
+compose secrets with `openssl rand -hex 32`; `compose.yml` refuses to start without them.
 
 ## Commands
 
@@ -51,7 +56,7 @@ pnpm exec convex env set CLERK_JWT_ISSUER_DOMAIN '<value>'
 | `pnpm test`                         | Vitest only                                               |
 | `pnpm format` / `pnpm format:check` | Prettier                                                  |
 | `docker compose up -d`              | n8n + Postgres + Mailpit                                  |
-| `pnpm exec convex dev`              | Convex functions + schema push _(from Stage 0b)_          |
+| `pnpm exec convex dev`              | Convex functions + schema push                            |
 
 ## Repository layout
 

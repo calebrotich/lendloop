@@ -1,3 +1,5 @@
+import { Show, SignInButton, UserButton } from "@clerk/nextjs";
+
 const COMING_UP = [
   {
     title: "List a tool",
@@ -21,9 +23,14 @@ export default function HomePage() {
           <LoopMark className="size-5 text-accent" />
           LendLoop
         </span>
-        <span className="rounded-full border border-line px-3 py-1 text-xs text-ink-muted">
-          Local build · Stage 0a
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="rounded-full border border-line px-3 py-1 text-xs text-ink-muted">
+            Local build · Stage 0b
+          </span>
+          <Show when="signed-in">
+            <UserButton />
+          </Show>
+        </div>
       </header>
 
       <main className="flex flex-1 flex-col justify-center py-12">
@@ -40,15 +47,24 @@ export default function HomePage() {
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-4">
-          {/* Clerk wiring lands in Stage 0b (T4). */}
-          <button
-            type="button"
-            disabled
-            className="cursor-not-allowed rounded-full bg-accent/40 px-5 py-2.5 text-sm font-medium text-white"
-          >
-            Sign in to lend or borrow
-          </button>
-          <span className="text-xs text-ink-muted">Sign-in opens once Clerk is configured.</span>
+          <Show when="signed-out">
+            <SignInButton mode="modal">
+              <button
+                type="button"
+                className="rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
+              >
+                Sign in to lend or borrow
+              </button>
+            </SignInButton>
+            <span className="text-xs text-ink-muted">
+              Clerk handles sign-in — no password ever reaches LendLoop.
+            </span>
+          </Show>
+          <Show when="signed-in">
+            <span className="text-sm text-ink-muted">
+              You&apos;re signed in. Listings and requests arrive in the next step.
+            </span>
+          </Show>
         </div>
 
         <dl className="mt-16 grid gap-6 sm:grid-cols-3">

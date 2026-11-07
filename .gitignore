@@ -44,3 +44,8 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# AI tooling bundles (installed locally by `convex ai-files install`)
+.agents/
+.claude/
+skills-lock.json
