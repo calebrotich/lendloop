@@ -6,10 +6,9 @@ LendLoop is a neighbourhood tool-lending board. Neighbours list the tools they a
 lend, borrowers ask for a date range, owners approve or decline, and [n8n](https://n8n.io)
 automates the notifications and the overdue reminders in both directions.
 
-> **Status: Stage 0b — auth and identity are wired.** Signing in through Clerk provisions a Convex
-> `users` row; the public page is shell-only and gets real tool data in Stage 1. Authorisation
-> already lives in Convex (`users.ensureCurrent` rejects anonymous callers on the live deployment).
-> See [`AGENTS.md`](AGENTS.md) for the build map and requirement IDs.
+> **Status: Stage 1 — the public shelf is live.** Tools render from Convex with name and category
+> only; signing in provisions a profile. Listing, requesting and the automation layers are next;
+> see [`AGENTS.md`](AGENTS.md) for the build map and requirement IDs.
 
 ## Stack
 
@@ -31,6 +30,7 @@ cp .env.example .env.local    # app + Convex: Clerk keys, Convex URLs
 cp .env.example .env          # compose: n8n encryption key, Postgres, SMTP
 docker compose up -d          # n8n :5678 · Mailpit :8025 · Postgres
 pnpm exec convex dev          # first run: browser login, writes CONVEX_DEPLOYMENT
+pnpm exec convex run seed:seedDemoShelf   # six demo tools, safe to re-run
 pnpm dev                      # http://localhost:3000
 ```
 
@@ -48,15 +48,16 @@ compose secrets with `openssl rand -hex 32`; `compose.yml` refuses to start with
 
 ## Commands
 
-| Command                             | What it does                                              |
-| ----------------------------------- | --------------------------------------------------------- |
-| `pnpm dev`                          | Next.js dev server                                        |
-| `pnpm build`                        | Production build                                          |
-| `pnpm check`                        | typecheck → lint → secret scan → unit tests (the CI gate) |
-| `pnpm test`                         | Vitest only                                               |
-| `pnpm format` / `pnpm format:check` | Prettier                                                  |
-| `docker compose up -d`              | n8n + Postgres + Mailpit                                  |
-| `pnpm exec convex dev`              | Convex functions + schema push                            |
+| Command                                   | What it does                                              |
+| ----------------------------------------- | --------------------------------------------------------- |
+| `pnpm dev`                                | Next.js dev server                                        |
+| `pnpm build`                              | Production build                                          |
+| `pnpm check`                              | typecheck → lint → secret scan → unit tests (the CI gate) |
+| `pnpm test`                               | Vitest only                                               |
+| `pnpm format` / `pnpm format:check`       | Prettier                                                  |
+| `docker compose up -d`                    | n8n + Postgres + Mailpit                                  |
+| `pnpm exec convex dev`                    | Convex functions + schema push                            |
+| `pnpm exec convex run seed:seedDemoShelf` | Seed the demo shelf (idempotent, internal mutation)       |
 
 ## Repository layout
 
