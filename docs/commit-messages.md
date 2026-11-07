@@ -34,9 +34,8 @@ such as `Closes #123`.
   `requests`, `admin`, `automation`, `ui`, `docs`, `tooling`.
 - **One change per commit.** If the summary needs "and", the commit probably
   needs splitting.
-- **No requirement IDs in the message.** `T*` and `J*` IDs live in
-  [`AGENTS.md`](../AGENTS.md) §10 and in pull request notes. They do not belong
-  in the history.
+- **No requirement IDs in the message.** `T*` and `J*` IDs live in the project's
+  traceability notes and in pull request notes. They do not belong in the history.
 - **No verification transcripts.** Test counts, deployment names, command
   output and "verified against..." lists belong in the pull request or CI. A
   short sentence about what was tested is enough, and only when it changes how
@@ -113,7 +112,7 @@ If the answer is only in the diff, the message is not finished.
 
 ## Where everything else goes
 
-- **Requirement coverage:** [`AGENTS.md`](../AGENTS.md) §10.
+- **Requirement coverage:** the project's traceability notes.
 - **Test results and deployment checks:** the pull request and CI.
 - **Design decisions and trade-offs:** `docs/` and the pull request.
 - **Stage history:** [`docs/changelog.md`](changelog.md).

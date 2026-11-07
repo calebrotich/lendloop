@@ -77,7 +77,6 @@ docs/                architecture, security, n8n contract, production readiness
 scripts/             secret scanner, seed
 tests/               Vitest suites; Playwright specs later
 compose.yml          n8n 2.46 + Postgres 16 + Mailpit, bound to 127.0.0.1
-AGENTS.md            internal build map: requirements, RBAC matrix, stages
 ```
 
 ## Automation (n8n)
@@ -114,8 +113,8 @@ queued and a delivery failure cannot be silent. The full contract, setup and fai
 - Dependencies are pinned; TypeScript is held at 5.9 because `typescript-eslint` does not yet
   support the 7.x compiler line.
 
-The full threat model lands in `docs/security.md` (Stage 6). Until then, `AGENTS.md` §7–§8 and
-[`docs/n8n.md`](docs/n8n.md) are the source of truth.
+The full threat model lands in `docs/security.md` (Stage 6). Until then, the security section above
+and [`docs/n8n.md`](docs/n8n.md) are the source of truth.
 
 ## License
 

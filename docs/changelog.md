@@ -1,6 +1,6 @@
 # Changelog
 
-Stage log for LendLoop. This lives outside `AGENTS.md` on purpose: the working
+Stage log for LendLoop. This lives outside the local build map on purpose: that
 document is injected into every agent turn, and an append-only history pushed it
 past the 64 KiB instruction budget, which silently truncated the build map.
 
@@ -88,5 +88,5 @@ learned, and anything that contradicts the plan.
   email is at-least-once, and the tunnel hostname changes on restart.
 - **2026-11-07** — Commit messages rewritten for readers outside the build: stage labels, requirement
   IDs and verification transcripts removed. The convention now lives in
-  [`docs/commit-messages.md`](commit-messages.md); requirement IDs stay in `AGENTS.md` §10 and pull
-  request notes.
+  [`docs/commit-messages.md`](commit-messages.md); requirement IDs stay in the local build map §10
+  and pull request notes.

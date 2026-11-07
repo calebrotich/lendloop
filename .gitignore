@@ -49,3 +49,6 @@ Thumbs.db
 .agents/
 .claude/
 skills-lock.json
+
+# Local build map — kept out of the published repo
+AGENTS.md

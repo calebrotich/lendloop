@@ -79,4 +79,4 @@ uses cloudflared for more than one project. `docs/n8n.md` documents it.
    any public n8n URL in production.
 4. The tunnel hostname changes when cloudflared restarts, so
    `pnpm exec convex env set N8N_REQUEST_WEBHOOK_URL …` is a documented one-liner
-   (AGENTS.md §18 risk 6).
+   (risk 6 in the build map).
