@@ -58,3 +58,4 @@ docs/deployment-vps.md
 
 # Sentry Config File
 .env.sentry-build-plugin
+.vercel

@@ -22,7 +22,17 @@ const isConfigured = Boolean(
   process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY,
 );
 
-export default isConfigured ? clerkMiddleware() : () => NextResponse.next();
+export default isConfigured
+  ? clerkMiddleware({
+      // Explicit rather than relying only on Clerk's automatic detection: the
+      // production instance lives on a `*.vercel.app` host, where the Frontend
+      // API cannot have its own DNS record. Local development uses a dev
+      // instance and talks to it directly.
+      frontendApiProxy: {
+        enabled: (url) => url.hostname.endsWith(".vercel.app"),
+      },
+    })
+  : () => NextResponse.next();
 
 export const config = {
   matcher: [
