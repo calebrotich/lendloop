@@ -352,24 +352,24 @@ describe("tools.update", () => {
     expect(codeOf(error)).toBe("NOT_FOUND");
   });
 
-  it("refuses to edit a tool that is out on loan", async () => {
+  it("lets the owner edit a tool while it is out on loan", async () => {
     const t = convexTest(schema, modules);
     const sam = await provision(t, "user_sam", "sam@example.test");
     const toolId = await insertTool(t, sam.id);
     await insertLoan(t, toolId, sam.id);
 
-    const error = await capturedError(
-      sam.as.mutation(api.tools.update, {
-        toolId,
-        name: "Impact driver",
-        category: "power_tools",
-        condition: "good",
-        description: "Still out on loan to a neighbour.",
-        status: "available",
-      }),
-    );
+    await sam.as.mutation(api.tools.update, {
+      toolId,
+      name: "Impact driver",
+      category: "power_tools",
+      condition: "like_new",
+      description: "Owner updated the description while the tool is out.",
+      status: "available",
+    });
 
-    expect(codeOf(error)).toBe("CONFLICT");
+    const row = await t.run(async (ctx) => await ctx.db.get(toolId));
+    expect(row?.name).toBe("Impact driver");
+    expect(row?.condition).toBe("like_new");
   });
 });
 
@@ -402,14 +402,16 @@ describe("tools.remove", () => {
     expect(row?.removedAt).toBeUndefined();
   });
 
-  it("refuses to remove a tool that is out on loan", async () => {
+  it("lets the owner remove a tool while it is out on loan without losing the loan", async () => {
     const t = convexTest(schema, modules);
     const sam = await provision(t, "user_sam", "sam@example.test");
     const toolId = await insertTool(t, sam.id);
-    await insertLoan(t, toolId, sam.id);
+    const loanId = await insertLoan(t, toolId, sam.id);
 
-    const error = await capturedError(sam.as.mutation(api.tools.remove, { toolId }));
+    await sam.as.mutation(api.tools.remove, { toolId });
 
-    expect(codeOf(error)).toBe("CONFLICT");
+    const row = await t.run(async (ctx) => await ctx.db.get(toolId));
+    expect(row?.removedAt).toBeTypeOf("number");
+    expect(await t.run(async (ctx) => await ctx.db.get(loanId))).not.toBeNull();
   });
 });

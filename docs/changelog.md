@@ -131,3 +131,11 @@ learned, and anything that contradicts the plan.
   populated, which is why uploads only worked there (the Convex logs show successful Firefox
   tickets and confirmations but no request at all from Chromium/Safari attempts). The selection
   is now snapshotted before the reset, with a regression test. 164 tests.
+
+- **2026-11-07** — Owner edits are no longer blocked by an active loan. The earlier `CONFLICT`
+  guards in `tools.update`, `tools.remove`, photo-ticket creation and admin removal were an
+  implementation choice, not a requirement in the brief (T16 only scopes edits to the owner). The
+  guard was removed from all of them: loans keep their own rows and derived availability, so editing,
+  delisting or adding photos while a tool is out cannot orphan a loan or change its dates. The
+  now-unused `isToolOutOnLoan` helper was removed. Tests assert the allowed behavior and that the
+  loan survives a removal. 165 tests.

@@ -123,17 +123,19 @@ describe("admin.removeListing", () => {
     );
   });
 
-  it("refuses to remove a tool that is out on loan", async () => {
+  it("removes a tool that is out on loan without losing the loan", async () => {
     const t = convexTest(schema, modules);
     const owner = await provision(t, "owner");
     const borrower = await provision(t, "borrower");
     const admin = await provision(t, "admin", "admin");
     const toolId = await insertTool(t, owner.id);
-    await insertLoan(t, toolId, owner.id, borrower.id);
+    const loanId = await insertLoan(t, toolId, owner.id, borrower.id);
 
-    const error = await capturedError(admin.as.mutation(api.admin.removeListing, { toolId }));
+    await admin.as.mutation(api.admin.removeListing, { toolId });
 
-    expect(codeOf(error)).toBe("CONFLICT");
+    const row = await t.run(async (ctx) => await ctx.db.get(toolId));
+    expect(row?.removedAt).toBeTypeOf("number");
+    expect(await t.run(async (ctx) => await ctx.db.get(loanId))).not.toBeNull();
   });
 });
 

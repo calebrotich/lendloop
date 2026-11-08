@@ -1,6 +1,5 @@
 import type { Id } from "../_generated/dataModel";
 import type { MutationCtx, QueryCtx } from "../_generated/server";
-import { startOfDay } from "./dates";
 
 type DbCtx = QueryCtx | MutationCtx;
 
@@ -29,18 +28,4 @@ export async function findBookingOverlap(
 ) {
   const approved = await approvedForTool(ctx, toolId);
   return approved.find((loan) => startDate <= loan.endDate && loan.startDate <= endDate) ?? null;
-}
-
-/**
- * T9 — is the tool physically out right now (approved and already started)?
- * Derived from approvals, never from a stored `lent` flag.
- */
-export async function isToolOutOnLoan(
-  ctx: DbCtx,
-  toolId: Id<"tools">,
-  now: number,
-): Promise<boolean> {
-  const today = startOfDay(now);
-  const approved = await approvedForTool(ctx, toolId);
-  return approved.some((loan) => loan.startDate <= today);
 }

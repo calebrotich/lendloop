@@ -13,7 +13,6 @@ import {
 import { startOfDay } from "./lib/dates";
 import { appError } from "./lib/errors";
 import { LIMITS } from "./lib/limits";
-import { isToolOutOnLoan } from "./lib/loans";
 import { discardToolImages, imageSummaryForTool, imageSummaryValidator } from "./lib/media";
 
 /** Bounded by design: the public page is a shelf, not a data export. */
@@ -175,8 +174,10 @@ export const create = mutation({
 /**
  * T16 — edit one of your own listings.
  *
- * Status is limited to `available`/`unavailable`: "lent" is owned by the loan
- * lifecycle (Stage 3), so a client cannot mark their tool as out on loan.
+ * Status is limited to `available`/`unavailable`: "on loan" is owned by the loan
+ * lifecycle and derived on read, so a client cannot mark their tool as out on
+ * loan. An owner may edit at any time, including while a loan is active; the
+ * loan window keeps availability accurate regardless of the listing edits.
  */
 export const update = mutation({
   args: {
@@ -191,10 +192,6 @@ export const update = mutation({
   handler: async (ctx, args) => {
     const { tool } = await requireOwnedTool(ctx, args.toolId);
     const { name, description } = validateListing(args);
-
-    if (await isToolOutOnLoan(ctx, tool._id, Date.now())) {
-      appError("CONFLICT", "This tool is out on loan. Mark it returned before editing it.");
-    }
 
     await ctx.db.patch(tool._id, {
       name,
@@ -211,16 +208,16 @@ export const update = mutation({
 /**
  * T16 — soft-remove a listing. The row stays for the audit trail and for any
  * loan history that references it; `removedAt` is what every read filters on.
+ *
+ * An owner may remove a listing while a loan is active. The loan rows are not
+ * touched: both parties can still see the request and mark it returned, and the
+ * denormalised owner is unaffected.
  */
 export const remove = mutation({
   args: { toolId: v.id("tools") },
   returns: v.null(),
   handler: async (ctx, args) => {
     const { tool } = await requireOwnedTool(ctx, args.toolId);
-
-    if (await isToolOutOnLoan(ctx, tool._id, Date.now())) {
-      appError("CONFLICT", "This tool is out on loan. Mark it returned before removing it.");
-    }
 
     const now = Date.now();
     await ctx.db.patch(tool._id, {

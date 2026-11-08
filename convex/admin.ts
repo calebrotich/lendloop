@@ -8,7 +8,6 @@ import { loanPhaseValidator, loanStatusValidator, roleValidator } from "./lib/co
 import { loanPhase } from "./lib/dates";
 import { readCsvEnv } from "./lib/env";
 import { appError } from "./lib/errors";
-import { isToolOutOnLoan } from "./lib/loans";
 import { discardToolImages } from "./lib/media";
 
 const ADMIN_LIST_LIMIT = 100;
@@ -50,10 +49,6 @@ export const removeListing = mutation({
     if (tool === null || tool.removedAt !== undefined) {
       appError("NOT_FOUND", "That listing no longer exists.");
     }
-    if (await isToolOutOnLoan(ctx, tool._id, Date.now())) {
-      appError("CONFLICT", "That tool is out on loan. Wait for it to come back.");
-    }
-
     const now = Date.now();
     await ctx.db.patch(tool._id, {
       removedAt: now,
