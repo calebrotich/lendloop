@@ -53,5 +53,8 @@ skills-lock.json
 # Local build map — kept out of the published repo
 AGENTS.md
 
+# Local deployment runbook — kept out of the published repo
+docs/deployment-vps.md
+
 # Sentry Config File
 .env.sentry-build-plugin

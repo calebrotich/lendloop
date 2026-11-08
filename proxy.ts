@@ -12,6 +12,11 @@ import { NextResponse } from "next/server";
  *
  * `/monitoring` is excluded: that is Sentry's tunnel route (see next.config.ts),
  * and it must reach the rewrite without Clerk touching the envelope POST.
+ *
+ * `/__clerk` is explicit: on a production `*.vercel.app` host Clerk auto-proxies
+ * its Frontend API through this app (no DNS record), and the general matcher
+ * below skips `.js` requests — including Clerk's own browser bundle — so the
+ * proxy path must be matched before that filter.
  */
 const isConfigured = Boolean(
   process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY,
@@ -24,5 +29,7 @@ export const config = {
     // Skip Next internals and static files unless they appear in a search param.
     "/((?!monitoring|_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     "/(api|trpc)(.*)",
+    // Clerk Frontend API proxy, including its `clerk.browser.js` bundle.
+    "/__clerk/(.*)",
   ],
 };
