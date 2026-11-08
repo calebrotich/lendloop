@@ -1,3 +1,4 @@
+import { internal } from "../_generated/api";
 import type { Id } from "../_generated/dataModel";
 import type { MutationCtx } from "../_generated/server";
 import type {
@@ -8,6 +9,8 @@ import type {
   RequestEventKind,
 } from "./constants";
 import { formatDateInput } from "./dates";
+import { renderRequestEmail } from "./emailTemplates";
+import { imageSummaryForTool } from "./media";
 import { deepLinkFor, type RequestNotificationPayload } from "./n8n";
 
 /**
@@ -178,20 +181,35 @@ export async function enqueueRequestNotification(
     return;
   }
 
+  const toolName = tool?.name ?? "Removed listing";
+  // Cover photo for the email hero. Null is a supported case: the template
+  // falls back to a monogram block rather than a broken image.
+  const cover = tool === null ? null : (await imageSummaryForTool(ctx, tool._id)).cover;
+  const toolImageUrl = cover === null ? null : cover.url;
+
   const payload: RequestNotificationPayload = {
     event,
     idempotencyKey,
     occurredAt: now,
     recipient: { name: recipientName, email: recipient.email },
-    tool: { name: tool?.name ?? "Removed listing" },
+    tool: { name: toolName },
     window: {
       start: formatDateInput(request.startDate),
       end: formatDateInput(request.endDate),
     },
     deepLink: deepLinkFor(notifyOwner ? "incoming-requests" : "my-requests", request._id),
+    email: renderRequestEmail({
+      event,
+      recipientName,
+      toolName,
+      toolImageUrl,
+      startDate: formatDateInput(request.startDate),
+      endDate: formatDateInput(request.endDate),
+      deepLink: deepLinkFor(notifyOwner ? "incoming-requests" : "my-requests", request._id),
+    }),
   };
 
-  await enqueueOutbox(ctx, {
+  const queued = await enqueueOutbox(ctx, {
     kind: event,
     target: "n8n_request",
     payload: JSON.stringify(payload),
@@ -199,4 +217,11 @@ export async function enqueueRequestNotification(
     loanRequestId: request._id,
     now,
   });
+
+  // Deliver now instead of waiting for the next one-minute cron tick. The cron
+  // stays as the safety net for anything this attempt fails to deliver, and the
+  // claim lease makes a concurrent scheduled drain harmless.
+  if (!queued.deduped) {
+    await ctx.scheduler.runAfter(0, internal.automation.drainOutbox, {});
+  }
 }

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import type { Id } from "../_generated/dataModel";
+import { DEFAULT_APP_BASE_URL } from "./appUrl";
 import type { RequestEventKind } from "./constants";
 import { readEnv } from "./env";
 
@@ -29,6 +30,12 @@ export interface RequestNotificationPayload {
   tool: { name: string };
   window: { start: string; end: string };
   deepLink: string;
+  /**
+   * The finished message, rendered by Convex. n8n transports it verbatim and
+   * never re-renders, so the design lives in one place (`emailTemplates.ts`)
+   * instead of being duplicated across workflow JSON.
+   */
+  email: { subject: string; html: string; text: string };
 }
 
 /** Convex IDs are opaque; this only rejects obvious junk before a DB lookup. */
@@ -51,6 +58,11 @@ export const requestNotificationSchema = z.object({
   tool: z.object({ name: z.string().min(1).max(80) }),
   window: z.object({ start: isoDay, end: isoDay }),
   deepLink: z.string().min(1).max(500),
+  email: z.object({
+    subject: z.string().min(1).max(200),
+    html: z.string().min(1).max(200_000),
+    text: z.string().min(1).max(20_000),
+  }),
 });
 
 /** `POST /n8n/overdue-loans` — body is optional because n8n can omit it. */
@@ -104,6 +116,10 @@ export interface OverdueLoan {
   endDate: number;
   daysOverdue: number;
   dueDate: string;
+  /** Deep link into the borrower's requests page. */
+  deepLink: string;
+  /** Reminder message, rendered by Convex (see `emailTemplates.ts`). */
+  email: { subject: string; html: string; text: string };
 }
 
 /**
@@ -120,7 +136,7 @@ export interface AutomationAlertPayload {
 }
 
 export function appBaseUrl(): string {
-  const configured = readEnv("APP_BASE_URL") ?? "http://localhost:3000";
+  const configured = readEnv("APP_BASE_URL") ?? DEFAULT_APP_BASE_URL;
   return configured.replace(/\/+$/, "");
 }
 

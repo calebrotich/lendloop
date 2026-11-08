@@ -51,9 +51,20 @@ X-LendLoop-Idempotency-Key: request:<id>:approved   # informational on inbound c
   "recipient": { "name": "Sam", "email": "sam@example.test" },
   "tool": { "name": "Cordless drill" },
   "window": { "start": "2026-11-20", "end": "2026-11-22" },
-  "deepLink": "http://localhost:3000/my-requests?request=j57abc..."
+  "deepLink": "http://localhost:3000/my-requests?request=j57abc...",
+  "email": {
+    "subject": "Approved — Cordless drill · 20 Nov 2026 to 22 Nov 2026",
+    "html": "<!doctype html>…",
+    "text": "Hi Sam, …"
+  }
 }
 ```
+
+`email` is the **finished message, rendered by Convex** (`convex/lib/emailTemplates.ts`)
+and transported verbatim by n8n. The workflow never re-renders a body: the design
+lives in one typed, unit-tested place instead of being duplicated across three
+workflow JSON files. n8n's own "sent automatically with n8n" attribution is
+disabled on every Email node (`options.appendAttribution: false`).
 
 `event` is one of `request.created`, `request.approved`, `request.declined`,
 `request.cancelled`, `request.returned`. Who receives it:
@@ -89,7 +100,9 @@ Body `{ "asOf": 1763000000000 }` (optional; defaults to now). Response:
       "startDate": 1762560000000,
       "endDate": 1762828800000,
       "daysOverdue": 3,
-      "dueDate": "2026-11-04"
+      "dueDate": "2026-11-04",
+      "deepLink": "https://app.example.com/my-requests?request=j57abc...",
+      "email": { "subject": "Overdue — …", "html": "<!doctype html>…", "text": "Hi Sam, …" }
     }
   ]
 }

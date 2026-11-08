@@ -65,6 +65,9 @@ services:
       LENDLOOP_MAIL_FROM: ${LENDLOOP_MAIL_FROM:-LendLoop <lendloop@example.test>}
       # Where W3 sends automation alerts. A dev sink address; Mailpit swallows it.
       LENDLOOP_OPS_EMAIL: ${LENDLOOP_OPS_EMAIL:-ops@lendloop.test}
+      # Logo used by the W3 ops-alert template (the customer-facing templates are
+      # rendered by Convex and do not read this).
+      LENDLOOP_LOGO_URL: ${LENDLOOP_LOGO_URL:-https://lendloop-cdn.bahasha.app/email/logo-v2.png}
 
       # --- quiet the cloud/telemetry surface we do not need ---
       N8N_DIAGNOSTICS_ENABLED: "false"

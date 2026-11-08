@@ -93,13 +93,19 @@ describe("n8n workflow exports", () => {
     const w1 = load("request-notification.json");
     const compose = codeOf(w1.nodes.find((node) => node.name === "Compose email")!);
 
-    for (const key of Object.keys(requestNotificationSchema.shape)) {
-      if (key === "idempotencyKey" || key === "occurredAt") continue;
-      expect(compose).toContain(`b.${key}`);
-    }
+    // Convex renders the message (convex/lib/emailTemplates.ts); W1 only
+    // transports it, and falls back to its own markup for older payloads.
+    expect(requestNotificationSchema.shape.email).toBeDefined();
+    expect(compose).toContain("b.email");
+    expect(compose).toContain("email.html");
+    expect(compose).toContain("email.subject");
     expect(compose).toContain("b.recipient.email");
-    expect(compose).toContain("b.tool.name");
-    expect(compose).toContain("b.window.start");
+
+    // Branding rule: HTML body, no "sent automatically with n8n" footer.
+    const send = w1.nodes.find((node) => node.type === "n8n-nodes-base.emailSend")!;
+    expect(send.parameters.emailFormat).toBe("html");
+    expect(send.parameters.options).toEqual({ appendAttribution: false });
+    expect(send.parameters.html).toContain("$json.html");
   });
 
   it("runs W2 on the documented schedule and writes back idempotently", () => {
@@ -145,6 +151,7 @@ describe("n8n workflow exports", () => {
       "LENDLOOP_HMAC_SECRET",
       "LENDLOOP_CONVEX_SITE_URL",
       "LENDLOOP_APP_BASE_URL",
+      "LENDLOOP_LOGO_URL",
       "LENDLOOP_MAIL_FROM",
       "LENDLOOP_OPS_EMAIL",
       "SIGNATURE_TOLERANCE_SECONDS",

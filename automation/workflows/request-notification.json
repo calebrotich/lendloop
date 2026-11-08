@@ -64,7 +64,7 @@
       },
       {
         "parameters": {
-          "jsCode": "const b = $json.body;\nconst who = b.recipient.name;\nconst tool = b.tool.name;\nconst range = b.window.start + ' to ' + b.window.end;\n\nconst templates = {\n  'request.created': {\n    subject: 'Someone wants to borrow your ' + tool,\n    text: 'Hi ' + who + ',\\n\\nA neighbour has asked to borrow your ' + tool + ' for ' + range + '.\\n\\nOpen your incoming requests to approve or decline:\\n' + b.deepLink + '\\n\\n— LendLoop',\n  },\n  'request.approved': {\n    subject: 'Approved: your ' + tool + ' for ' + range,\n    text: 'Hi ' + who + ',\\n\\nYour request for ' + tool + ' (' + range + ') was approved. Arrange pickup with the owner.\\n\\n' + b.deepLink + '\\n\\n— LendLoop',\n  },\n  'request.declined': {\n    subject: 'Declined: your ' + tool + ' for ' + range,\n    text: 'Hi ' + who + ',\\n\\nYour request for ' + tool + ' (' + range + ') was declined. Browse other tools for those dates:\\n' + b.deepLink + '\\n\\n— LendLoop',\n  },\n  'request.cancelled': {\n    subject: 'Withdrawn: ' + tool + ' for ' + range,\n    text: 'Hi ' + who + ',\\n\\nThe request for your ' + tool + ' (' + range + ') was withdrawn by the borrower.\\n\\n' + b.deepLink + '\\n\\n— LendLoop',\n  },\n  'request.returned': {\n    subject: tool + ' is back and relisted',\n    text: 'Hi ' + who + ',\\n\\n' + tool + ' has been marked returned and is available again.\\n\\n' + b.deepLink + '\\n\\n— LendLoop',\n  },\n};\n\nconst template = templates[b.event];\nreturn [{\n  json: {\n    to: b.recipient.email,\n    subject: template ? template.subject : 'LendLoop update',\n    text: template ? template.text : 'There is an update on your LendLoop request: ' + b.deepLink,\n  },\n}];"
+          "jsCode": "\nconst b = $json.body;\nconst email = b && b.email ? b.email : null;\nconst esc = (v) => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');\n\n// Convex renders the finished message (see convex/lib/emailTemplates.ts). The\n// fallback only covers payloads queued before the template shipped.\nconst html = email && email.html\n  ? email.html\n  : '<div style=\"font:400 16px/26px Helvetica,Arial,sans-serif;color:#16215B;\"><p>There is an update on your ' +\n    esc(b.tool.name) + ' request.</p><p><a href=\"' + esc(b.deepLink) + '\">Open LendLoop</a></p></div>';\n\nreturn [{\n  json: {\n    to: b.recipient.email,\n    subject: email && email.subject ? email.subject : 'LendLoop update: ' + b.tool.name,\n    html,\n  },\n}];\n"
         },
         "id": "w1-compose",
         "name": "Compose email",
@@ -77,9 +77,11 @@
           "fromEmail": "={{ $env.LENDLOOP_MAIL_FROM }}",
           "toEmail": "={{ $json.to }}",
           "subject": "={{ $json.subject }}",
-          "emailFormat": "text",
-          "text": "={{ $json.text }}",
-          "options": {}
+          "emailFormat": "html",
+          "options": {
+            "appendAttribution": false
+          },
+          "html": "={{ $json.html }}"
         },
         "id": "w1-email",
         "name": "Send notification",
@@ -89,7 +91,7 @@
         "credentials": {
           "smtp": {
             "id": "lendloop-mailpit",
-            "name": "LendLoop Mailpit"
+            "name": "LendLoop Zoho SMTP"
           }
         },
         "retryOnFail": true,

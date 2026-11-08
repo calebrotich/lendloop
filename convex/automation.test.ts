@@ -181,6 +181,7 @@ describe("outbox enqueue", () => {
     const payload = requestNotificationSchema.parse(JSON.parse(row.payload));
     expect(Object.keys(payload).sort()).toEqual([
       "deepLink",
+      "email",
       "event",
       "idempotencyKey",
       "occurredAt",
@@ -188,6 +189,10 @@ describe("outbox enqueue", () => {
       "tool",
       "window",
     ]);
+    // The message is rendered by Convex, so n8n never improvises a body.
+    expect(payload.email.subject).toContain("Cordless drill");
+    expect(payload.email.html).toContain("<!doctype html>");
+    expect(payload.email.text).toContain("Cordless drill");
     expect(payload.recipient).toEqual({ name: "user_owner", email: "owner@example.test" });
     expect(payload.tool).toEqual({ name: "Cordless drill" });
     expect(payload.window).toEqual({ start: date(1), end: date(3) });
@@ -454,12 +459,16 @@ describe("overdue loans + reminder write-back", () => {
       "borrowerEmail",
       "borrowerName",
       "daysOverdue",
+      "deepLink",
       "dueDate",
+      "email",
       "endDate",
       "loanRequestId",
       "startDate",
       "toolName",
     ]);
+    expect(loan.email.html).toContain("<!doctype html>");
+    expect(loan.deepLink).toContain("/my-requests?request=");
     expect(result.loans.map((row) => row.loanRequestId)).not.toContain(future);
     expect(result.loans.map((row) => row.loanRequestId)).not.toContain(returned);
   });

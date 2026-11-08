@@ -117,7 +117,7 @@
       },
       {
         "parameters": {
-          "jsCode": "const crypto = require('crypto');\n\nconst loan = $input.item.json;\nconst secret = $env.LENDLOOP_HMAC_SECRET || '';\nconst base = ($env.LENDLOOP_CONVEX_SITE_URL || '').replace(/\\/+$/, '');\nconst app = ($env.LENDLOOP_APP_BASE_URL || '').replace(/\\/+$/, '');\nconst sentAt = Date.now();\n\nconst payload = JSON.stringify({\n  loanRequestId: loan.loanRequestId,\n  kind: 'overdue_reminder',\n  dayOffset: loan.daysOverdue,\n  dueDate: loan.dueDate,\n  channel: 'email',\n  status: 'sent',\n  sentAt,\n});\nconst timestamp = String(Math.floor(sentAt / 1000));\nconst signature = 'v1=' + crypto.createHmac('sha256', secret).update(timestamp + '.' + payload).digest('hex');\n\nreturn {\n  json: {\n    ...loan,\n    to: loan.borrowerEmail,\n    subject: 'Overdue: ' + loan.toolName + ' was due ' + loan.dueDate,\n    text: 'Hi ' + loan.borrowerName + ',\\n\\n' + loan.toolName + ' was due back on ' + loan.dueDate + ' (' + loan.daysOverdue + ' day(s) ago).\\n\\nIf you still have it, please arrange its return. If you have already returned it, ask the owner to mark it returned.\\n\\n' + app + '/my-requests\\n\\n— LendLoop',\n    url: base + '/n8n/reminders',\n    payload,\n    timestamp,\n    signature,\n    idempotencyKey: 'reminder:' + loan.loanRequestId + ':' + loan.dueDate + ':' + loan.daysOverdue,\n  },\n};",
+          "jsCode": "const crypto = require('crypto');\n\nconst loan = $input.item.json;\nconst email = loan && loan.email ? loan.email : null;\nconst secret = $env.LENDLOOP_HMAC_SECRET || '';\nconst base = ($env.LENDLOOP_CONVEX_SITE_URL || '').replace(/\\/+$/, '');\nconst app = ($env.LENDLOOP_APP_BASE_URL || '').replace(/\\/+$/, '');\nconst sentAt = Date.now();\n\nconst payload = JSON.stringify({\n  loanRequestId: loan.loanRequestId,\n  kind: 'overdue_reminder',\n  dayOffset: loan.daysOverdue,\n  dueDate: loan.dueDate,\n  channel: 'email',\n  status: 'sent',\n  sentAt,\n});\nconst timestamp = String(Math.floor(sentAt / 1000));\nconst signature = 'v1=' + crypto.createHmac('sha256', secret).update(timestamp + '.' + payload).digest('hex');\n\nreturn {\n  json: {\n    ...loan,\n    to: loan.borrowerEmail,\n    subject: email ? email.subject : 'Overdue: ' + loan.toolName + ' was due ' + loan.dueDate,\n    html: email ? email.html : '<div style=\"font:400 16px/26px Helvetica,Arial,sans-serif;color:#16215B;\"><p>Your ' + loan.toolName + ' was due back on ' + loan.dueDate + '.</p><p><a href=\"' + app + '/my-requests\">Open my requests</a></p></div>',\n    text: email ? email.text : 'Your ' + loan.toolName + ' was due back on ' + loan.dueDate + '.',\n    url: base + '/n8n/reminders',\n    payload,\n    timestamp,\n    signature,\n    idempotencyKey: 'reminder:' + loan.loanRequestId + ':' + loan.dueDate + ':' + loan.daysOverdue,\n  },\n};",
           "mode": "runOnceForEachItem"
         },
         "id": "w2-prepare",
@@ -131,9 +131,11 @@
           "fromEmail": "={{ $env.LENDLOOP_MAIL_FROM }}",
           "toEmail": "={{ $json.to }}",
           "subject": "={{ $json.subject }}",
-          "emailFormat": "text",
-          "text": "={{ $json.text }}",
-          "options": {}
+          "emailFormat": "html",
+          "options": {
+            "appendAttribution": false
+          },
+          "html": "={{ $json.html }}"
         },
         "id": "w2-email",
         "name": "Send reminder",
@@ -143,7 +145,7 @@
         "credentials": {
           "smtp": {
             "id": "lendloop-mailpit",
-            "name": "LendLoop Mailpit"
+            "name": "LendLoop Zoho SMTP"
           }
         },
         "retryOnFail": true,

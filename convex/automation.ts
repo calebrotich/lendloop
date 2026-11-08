@@ -13,8 +13,10 @@ import { DAY_MS, formatDateInput, startOfDay } from "./lib/dates";
 import { readEnv } from "./lib/env";
 import { appError } from "./lib/errors";
 import { signedHeaders } from "./lib/hmac";
+import { renderReminderEmail } from "./lib/emailTemplates";
+import { imageSummaryForTool } from "./lib/media";
 import type { AutomationAlertPayload, OverdueLoan } from "./lib/n8n";
-import { truncateDetail } from "./lib/n8n";
+import { deepLinkFor, truncateDetail } from "./lib/n8n";
 import type { ClaimedOutboxRow } from "./lib/outbox";
 import {
   backoffMs,
@@ -148,6 +150,12 @@ export const listOverdue = internalQuery({
         endDate: v.number(),
         daysOverdue: v.number(),
         dueDate: v.string(),
+        deepLink: v.string(),
+        email: v.object({
+          subject: v.string(),
+          html: v.string(),
+          text: v.string(),
+        }),
       }),
     ),
   }),
@@ -168,17 +176,32 @@ export const listOverdue = internalQuery({
       ]);
       if (borrower === null || borrower.email.trim().length === 0) continue;
 
+      const toolName = tool?.name ?? "Removed listing";
+      const dueDate = formatDateInput(loan.endDate);
+      // Calendar-day difference, so a loan stored at any time of day still
+      // reads as "overdue by 3 days" on day three, never 2.
+      const daysOverdue = Math.max(1, Math.round((today - startOfDay(loan.endDate)) / DAY_MS));
+      const deepLink = deepLinkFor("my-requests", loan._id);
+      const cover = tool === null ? null : (await imageSummaryForTool(ctx, tool._id)).cover;
+
       loans.push({
         loanRequestId: loan._id,
-        toolName: tool?.name ?? "Removed listing",
+        toolName,
         borrowerName: borrower.name,
         borrowerEmail: borrower.email,
         startDate: loan.startDate,
         endDate: loan.endDate,
-        // Calendar-day difference, so a loan stored at any time of day still
-        // reads as "overdue by 3 days" on day three, never 2.
-        daysOverdue: Math.max(1, Math.round((today - startOfDay(loan.endDate)) / DAY_MS)),
-        dueDate: formatDateInput(loan.endDate),
+        daysOverdue,
+        dueDate,
+        deepLink,
+        email: renderReminderEmail({
+          borrowerName: borrower.name,
+          toolName,
+          toolImageUrl: cover === null ? null : cover.url,
+          dueDate,
+          daysOverdue,
+          deepLink,
+        }),
       });
     }
 
