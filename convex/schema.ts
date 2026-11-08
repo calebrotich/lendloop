@@ -7,10 +7,12 @@ import {
   automationEventStatusValidator,
   categoryValidator,
   conditionValidator,
+  imageUploadStatusValidator,
   loanStatusValidator,
   outboxStatusValidator,
   outboxTargetValidator,
   roleValidator,
+  storageDeleteStatusValidator,
   toolStatusValidator,
 } from "./lib/constants";
 
@@ -49,6 +51,72 @@ export default defineSchema({
     .index("by_owner", ["ownerId"])
     .index("by_status", ["status"])
     .index("by_category_and_status", ["category", "status"]),
+
+  /**
+   * A photo attached to a listing. The bytes live in Cloudflare R2; only the
+   * metadata and object key are here. `sortOrder` decides the cover (lowest
+   * first) and manual ordering; it is reassigned transactionally by `setCover`.
+   *
+   * The public URL is derived from R2_PUBLIC_HOST on every read, so rotating
+   * the host or the bucket does not require rewriting image rows.
+   */
+  toolImages: defineTable({
+    toolId: v.id("tools"),
+    // Denormalised for ownership checks without a join through `tools`.
+    ownerId: v.id("users"),
+    objectKey: v.string(),
+    contentType: v.string(),
+    byteSize: v.number(),
+    width: v.number(),
+    height: v.number(),
+    sortOrder: v.number(),
+    createdAt: v.number(),
+  }).index("by_toolId_and_sortOrder", ["toolId", "sortOrder"]),
+
+  /**
+   * An authorisation to upload exactly one object.
+   *
+   * Created before the bytes exist, so the write path is two-phase: the ticket
+   * reserves one image slot, the proxy uploads, and `completeUpload` verifies
+   * the stored object before inserting a `toolImages` row. Pending tickets that
+   * expire are cleaned up by the media cron, including their orphaned objects.
+   */
+  toolImageUploads: defineTable({
+    toolId: v.id("tools"),
+    ownerId: v.id("users"),
+    objectKey: v.string(),
+    contentType: v.string(),
+    byteSize: v.number(),
+    width: v.number(),
+    height: v.number(),
+    status: imageUploadStatusValidator,
+    createdAt: v.number(),
+    expiresAt: v.number(),
+    failureReason: v.optional(v.string()),
+  })
+    .index("by_ownerId_and_status", ["ownerId", "status"])
+    .index("by_toolId_and_status", ["toolId", "status"])
+    .index("by_status_and_expiresAt", ["status", "expiresAt"])
+    .index("by_createdAt", ["createdAt"]),
+
+  /**
+   * Delete outbox for R2 objects. Removing an image only removes the database
+   * row in the transaction; the cron deletes the object and retries with
+   * backoff. A failed delete stays visible as `failed` instead of being
+   * swallowed, mirroring `automationOutbox`.
+   */
+  storageDeletes: defineTable({
+    objectKey: v.string(),
+    reason: v.string(),
+    status: storageDeleteStatusValidator,
+    attempts: v.number(),
+    nextAttemptAt: v.number(),
+    lastError: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_status_and_nextAttemptAt", ["status", "nextAttemptAt"])
+    .index("by_objectKey", ["objectKey"]),
 
   loanRequests: defineTable({
     toolId: v.id("tools"),

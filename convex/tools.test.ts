@@ -12,6 +12,13 @@ import schema from "./schema";
 
 const modules = import.meta.glob("./**/*.ts");
 
+// Image summaries derive their URL from R2_PUBLIC_HOST. The test VM has no
+// process env, so stub the one variable the read path needs.
+const runtime = globalThis as { process?: { env?: Record<string, string | undefined> } };
+runtime.process ??= { env: {} };
+runtime.process.env ??= {};
+runtime.process.env.R2_PUBLIC_HOST = "https://cdn.example.test";
+
 const ISSUER = "https://clerk.example.test";
 
 function identity(token: string, email: string): Partial<UserIdentity> {
@@ -106,7 +113,7 @@ function codeOf(error: unknown): string | undefined {
 }
 
 describe("tools.listPublic", () => {
-  it("returns exactly name and category — nothing else", async () => {
+  it("returns only name, category and a photo summary — nothing else", async () => {
     const t = convexTest(schema, modules);
     const { id } = await provision(t, "owner_1", "owner@example.test");
     await insertTool(t, id);
@@ -114,8 +121,42 @@ describe("tools.listPublic", () => {
     const shelf = await t.query(api.tools.listPublic, {});
 
     expect(shelf).toHaveLength(1);
-    expect(Object.keys(shelf[0] ?? {}).sort()).toEqual(["category", "name"]);
-    expect(shelf[0]).toEqual({ name: "Cordless drill", category: "power_tools" });
+    expect(Object.keys(shelf[0] ?? {}).sort()).toEqual(["category", "images", "name"]);
+    expect(shelf[0]).toEqual({
+      name: "Cordless drill",
+      category: "power_tools",
+      images: { imageCount: 0, cover: null },
+    });
+  });
+
+  it("exposes a cover URL but never an owner, description or condition", async () => {
+    const t = convexTest(schema, modules);
+    const { id } = await provision(t, "owner_1", "owner@example.test");
+    const toolId = await insertTool(t, id);
+    await t.run(
+      async (ctx) =>
+        await ctx.db.insert("toolImages", {
+          toolId,
+          ownerId: id,
+          objectKey: "tools/cover.webp",
+          contentType: "image/webp",
+          byteSize: 1_024,
+          width: 800,
+          height: 600,
+          sortOrder: 0,
+          createdAt: 1_700_000_000_000,
+        }),
+    );
+
+    const shelf = await t.query(api.tools.listPublic, {});
+
+    expect(Object.keys(shelf[0] ?? {}).sort()).toEqual(["category", "images", "name"]);
+    expect(shelf[0]?.images.imageCount).toBe(1);
+    expect(shelf[0]?.images.cover).toEqual({
+      url: "https://cdn.example.test/tools/cover.webp",
+      width: 800,
+      height: 600,
+    });
   });
 
   it("is readable by anonymous callers", async () => {

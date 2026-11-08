@@ -8,7 +8,8 @@ automates the notifications and the overdue reminders in both directions.
 
 > **Status: Stage 6 in progress — hardening.** Automation is complete (n8n in both directions,
 > HMAC, outbox, error workflow) and Sentry now reports errors from the server, edge and browser.
-> UI polish, the Playwright happy path and the production note are next.
+> Listing photos are in: Cloudflare R2 storage, up to six per listing, cover + gallery UI, and
+> server-side verification. UI polish, the Playwright happy path and the production note are next.
 
 ## Stack
 
@@ -21,6 +22,7 @@ automates the notifications and the overdue reminders in both directions.
 | Automation     | n8n 2.46 self-hosted via Docker Compose                      |
 | Dev email      | Mailpit (SMTP sink, UI on :8025)                             |
 | Monitoring     | Sentry 11 — errors, traces, masked session replay            |
+| Media          | Cloudflare R2 (S3 API) — presigned uploads, public CDN host  |
 | Tests          | Vitest · `convex-test` · Playwright                          |
 
 ## Quickstart
@@ -47,6 +49,14 @@ set on the deployment instead, because functions cannot see either file:
 pnpm exec convex env set CLERK_JWT_ISSUER_DOMAIN '<value>'
 pnpm exec convex env set ADMIN_EMAIL_ALLOWLIST 'you@example.com'
 pnpm exec convex run admin:promoteFromAllowlist   # promote existing accounts to admin
+
+# Listing photos (Cloudflare R2)
+pnpm exec convex env set R2_BUCKET_NAME '<bucket>'
+pnpm exec convex env set R2_ACCOUNT_ID '<cloudflare-account-id>'
+pnpm exec convex env set R2_ACCESS_KEY_ID '<access-key-id>'
+pnpm exec convex env set R2_SECRET_ACCESS_KEY '<secret-access-key>'
+pnpm exec convex env set R2_PUBLIC_HOST 'cdn.example.com'
+pnpm exec convex run media:verifyStorage          # presign → PUT → verify → delete
 ```
 
 The first visit to <http://localhost:5678> creates the n8n owner account. Generate the two
@@ -65,16 +75,41 @@ compose secrets with `openssl rand -hex 32`; `compose.yml` refuses to start with
 | `pnpm exec convex dev`                                                                           | Convex functions + schema push                            |
 | `pnpm exec convex run seed:seedDemoShelf`                                                        | Seed the demo shelf (idempotent, internal mutation)       |
 | `pnpm exec convex run seed:seedDemoLoans`                                                        | Seed pending/upcoming/overdue demo loans                  |
+| `pnpm exec convex run media:verifyStorage`                                                       | Live R2 smoke test (presign → PUT → verify → delete)      |
 | `docker compose run --rm --no-deps --entrypoint n8n n8n execute --id=lendloop-overdue-reminders` | Run W2 now (manual trigger)                               |
+
+## Listing photos (Cloudflare R2)
+
+Listings can carry up to **six photos**. Owners add, remove and promote a cover from **My listings**;
+the cover is shown on the public shelf, and the full set opens in a gallery on Browse tools.
+
+- **Upload path:** browser → same-origin `/api/media/upload` → R2. Convex mints a short-lived
+  presigned PUT scoped to the caller's own upload ticket; the Next.js route authenticates Clerk,
+  checks the declared size, and forwards the bytes. R2 credentials never reach the browser, and the
+  bucket needs **no public CORS rule**.
+- **Server-side verification:** `completeUpload` HEADs the stored object, compares size and content
+  type with the ticket, and reads the first bytes to confirm the image signature before inserting a
+  `toolImages` row. An SVG or an HTML payload labelled as a photo is rejected and deleted.
+- **Preview:** a local preview appears the moment a file is selected; the upload then prepares,
+  uploads and verifies it. HEIC/HEIF sources are accepted where the browser can decode them.
+- **Privacy:** the browser resizes each file and re-encodes it before upload, which strips EXIF/GPS
+  metadata. Photos are served from the public `R2_PUBLIC_HOST`, so they are public by design; the
+  UI says so next to the picker. Cache TTL is one day, so a deleted photo leaves edge caches within
+  a day while the object itself is removed by the media cron.
+- **Reliability:** deletes go through a `storageDeletes` outbox drained every 15 minutes with
+  backoff; expired upload tickets and their orphaned objects are cleaned up by the same cron.
+- **Limits:** 6 per listing · 4 MB after client re-encode · JPEG, PNG, WebP or AVIF · SVG excluded.
+
+Full design, operations and failure modes: [`docs/media-storage.md`](docs/media-storage.md).
 
 ## Repository layout
 
 ```
 app/                 Next.js App Router — public page, (app) routes, /api/health
-components/          shared UI (added as the app grows)
-convex/              schema, queries, mutations, httpActions, crons
+components/          shared client UI — forms, image manager, gallery, status views
+convex/              schema, queries, mutations, actions, httpActions, crons
 automation/workflows exported, sanitised n8n workflow JSON
-docs/                architecture, security, n8n contract, production readiness
+docs/                architecture, security, media, n8n contract, production readiness
 scripts/             secret scanner, seed
 tests/               Vitest suites; Playwright specs later
 compose.yml          n8n 2.46 + Postgres 16 + Mailpit, bound to 127.0.0.1
@@ -130,6 +165,9 @@ Sentry is wired through Next's App Router hooks:
 - `secrets:check` runs in CI and fails on credential-shaped strings or a committed `.env`.
 - Notification payloads are **minimised**: a name, a tool, a date range, a deep link. No
   third-party emails, no descriptions.
+- Listing photos are **validated server-side** (content type, byte size, magic bytes) before they
+  become visible; R2 credentials exist only on the Convex deployment, and the upload proxy needs no
+  bucket CORS. Photos are public, resized and re-encoded (EXIF stripped) client-side.
 - Sentry is configured **not** to collect user fields, cookies, headers, query strings or bodies,
   and Replay masks the UI.
 - Dependencies are pinned; TypeScript is held at 5.9 because `typescript-eslint` does not yet

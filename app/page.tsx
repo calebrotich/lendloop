@@ -89,7 +89,7 @@ export default function HomePage() {
               On the shelf
             </h2>
             <p className="text-xs text-ink-muted">
-              Name and category only — who owns what stays private.
+              Name, category and a photo when one is added — who owns what stays private.
             </p>
           </div>
 

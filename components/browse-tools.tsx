@@ -6,6 +6,7 @@ import { useState } from "react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import type { Category } from "@/convex/lib/constants";
+import { ImageGallery } from "@/components/image-gallery";
 import { RequestForm } from "@/components/request-form";
 import { formatRange } from "@/lib/format";
 import { CATEGORIES, CATEGORY_LABELS, CONDITION_LABELS } from "@/lib/options";
@@ -73,53 +74,67 @@ export function BrowseTools() {
             const isRequesting = requesting === tool._id;
 
             return (
-              <li key={tool._id} className="rounded-xl border border-line bg-surface-raised p-4">
-                <div className="flex flex-wrap items-start justify-between gap-2">
-                  <div>
-                    <p className="text-sm font-medium tracking-tight">{tool.name}</p>
-                    <p className="mt-0.5 text-xs text-ink-muted">
-                      {CATEGORY_LABELS[tool.category]} · {CONDITION_LABELS[tool.condition]} ·{" "}
-                      {tool.ownerName}
-                    </p>
-                  </div>
-                  <span
-                    className={`rounded-full border px-2.5 py-0.5 text-xs ${availability.className}`}
-                  >
-                    {availability.label}
-                  </span>
-                </div>
-
-                <p className="mt-2 text-sm leading-relaxed text-ink-muted">{tool.description}</p>
-
-                <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
-                  {tool.availability === "available" && !isRequesting && (
-                    <button
-                      type="button"
-                      onClick={() => setRequesting(tool._id)}
-                      className="rounded-full bg-accent px-3.5 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-strong"
-                    >
-                      Request these dates
-                    </button>
-                  )}
-                  {tool.availability === "on_loan" && tool.busyUntil !== null && (
-                    <span className="text-ink-muted">
-                      Back from {formatRange(tool.busyUntil, tool.busyUntil)}
-                    </span>
-                  )}
-                  {tool.availability === "paused" && (
-                    <span className="text-ink-muted">
-                      The owner isn&apos;t lending this right now.
-                    </span>
-                  )}
-                </div>
-
-                {isRequesting && (
-                  <RequestForm
+              <li
+                key={tool._id}
+                className="overflow-hidden rounded-xl border border-line bg-surface-raised"
+              >
+                {tool.images.imageCount > 0 && (
+                  <ImageGallery
                     toolId={tool._id}
-                    onDone={() => setRequesting(null)}
-                    onCancel={() => setRequesting(null)}
+                    name={tool.name}
+                    cover={tool.images.cover}
+                    imageCount={tool.images.imageCount}
                   />
                 )}
+
+                <div className="p-4">
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div>
+                      <p className="text-sm font-medium tracking-tight">{tool.name}</p>
+                      <p className="mt-0.5 text-xs text-ink-muted">
+                        {CATEGORY_LABELS[tool.category]} · {CONDITION_LABELS[tool.condition]} ·{" "}
+                        {tool.ownerName}
+                      </p>
+                    </div>
+                    <span
+                      className={`rounded-full border px-2.5 py-0.5 text-xs ${availability.className}`}
+                    >
+                      {availability.label}
+                    </span>
+                  </div>
+
+                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">{tool.description}</p>
+
+                  <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
+                    {tool.availability === "available" && !isRequesting && (
+                      <button
+                        type="button"
+                        onClick={() => setRequesting(tool._id)}
+                        className="rounded-full bg-accent px-3.5 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-strong"
+                      >
+                        Request these dates
+                      </button>
+                    )}
+                    {tool.availability === "on_loan" && tool.busyUntil !== null && (
+                      <span className="text-ink-muted">
+                        Back from {formatRange(tool.busyUntil, tool.busyUntil)}
+                      </span>
+                    )}
+                    {tool.availability === "paused" && (
+                      <span className="text-ink-muted">
+                        The owner isn&apos;t lending this right now.
+                      </span>
+                    )}
+                  </div>
+
+                  {isRequesting && (
+                    <RequestForm
+                      toolId={tool._id}
+                      onDone={() => setRequesting(null)}
+                      onCancel={() => setRequesting(null)}
+                    />
+                  )}
+                </div>
               </li>
             );
           })}

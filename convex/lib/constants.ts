@@ -123,3 +123,15 @@ export const outboxStatusValidator = v.union(
   v.literal("failed"),
 );
 export type OutboxStatus = Infer<typeof outboxStatusValidator>;
+
+/** A short-lived permission to upload one object (see `toolImageUploads`). */
+export const imageUploadStatusValidator = v.union(
+  v.literal("pending"),
+  v.literal("failed"),
+  v.literal("expired"),
+);
+export type ImageUploadStatus = Infer<typeof imageUploadStatusValidator>;
+
+/** A storage delete is either waiting for the media cron or has given up. */
+export const storageDeleteStatusValidator = v.union(v.literal("pending"), v.literal("failed"));
+export type StorageDeleteStatus = Infer<typeof storageDeleteStatusValidator>;

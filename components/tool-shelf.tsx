@@ -4,8 +4,17 @@ import { api } from "@/convex/_generated/api";
 import type { Category } from "@/convex/lib/constants";
 import { ToolCard } from "@/components/tool-card";
 
+interface ShelfTool {
+  name: string;
+  category: Category;
+  images: {
+    imageCount: number;
+    cover: { url: string; width: number; height: number } | null;
+  };
+}
+
 type Shelf =
-  | { status: "ok"; tools: Array<{ name: string; category: Category }> }
+  | { status: "ok"; tools: ShelfTool[] }
   | { status: "empty" }
   | { status: "unconfigured" }
   | { status: "error" };

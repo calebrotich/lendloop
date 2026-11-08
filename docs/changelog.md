@@ -102,3 +102,32 @@ learned, and anything that contradicts the plan.
   route and a debug build: the SDK captured the event, flushed it and logged no transport error,
   and the tunnel reached Sentry's ingest. Added a `sntrys_` token rule to the secret scanner. 118
   tests.
+
+- **2026-11-07** — Listing media. Photos are first-class: up to six per listing, a cover in the
+  public shelf and Browse cards, and a native-dialog gallery. Bytes live in Cloudflare R2 behind
+  hand-rolled SigV4 (`convex/lib/r2.ts`, no AWS SDK, Web Crypto only) with presigned PUTs and a
+  same-origin Next proxy (`app/api/media/upload/route.ts`). The bucket had no CORS rule and the S3
+  key cannot manage bucket config, so the proxy is deliberate: no public CORS, credentials stay on
+  the Convex deployment, and the 4 MB cap is checked before storage. Uploads are two-phase
+  (`toolImageUploads` ticket → `completeUpload` HEAD + magic bytes → `toolImages` row); the browser
+  resizes to 2048 px and re-encodes to strip EXIF/GPS before uploading. Deletes and abandoned
+  uploads go through a `storageDeletes` outbox drained every 15 minutes with backoff. Verified
+  live on dev with `convex run media:verifyStorage` and the opt-in R2 integration test. 150 tests
+  green + 1 skipped live test. Docs: `docs/media-storage.md`.
+
+- **2026-11-07** — Media upload UX fix. Selecting a file now renders a local preview immediately,
+  before decoding or network work. The per-upload key no longer calls `crypto.randomUUID`
+  unconditionally: on a plain-HTTP origin or an older browser it threw before the progress tile
+  existed, so selecting a photo appeared to do nothing and no upload ticket was ever created. The
+  upload flow now falls back to `getRandomValues`/`Math.random`, surfaces unexpected failures in the
+  section alert, times out a stuck image decode after 30 seconds, and accepts HEIC/HEIF sources where
+  the browser can decode them (with an `<img>`-element fallback when `createImageBitmap` cannot).
+  Fixed duplicate React keys on the editor and photo-manager siblings. Added tests for the upload
+  proxy (forwarding, auth, size, conflict mapping) and the bounded body reader. 162 tests.
+
+- **2026-11-07** — Cross-browser upload fix. Chromium and Safari empty the live `FileList` when
+  the file input's `value` is reset; the uploader converted that list _after_ clearing it, so the
+  selection silently produced zero files and nothing happened. Firefox keeps the reference
+  populated, which is why uploads only worked there (the Convex logs show successful Firefox
+  tickets and confirmations but no request at all from Chromium/Safari attempts). The selection
+  is now snapshotted before the reset, with a regression test. 164 tests.

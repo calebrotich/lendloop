@@ -14,6 +14,7 @@ import { startOfDay } from "./lib/dates";
 import { appError } from "./lib/errors";
 import { LIMITS } from "./lib/limits";
 import { isToolOutOnLoan } from "./lib/loans";
+import { discardToolImages, imageSummaryForTool, imageSummaryValidator } from "./lib/media";
 
 /** Bounded by design: the public page is a shelf, not a data export. */
 const MAX_PUBLIC_TOOLS = 60;
@@ -21,10 +22,12 @@ const MAX_PUBLIC_TOOLS = 60;
 /**
  * T3 — the only anonymous read in the app.
  *
- * Deliberately returns a projection of exactly `name` and `category`. No
+ * Deliberately returns a projection of the name, category and cover photo. No
  * `_id`, no `ownerId`, no `description`, no `condition`: the public page cannot
  * leak who owns what, and the return validator enforces that at runtime so a
- * future edit cannot quietly widen it.
+ * future edit cannot quietly widen it. A cover image is public by design — the
+ * R2 bucket is served from a public custom domain — so it adds no new identity
+ * data, and the return validator still keeps every other field out.
  */
 export const listPublic = query({
   args: {},
@@ -32,6 +35,7 @@ export const listPublic = query({
     v.object({
       name: v.string(),
       category: categoryValidator,
+      images: imageSummaryValidator,
     }),
   ),
   handler: async (ctx) => {
@@ -52,7 +56,11 @@ export const listPublic = query({
         .withIndex("by_tool_and_status", (q) => q.eq("toolId", tool._id).eq("status", "approved"))
         .take(5);
       if (approved.some((loan) => loan.startDate <= today && loan.endDate >= today)) continue;
-      shelf.push({ name: tool.name, category: tool.category });
+      shelf.push({
+        name: tool.name,
+        category: tool.category,
+        images: await imageSummaryForTool(ctx, tool._id),
+      });
     }
     return shelf;
   },
@@ -66,6 +74,7 @@ const myToolValidator = v.object({
   description: v.string(),
   status: toolStatusValidator,
   createdAt: v.number(),
+  images: imageSummaryValidator,
 });
 
 function toMyTool(tool: Doc<"tools">) {
@@ -113,10 +122,17 @@ export const listMine = query({
 
     // Soft-removed listings stay in the database for the audit trail but are
     // never shown back to their owner.
-    return tools
+    const active = tools
       .filter((tool) => tool.removedAt === undefined)
-      .slice(0, LIMITS.maxListings)
-      .map(toMyTool);
+      .slice(0, LIMITS.maxListings);
+    const result = [];
+    for (const tool of active) {
+      result.push({
+        ...toMyTool(tool),
+        images: await imageSummaryForTool(ctx, tool._id),
+      });
+    }
+    return result;
   },
 });
 
@@ -159,7 +175,7 @@ export const create = mutation({
 /**
  * T16 — edit one of your own listings.
  *
- * Status is limited to `available`/`unavailable`: `lent` is owned by the loan
+ * Status is limited to `available`/`unavailable`: "lent" is owned by the loan
  * lifecycle (Stage 3), so a client cannot mark their tool as out on loan.
  */
 export const update = mutation({
@@ -212,6 +228,10 @@ export const remove = mutation({
       status: "unavailable",
       updatedAt: now,
     });
+
+    // The listing is gone, so the photos must go too: rows now, objects on the
+    // media cron. A pending upload is failed so it cannot attach afterwards.
+    await discardToolImages(ctx, tool._id);
     return null;
   },
 });
@@ -227,6 +247,7 @@ const browseToolValidator = v.object({
   ownerName: v.string(),
   availability: availabilityValidator,
   busyUntil: v.union(v.null(), v.number()),
+  images: imageSummaryValidator,
 });
 
 interface BrowseTool {
@@ -238,6 +259,7 @@ interface BrowseTool {
   ownerName: string;
   availability: Availability;
   busyUntil: number | null;
+  images: { imageCount: number; cover: { url: string; width: number; height: number } | null };
 }
 
 /**
@@ -299,6 +321,7 @@ export const listAvailable = query({
         availability:
           tool.status === "unavailable" ? "paused" : out !== undefined ? "on_loan" : "available",
         busyUntil: out?.endDate ?? null,
+        images: await imageSummaryForTool(ctx, tool._id),
       });
     }
 

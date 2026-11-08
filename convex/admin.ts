@@ -9,6 +9,7 @@ import { loanPhase } from "./lib/dates";
 import { readCsvEnv } from "./lib/env";
 import { appError } from "./lib/errors";
 import { isToolOutOnLoan } from "./lib/loans";
+import { discardToolImages } from "./lib/media";
 
 const ADMIN_LIST_LIMIT = 100;
 
@@ -63,6 +64,7 @@ export const removeListing = mutation({
       toolName: tool.name,
       ownerId: tool.ownerId,
     });
+    await discardToolImages(ctx, tool._id);
     return null;
   },
 });
