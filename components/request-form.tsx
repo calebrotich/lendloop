@@ -4,6 +4,7 @@ import { useMutation } from "convex/react";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
+import posthog from "posthog-js";
 
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
@@ -106,6 +107,12 @@ export function RequestForm({
         startDate: toDateInput(range.from),
         endDate: toDateInput(range.to),
         note: note.trim() === "" ? undefined : note.trim(),
+      });
+      posthog.capture("loan_request_submitted", {
+        loan_days: days,
+        daily_rate_cents: dailyRateCents,
+        estimated_total_cents: bookingTotalCents(dailyRateCents, days),
+        has_note: note.trim() !== "",
       });
       toast.success("Request sent", {
         description: "The owner will approve or decline it in the app.",

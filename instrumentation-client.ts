@@ -6,8 +6,33 @@
  * blocked. `onRouterTransitionStart` ties client-side navigations to traces.
  */
 import * as Sentry from "@sentry/nextjs";
+import posthog from "posthog-js";
 
 import { SENTRY_BASE_OPTIONS } from "./sentry.options";
+
+const posthogToken = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
+const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST;
+
+if (!posthogToken) {
+  if (process.env.NODE_ENV !== "production") {
+    throw new Error(
+      "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN is configured",
+    );
+  }
+} else if (!posthogHost) {
+  if (process.env.NODE_ENV !== "production") {
+    throw new Error(
+      "NEXT_PUBLIC_POSTHOG_HOST variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once NEXT_PUBLIC_POSTHOG_HOST is configured",
+    );
+  }
+} else {
+  posthog.init(posthogToken, {
+    api_host: posthogHost,
+    defaults: "2025-05-24",
+    capture_exceptions: true,
+    debug: process.env.NODE_ENV === "development",
+  });
+}
 
 Sentry.init({
   ...SENTRY_BASE_OPTIONS,
@@ -23,4 +48,12 @@ Sentry.init({
   replaysOnErrorSampleRate: 1,
 });
 
-export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
+export function onRouterTransitionStart(
+  ...args: Parameters<typeof Sentry.captureRouterTransitionStart>
+) {
+  Sentry.captureRouterTransitionStart(...args);
+
+  if (posthogToken && posthogHost) {
+    posthog.capture("$pageview");
+  }
+}

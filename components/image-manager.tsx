@@ -5,6 +5,7 @@ import { api } from "@/convex/_generated/api";
 import { useAction, useMutation, useQuery } from "convex/react";
 import { ImagePlus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import posthog from "posthog-js";
 
 import { ToolImage } from "@/components/tool-image";
 import { Icon } from "@/components/ui/icon";
@@ -202,6 +203,11 @@ export function ImageManager({ toolId }: { toolId: Id<"tools"> }) {
       stage = "confirm";
       updatePending(key, { status: "verifying" });
       await completeUpload({ uploadId: ticket.uploadId });
+      posthog.capture("listing_image_uploaded", {
+        content_type: prepared.contentType,
+        width: prepared.width,
+        height: prepared.height,
+      });
       updatePending(key, { status: "done" });
 
       const timer = window.setTimeout(() => {

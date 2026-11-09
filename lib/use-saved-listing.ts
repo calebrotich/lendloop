@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import posthog from "posthog-js";
 
 const STORAGE_KEY = "lendloop:saved-listings";
 const SYNC_EVENT = "lendloop:saved-listings-changed";
@@ -44,6 +45,7 @@ export function useSavedListing(id: string) {
     const ids = readSaved();
     const isSaved = ids.includes(id);
     writeSaved(isSaved ? ids.filter((value) => value !== id) : [...ids, id]);
+    posthog.capture("listing_saved", { saved: !isSaved });
     setSaved(!isSaved);
     toast(isSaved ? "Removed from your list" : "Saved to your list", {
       description: isSaved ? undefined : "Find it again on this device.",

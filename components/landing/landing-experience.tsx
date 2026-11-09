@@ -3,6 +3,7 @@
 import { useQuery } from "convex/react";
 import { useReducedMotion } from "motion/react";
 import { useDeferredValue, useMemo, useState } from "react";
+import posthog from "posthog-js";
 
 import { api } from "@/convex/_generated/api";
 import type { Category } from "@/convex/lib/constants";
@@ -74,6 +75,11 @@ export function LandingExperience({
   }
 
   function submitSearch() {
+    posthog.capture("listing_search_submitted", {
+      category,
+      has_query: query.trim() !== "",
+      result_count: filtered.length,
+    });
     syncUrl(category, query);
     scrollToShelf();
   }

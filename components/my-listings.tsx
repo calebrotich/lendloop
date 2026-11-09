@@ -6,6 +6,7 @@ import { Check, ExternalLink, ImagePlus, Plus, Sparkles, Trash2 } from "lucide-r
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
+import posthog from "posthog-js";
 
 import { api } from "@/convex/_generated/api";
 import { CategoryArtwork } from "@/components/listing/category-art";
@@ -90,6 +91,12 @@ export function MyListings() {
       images: { imageCount: 0, cover: null },
     };
 
+    posthog.capture("listing_created", {
+      category: values.category,
+      condition: values.condition,
+      daily_rate_cents: values.dailyRateCents,
+      value_cents: values.valueCents,
+    });
     toast.success("Listing created", {
       description: "Now add a cover photo so neighbours can see it.",
     });
@@ -108,6 +115,13 @@ export function MyListings() {
       valueCents: values.valueCents,
       dailyRateCents: values.dailyRateCents,
     });
+    posthog.capture("listing_updated", {
+      category: values.category,
+      condition: values.condition,
+      availability: values.status,
+      daily_rate_cents: values.dailyRateCents,
+      value_cents: values.valueCents,
+    });
     toast.success("Listing updated");
     closeFlow();
   };
@@ -121,6 +135,7 @@ export function MyListings() {
         closeFlow();
       }
       setRemoving(null);
+      posthog.capture("listing_removed");
       toast.success("Listing removed");
     } catch (error) {
       setActionError(appErrorMessage(error));

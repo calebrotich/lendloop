@@ -2,6 +2,7 @@
 
 import { Check, Heart, Share2 } from "lucide-react";
 import { toast } from "sonner";
+import posthog from "posthog-js";
 
 import { Icon } from "@/components/ui/icon";
 import { useSavedListing } from "@/lib/use-saved-listing";
@@ -14,9 +15,11 @@ export function ListingActions({ id, name }: { id: string; name: string }) {
     try {
       if (typeof navigator.share === "function") {
         await navigator.share({ title: `${name} on LendLoop`, url });
+        posthog.capture("listing_shared", { method: "native_share" });
         return;
       }
       await navigator.clipboard.writeText(url);
+      posthog.capture("listing_shared", { method: "clipboard" });
       toast.success("Link copied", { description: "Send it to the neighbour who needs it." });
     } catch (error) {
       // A cancelled share sheet is not an error; anything else gets a fallback.

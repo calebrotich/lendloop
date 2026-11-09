@@ -3,6 +3,7 @@
 import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import { useState } from "react";
 import { toast } from "sonner";
+import posthog from "posthog-js";
 
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
@@ -33,12 +34,15 @@ export function IncomingRequests() {
     try {
       if (action === "approve") {
         await approve({ requestId: id });
+        posthog.capture("loan_request_approved");
         toast.success("Request approved", { description: "The borrower will be notified." });
       } else if (action === "decline") {
         await decline({ requestId: id });
+        posthog.capture("loan_request_declined");
         toast.success("Request declined");
       } else if (action === "return") {
         await markReturned({ requestId: id });
+        posthog.capture("loan_return_marked", { actor: "lender" });
         toast.success("Marked returned", { description: "The loan is closed." });
       }
     } catch (caught) {
