@@ -25,36 +25,48 @@ const DEMO_TOOLS = [
     category: "power_tools",
     condition: "good",
     description: "18V, two batteries and a bit set. The chuck is a little worn but it bites.",
+    valueCents: 12_000,
+    dailyRateCents: 480,
   },
   {
     name: "Hedge trimmer",
     category: "garden",
     condition: "like_new",
     description: "Corded, 500W, 10m of cable. Good for the front hedge, not for a tree.",
+    valueCents: 8_000,
+    dailyRateCents: 320,
   },
   {
     name: "Extension ladder",
     category: "other",
     condition: "good",
     description: "Aluminium, extends to 3.5m. Please bring it back dry.",
+    valueCents: 15_000,
+    dailyRateCents: 600,
   },
   {
     name: "Stand mixer",
     category: "kitchen",
     condition: "fair",
     description: "Bowl and whisk included. The slow speed is the only speed.",
+    valueCents: 25_000,
+    dailyRateCents: 1_000,
   },
   {
     name: "Two-person tent",
     category: "camping",
     condition: "good",
     description: "Three-season, sleeps two tightly. Fly sheet has one patched corner.",
+    valueCents: 18_000,
+    dailyRateCents: 720,
   },
   {
     name: "Pressure washer",
     category: "cleaning",
     condition: "worn",
     description: "Works well on steps and bikes. Noisy, needs an outdoor tap.",
+    valueCents: 30_000,
+    dailyRateCents: 1_200,
   },
 ] as const;
 
@@ -191,12 +203,15 @@ export const seedDemoLoans = internalMutation({
     ];
 
     for (const loan of loans) {
+      const tool = tools.find((row) => row._id === loan.toolId);
       await ctx.db.insert("loanRequests", {
         toolId: loan.toolId,
         ownerId: owner._id,
         borrowerId,
         startDate: loan.startDate,
         endDate: loan.endDate,
+        dailyRateCents: tool?.dailyRateCents ?? 0,
+        valueCents: tool?.valueCents ?? 0,
         status: loan.status,
         createdAt: loan.createdAt,
         decidedAt: loan.decidedAt,

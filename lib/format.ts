@@ -1,3 +1,13 @@
+import { CURRENCY } from "@/convex/lib/pricing";
+
+export { CURRENCY };
+
+/**
+ * Amounts are integer cents; a rate is always "per day". The currency itself
+ * lives in `convex/lib/pricing.ts` so the backend, the forms and the email
+ * template all read the same value.
+ */
+
 const DATE_FORMAT: Intl.DateTimeFormatOptions = {
   day: "numeric",
   month: "short",
@@ -36,4 +46,21 @@ export function timeAgo(ms: number, now: number = Date.now()): string {
   if (days < 30) return `${days} day${days === 1 ? "" : "s"} ago`;
 
   return new Intl.DateTimeFormat("en-GB", DATE_FORMAT).format(ms);
+}
+
+/** `$1,500` — whole amounts drop the decimals, cents keep two. */
+export function formatMoney(cents: number, options: { alwaysCents?: boolean } = {}): string {
+  const amount = cents / 100;
+  const digits = options.alwaysCents === true ? 2 : Number.isInteger(amount) ? 0 : 2;
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: CURRENCY,
+    minimumFractionDigits: digits,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}
+
+/** `$4.80/day`, or `Free` when the owner has set a zero rate. */
+export function formatRate(dailyRateCents: number): string {
+  return dailyRateCents === 0 ? "Free" : `${formatMoney(dailyRateCents)}/day`;
 }

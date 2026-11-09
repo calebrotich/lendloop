@@ -1,24 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Fraunces, Manrope } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { Providers } from "./providers";
+import "react-day-picker/style.css";
 import "./globals.css";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  display: "swap",
+});
+
+/**
+ * A stand-in for GT Alpina — licensed, so it cannot ship in the repo. The font
+ * stack puts a locally installed GT Alpina first; see app/globals.css.
+ */
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+  axes: ["SOFT", "WONK", "opsz"],
+});
 
 const DESCRIPTION =
   "A neighbourhood tool-lending board. Borrow what you need. Lend what you don't.";
-
-/**
- * A Clerk production instance hosted on `*.vercel.app` has to reach the
- * Frontend API through this app's `/__clerk` proxy. Clerk's provider derives
- * that proxy URL from the Vercel environment on the server, so it must sit in a
- * server component and pass the value down; a client-only provider would render
- * the script tags once on the server and then point them at the unreachable
- * Frontend API host during hydration.
- */
-const clerkConfigured = Boolean(
-  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY,
-);
 
 export const metadata: Metadata = {
   title: {
@@ -36,20 +42,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#faf9f7",
+  themeColor: "#f4f6fc",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${manrope.variable} ${fraunces.variable}`}>
       <body className="min-h-dvh antialiased">
-        {clerkConfigured ? (
-          <ClerkProvider>
-            <Providers clerkConfigured>{children}</Providers>
-          </ClerkProvider>
-        ) : (
-          <Providers clerkConfigured={false}>{children}</Providers>
-        )}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

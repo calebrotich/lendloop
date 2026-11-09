@@ -7,9 +7,12 @@ lend, borrowers ask for a date range, owners approve or decline, and [n8n](https
 automates the notifications and the overdue reminders in both directions.
 
 > **Status: Stage 6 in progress — hardening.** Automation is complete (n8n in both directions,
-> HMAC, outbox, error workflow) and Sentry now reports errors from the server, edge and browser.
-> Listing photos are in: Cloudflare R2 storage, up to six per listing, cover + gallery UI, and
-> server-side verification. UI polish, the Playwright happy path and the production note are next.
+> HMAC, outbox, error workflow) and Sentry reports errors from the server, edge and browser. The
+> public and authenticated experiences are now designed end to end: a landing page with a
+> three-part search and category shelf, public item pages at `/listings/[id]`, a range calendar
+> that shows pending and approved bookings, per-day pricing with a booking total, a live incoming-
+> request signal, and a request board shared by My requests and Incoming. Remaining: the Playwright
+> happy path and the production note.
 
 ## Stack
 
@@ -75,13 +78,30 @@ compose secrets with `openssl rand -hex 32`; `compose.yml` refuses to start with
 | `pnpm exec convex dev`                                                                           | Convex functions + schema push                            |
 | `pnpm exec convex run seed:seedDemoShelf`                                                        | Seed the demo shelf (idempotent, internal mutation)       |
 | `pnpm exec convex run seed:seedDemoLoans`                                                        | Seed pending/upcoming/overdue demo loans                  |
+| `pnpm exec convex run migrations:backfillPricing`                                                | Price listings created before pricing existed             |
 | `pnpm exec convex run media:verifyStorage`                                                       | Live R2 smoke test (presign → PUT → verify → delete)      |
 | `docker compose run --rm --no-deps --entrypoint n8n n8n execute --id=lendloop-overdue-reminders` | Run W2 now (manual trigger)                               |
+
+## Pricing and requests
+
+Owners set a **daily rate** for each listing and a **replacement value**. The value drives the
+recommended 3–5% rate band (4% one-tap) and is the amount a borrower agrees to reimburse if the
+item is lost or not returned. A listing may be free. The rate is shown on every card, the detail
+page, the date picker and the request form, and the booking total is the rate × the days
+requested. The replacement value is shown on the detail page, the request form, the request card
+and in notification email. Both the agreed rate and the value are snapshotted on the request, so
+editing a listing later does not rewrite an existing booking. Pricing is informational for now:
+neighbours settle directly, with no payment processor. Amounts are in USD.
+
+`/my-requests` and `/incoming-requests` share one board: cover photos, booking totals, trusted
+neighbour badges, filters, search, and a collapsed notification trail. A signed-in owner sees an
+incoming count in both headers and a strip as soon as they land, so a pending request is never
+buried behind a page navigation.
 
 ## Listing photos (Cloudflare R2)
 
 Listings can carry up to **six photos**. Owners add, remove and promote a cover from **My listings**;
-the cover is shown on the public shelf, and the full set opens in a gallery on Browse tools.
+the cover is shown on the public shelf, and the full set opens in the gallery on the public item page.
 
 - **Upload path:** browser → same-origin `/api/media/upload` → R2. Convex mints a short-lived
   presigned PUT scoped to the caller's own upload ticket; the Next.js route authenticates Clerk,
@@ -96,6 +116,9 @@ the cover is shown on the public shelf, and the full set opens in a gallery on B
   metadata. Photos are served from the public `R2_PUBLIC_HOST`, so they are public by design; the
   UI says so next to the picker. Cache TTL is one day, so a deleted photo leaves edge caches within
   a day while the object itself is removed by the media cron.
+- **Delivery:** `next/image` optimises the stored photo per viewport (AVIF/WebP) through
+  `/_next/image`. `R2_PUBLIC_HOST` is allow-listed in `next.config.ts`; without it the app falls
+  back to unoptimised URLs rather than breaking. The original object stays the source of truth.
 - **Reliability:** deletes go through a `storageDeletes` outbox drained every 15 minutes with
   backoff; expired upload tickets and their orphaned objects are cleaned up by the same cron.
 - **Limits:** 6 per listing · 4 MB after client re-encode · JPEG, PNG, WebP or AVIF · SVG excluded.
@@ -105,7 +128,7 @@ Full design, operations and failure modes: [`docs/media-storage.md`](docs/media-
 ## Repository layout
 
 ```
-app/                 Next.js App Router — public page, (app) routes, /api/health
+app/                 Next.js App Router — landing, /listings/[id], (app) routes, /api/health
 components/          shared client UI — forms, image manager, gallery, status views
 convex/              schema, queries, mutations, actions, httpActions, crons
 automation/workflows exported, sanitised n8n workflow JSON
@@ -168,6 +191,11 @@ Sentry is wired through Next's App Router hooks:
 - Listing photos are **validated server-side** (content type, byte size, magic bytes) before they
   become visible; R2 credentials exist only on the Convex deployment, and the upload proxy needs no
   bucket CORS. Photos are public, resized and re-encoded (EXIF stripped) client-side.
+- The public item page exposes only what a listing needs to be understood: name, category,
+  condition, description, a “Trusted lender” flag, derived availability and **busy date ranges**
+  (pending + approved, never who asked). No owner id, email or any part of the owner's name —
+  trusted owners are marked, not named. No request details. The original minimal
+  `tools.listPublic` projection is still there for the T3 contract.
 - Sentry is configured **not** to collect user fields, cookies, headers, query strings or bodies,
   and Replay masks the UI.
 - Dependencies are pinned; TypeScript is held at 5.9 because `typescript-eslint` does not yet

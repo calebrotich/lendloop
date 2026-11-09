@@ -139,3 +139,96 @@ learned, and anything that contradicts the plan.
   delisting or adding photos while a tool is out cannot orphan a loan or change its dates. The
   now-unused `isToolOutOnLoan` helper was removed. Tests assert the allowed behavior and that the
   loan survives a removal. 165 tests.
+
+- **2026-11-08** — UI pass, stage 1: the public landing and item pages. The palette from the email
+  templates (`#1F299C` / `#16215B` / `#F25929` + supported blues and mists) is now the app-wide
+  token set, with Manrope body type and Fraunces standing in for the licensed GT Alpina display
+  face. `app/page.tsx` is a full landing: editorial hero, three-part search with a sliding
+  `layoutId` focus, category rail, shelf grid, how-it-works, lend CTA. Every card opens
+  `/listings/[id]`, a public detail page with a gallery/lightbox, owner summary, derived
+  availability, request card and related shelf. A compact floating header appears on scroll;
+  buttons use a CSS travel sweep on hover/press; saves, shares and request outcomes toast; every
+  image has a shimmer-to-photo transition and category-art fallback; the route has a skeleton and
+  branded 404s. Added `tools.listShowcase` and `tools.getPublicListing` (anonymous, bounded,
+  name/category/description/first name only — no owner id or email) and tests for the projection,
+  privacy, availability and gallery ordering. 170 tests, typecheck and lint green. Design notes and
+  the GT Alpina drop-in instructions are in `docs/ui.md`. The dev shelf's two mismatched test
+  photos were replaced with licensed Pexels covers and six empty listings were given one; old R2
+  objects were retained, and the demo neighbour now reads as "Amina".
+
+- **2026-11-08** — Interaction pass on the item page and listing flow. The request form now uses a
+  real range calendar (`react-day-picker`) with two months on desktop and a bottom sheet on
+  mobile: From/To are one control with a sliding highlight, selecting a start advances the
+  highlight to the return field, and a completed range closes the panel. The detail query now
+  returns merged, future `busyRanges` for **pending and approved** requests (never who asked), so
+  booked days are visibly struck through and unselectable; ranges cannot cross a booking, past
+  dates and >30-day windows are blocked, and a one-day loan is a double-tap on the same day. The
+  request card flips the calendar above the fields when there is no room below. Category tabs now
+  scroll the results to a position where the selected category rail stays visible (global scroll
+  padding replaced the doubled scroll margins), and the chosen tab is centred in the rail. New
+  listings are a two-step flow: create details, then the page immediately switches to a focused
+  “add photos” step with a large dropzone, cover handling, preview and done actions; listing rows
+  with no photo link straight to that step. Added `react-day-picker` and `date-fns`. 171 tests,
+  typecheck/lint green.
+
+- **2026-11-08** — Calendar refinement and browse cleanup. The range picker no longer closes when the return date is chosen: From/To stay editable, a footer Done applies the close, Clear resets the range, and after a completed range the next day click starts a new range (clicking To first refines the existing return). Once a start is chosen, days past the 30-day window are disabled with a distinct grey treatment and a “Beyond 30 days” legend entry, while booked days keep the orange strike-through. Hovering a future day previews the range from the chosen start, with a ring on the hovered end, and is suppressed when the preview would cross a booking or the limit. The old `/tools` browse page and its now-unused shelf/gallery components were removed; `/tools` redirects to the public `#shelf`, and the signed-in nav’s Browse link goes there. Docs updated. 171 tests, typecheck/lint/format/build green.
+
+- **2026-11-08** — Hero: the top “neighbourhood shelf / N tools” pill is gone. The hero is now a split editorial composition: a larger left-aligned headline, the three-part search directly beneath it, and a fan of **three real listing cards** on the right. The cards are picked from actual available listings with covers, one per category, preferring established listings; each card shows its real item photo and metadata. A dashed orbit with a slowly travelling orange dot, a gentle independent float on each card, hover-to-front/straighten and a “Borrow · Lend · Return” caption carry the loop idea. Mobile gets a compact stack of three real listing thumbnails above the search plus a swipeable card rail below it. Reduced-motion users get the static fan. The hero screenshots in `docs/ui/` were regenerated.
+
+- **2026-11-08** — Hero highlight cards now act as category shortcuts: clicking a card scrolls to
+  the category rail with that category active and filters the shelf, instead of opening the item
+  page. The hover arrow points down, and the float pauses under the pointer/focus so the cards are
+  easy to click. Added the GitHub repository link (`https://github.com/calebrotich/lendloop`) to
+  the footer bottom bar with an external-link target.
+
+- **2026-11-08** — Pricing, incoming signal, request revamp, brand alignment and image
+  optimisation. Listings now carry `valueCents` and `dailyRateCents`; the form recommends 3–5% of
+  value (4% one-tap) and allows a free listing. Every card, listing detail, request form and date
+  picker shows the daily rate and a running booking total, and `loanRequests.dailyRateCents`
+  snapshots the agreed rate so later edits cannot rewrite a booking. `requests.listMine` /
+  `listIncoming` now return the cover summary, trust flags, day count and total; `incomingSummary`
+  drives a bell badge, a strip on arrival and the nav count. My requests and Incoming share a new
+  board with stats, filters, search, cover-led cards, a collapsed notification trail and admin
+  shortcuts. The product uses the email lockup (indigo tile + orange return + navy wordmark) in the
+  header, footer, favicon and brand exports. Listing photos run through `next/image` with an R2
+  allow-list and AVIF/WebP. Added `migrations:backfillPricing` for listings created before pricing.
+  178 tests, typecheck/lint/format/build green.
+
+- **2026-11-08** — Pricing in USD, and the replacement value is now an explicit reimbursement term
+  rather than just a rate input. The listing form asks for a replacement value and daily rate in USD,
+  recommends 3–5% (4% one-tap), and explains that the value is what a borrower reimburses if the
+  item is lost or not returned. `loanRequests.valueCents` snapshots the value at booking alongside
+  the rate; the listing detail, request card, request form and notification emails all show the
+  commitment. The public detail query exposes the value (the shelf still does not), and the email
+  template adds a “Replacement value” fact plus a reimbursement sentence on approval. The demo
+  shelf and loan snapshots were rescaled from the old demo currency to USD; the empty-database
+  backfill now uses USD category values. 178 tests, typecheck/lint/format/build green.
+
+- **2026-11-09** — Confirmation, celebration and inbox recency. Every consequential request action
+  (approve, decline, withdraw, mark returned) and listing removal now goes through a shared native
+  `<dialog>` alert (`components/ui/alert-dialog.tsx`) with the tool, dates and neighbour named,
+  focus parked on the safe choice, and a locked state while the mutation is in flight. Sending a
+  request and creating a listing get a one-shot `SuccessBurst` — drawn check, ring and sparks, with
+  a static reduced-motion fallback — instead of relying on a toast alone. Both request inboxes now
+  sort by the latest activity: `loanRequests.updatedAt` is stamped on create and every decision,
+  and old rows fall back to their decision/return/create timestamps. 180 tests, typecheck/lint
+  green.
+
+- **2026-11-09** — Listings no longer name the owner. `tools.listShowcase` and
+  `tools.getPublicListing` drop `ownerName` (and the first-name helper) and keep only
+  `ownerTrusted`; the shelf card, hero card and detail page now show “Trusted lender” for trusted
+  owners and a neutral neighbour line otherwise, and the request card's copy no longer interpolates
+  a name. Admin's authenticated browse still carries the owner name for moderation. 180 tests,
+  typecheck/lint/format green.
+
+- **2026-11-09** — Owners can see their own listings the way a borrower does. My listings links
+  each row's title to `/listings/[id]` and adds a "View public page" action in a new tab.
+  `tools.getPublicListing` now returns a viewer-relative `isOwner` boolean (resolved from the
+  caller's users row, never `ownerId`); the detail page's request card and mobile bar switch to an
+  owner state with a link to `/incoming-requests` instead of the request form. 181 tests,
+  typecheck/lint/format green.
+- **2026-11-09** — The hero gets a pointer-following loop. A canvas behind the hero content
+  (`components/landing/hero-cursor-loop.tsx`) follows a fine pointer with a soft halo, two
+  counter-phased trails on the hero's tilted ellipse, a dashed outer orbit and sparks emitted on
+  movement. It fades at the hero edge, pauses when off screen or hidden, and is disabled for
+  reduced motion and coarse pointers. Typecheck/lint/format green.

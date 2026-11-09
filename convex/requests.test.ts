@@ -49,6 +49,8 @@ async function insertTool(
     name: string;
     status: "available" | "unavailable";
     category: "power_tools" | "garden";
+    valueCents: number;
+    dailyRateCents: number;
   }> = {},
 ) {
   return await t.run(
@@ -60,6 +62,10 @@ async function insertTool(
         condition: "good",
         description: "18V with two batteries.",
         status: overrides.status ?? "available",
+        ...(overrides.valueCents === undefined ? {} : { valueCents: overrides.valueCents }),
+        ...(overrides.dailyRateCents === undefined
+          ? {}
+          : { dailyRateCents: overrides.dailyRateCents }),
         createdAt: 1_700_000_000_000,
         updatedAt: 1_700_000_000_000,
       }),
@@ -75,6 +81,8 @@ async function insertRequest(
     status?: "pending" | "approved" | "declined" | "returned";
     startDate?: number;
     endDate?: number;
+    createdAt?: number;
+    updatedAt?: number;
   },
 ) {
   return await t.run(
@@ -86,7 +94,8 @@ async function insertRequest(
         startDate: args.startDate ?? Date.now() + DAY,
         endDate: args.endDate ?? Date.now() + 2 * DAY,
         status: args.status ?? "approved",
-        createdAt: 1_700_000_000_000,
+        createdAt: args.createdAt ?? 1_700_000_000_000,
+        ...(args.updatedAt === undefined ? {} : { updatedAt: args.updatedAt }),
       }),
   );
 }
@@ -408,6 +417,58 @@ describe("requests.listMine / listIncoming", () => {
     expect(await other.as.query(api.requests.listIncoming, {})).toEqual([]);
   });
 
+  it("puts the most recently updated request first in both inboxes", async () => {
+    const t = convexTest(schema, modules);
+    const { owner, borrower, toolId } = await shelf(t);
+
+    const untouched = await insertRequest(t, {
+      toolId,
+      ownerId: owner.id,
+      borrowerId: borrower.id,
+      status: "approved",
+      startDate: Date.now() + 5 * DAY,
+      endDate: Date.now() + 6 * DAY,
+      createdAt: 1_700_000_300_000,
+      updatedAt: 1_700_000_300_000,
+    });
+    // Newer activity, older request: this is the one that belongs on top.
+    const justDeclined = await insertRequest(t, {
+      toolId,
+      ownerId: owner.id,
+      borrowerId: borrower.id,
+      status: "declined",
+      startDate: Date.now() + 7 * DAY,
+      endDate: Date.now() + 8 * DAY,
+      createdAt: 1_700_000_100_000,
+      updatedAt: 1_700_000_900_000,
+    });
+
+    const mine = await borrower.as.query(api.requests.listMine, {});
+    expect(mine.map((row) => row._id)).toEqual([justDeclined, untouched]);
+    expect(mine[0]?.updatedAt).toBe(1_700_000_900_000);
+
+    const incoming = await owner.as.query(api.requests.listIncoming, {});
+    expect(incoming.map((row) => row._id)).toEqual([justDeclined, untouched]);
+  });
+
+  it("stamps updatedAt on create and every decision", async () => {
+    const t = convexTest(schema, modules);
+    const { owner, borrower, toolId } = await shelf(t);
+
+    const requestId = await borrower.as.mutation(api.requests.create, {
+      toolId,
+      startDate: date(1),
+      endDate: date(2),
+    });
+    const created = await t.run(async (ctx) => await ctx.db.get(requestId));
+    expect(created?.updatedAt).toBeTypeOf("number");
+
+    await owner.as.mutation(api.requests.approve, { requestId });
+    const approved = await t.run(async (ctx) => await ctx.db.get(requestId));
+    expect(approved?.updatedAt).toBeTypeOf("number");
+    expect(approved?.updatedAt ?? 0).toBeGreaterThanOrEqual(created?.updatedAt ?? 0);
+  });
+
   it("refuses anonymous callers", async () => {
     const t = convexTest(schema, modules);
 
@@ -415,6 +476,112 @@ describe("requests.listMine / listIncoming", () => {
     expect(codeOf(await capturedError(t.query(api.requests.listIncoming, {})))).toBe(
       "UNAUTHORIZED",
     );
+  });
+
+  it("snapshots the rate and returns the booking total with a cover summary", async () => {
+    const t = convexTest(schema, modules);
+    const owner = await provision(t, "user_owner", "owner@example.test");
+    const borrower = await provision(t, "user_borrower", "borrower@example.test");
+    const toolId = await insertTool(t, owner.id, {
+      valueCents: 12_000,
+      dailyRateCents: 480,
+    });
+
+    const requestId = await borrower.as.mutation(api.requests.create, {
+      toolId,
+      startDate: date(1),
+      endDate: date(3),
+    });
+
+    const row = await t.run(async (ctx) => await ctx.db.get(requestId));
+    expect(row?.dailyRateCents).toBe(480);
+    expect(row?.valueCents).toBe(12_000);
+
+    const mine = await borrower.as.query(api.requests.listMine, {});
+    expect(mine[0]).toMatchObject({
+      dayCount: 3,
+      dailyRateCents: 480,
+      valueCents: 12_000,
+      totalCents: 1_440,
+      images: { imageCount: 0, cover: null },
+      ownerTrusted: false,
+    });
+
+    const incoming = await owner.as.query(api.requests.listIncoming, {});
+    expect(incoming[0]).toMatchObject({
+      dayCount: 3,
+      dailyRateCents: 480,
+      valueCents: 12_000,
+      totalCents: 1_440,
+      borrowerName: "user_borrower",
+    });
+  });
+
+  it("renders the agreed total into the request notification email", async () => {
+    const t = convexTest(schema, modules);
+    const owner = await provision(t, "user_owner", "owner@example.test");
+    const borrower = await provision(t, "user_borrower", "borrower@example.test");
+    const toolId = await insertTool(t, owner.id, {
+      valueCents: 12_000,
+      dailyRateCents: 480,
+    });
+
+    const requestId = await borrower.as.mutation(api.requests.create, {
+      toolId,
+      startDate: date(1),
+      endDate: date(3),
+    });
+    await owner.as.mutation(api.requests.approve, { requestId });
+
+    const queued = await t.run(async (ctx) => await ctx.db.query("automationOutbox").take(10));
+    const approved = queued.find((row) => row.kind === "request.approved");
+    expect(approved).toBeDefined();
+    const payload = JSON.parse(approved?.payload ?? "{}") as {
+      email?: { html?: string };
+    };
+    expect(payload.email?.html).toContain("Booking total");
+    expect(payload.email?.html).toContain("$14.40");
+    expect(payload.email?.html).toContain("Replacement value");
+    expect(payload.email?.html).toContain("reimburse");
+    expect(payload.email?.html).toContain("$120");
+  });
+
+  it("counts pending and overdue work for the owner only", async () => {
+    const t = convexTest(schema, modules);
+    const { owner, borrower, toolId } = await shelf(t);
+    await insertRequest(t, {
+      toolId,
+      ownerId: owner.id,
+      borrowerId: borrower.id,
+      status: "approved",
+      startDate: Date.now() - 5 * DAY,
+      endDate: Date.now() - 2 * DAY,
+    });
+    await borrower.as.mutation(api.requests.create, {
+      toolId,
+      startDate: date(1),
+      endDate: date(2),
+    });
+
+    const summary = await owner.as.query(api.requests.incomingSummary, {});
+    expect(summary).toMatchObject({ pending: 1, upcoming: 0, active: 0, overdue: 1 });
+    expect(summary.latestPendingAt).toBeTypeOf("number");
+
+    const other = await provision(t, "user_other", "other@example.test");
+    expect(await other.as.query(api.requests.incomingSummary, {})).toEqual({
+      pending: 0,
+      latestPendingAt: null,
+      upcoming: 0,
+      active: 0,
+      overdue: 0,
+    });
+    expect(await t.query(api.requests.incomingSummary, {})).toEqual({
+      pending: 0,
+      latestPendingAt: null,
+      upcoming: 0,
+      active: 0,
+      overdue: 0,
+    });
   });
 });
 

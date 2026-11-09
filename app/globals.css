@@ -2,43 +2,482 @@
 
 /*
  * LendLoop design tokens.
- * One neutral surface, one accent, no shadow stacking — the layout should read
- * like a neighbourhood noticeboard, not a dashboard.
+ *
+ * The palette is the brand sheet used by the transactional email templates
+ * (convex/lib/emailTemplates.ts) — indigo, navy, orange, and a cool page mist.
+ * Keeping both in the same hues means an email, a toast and the landing page
+ * read as one product.
+ *
+ * Typography: Manrope for the interface, GT Alpina for display headlines.
+ * GT Alpina is a licensed family and is not bundled. Fraunces is loaded as a
+ * stand-in with the same editorial temperature; drop a licensed GT Alpina
+ * @font-face in and it is picked first because it leads --font-display.
  */
 @theme {
-  --color-surface: #faf9f7;
+  --color-page: #f4f6fc;
+  --color-surface: #f4f6fc;
   --color-surface-raised: #ffffff;
-  --color-ink: #1c1917;
-  --color-ink-muted: #57534e;
-  --color-line: #e7e5e4;
-  --color-accent: #047857;
-  --color-accent-strong: #065f46;
+  --color-mist: #e0eaf8;
+  --color-rule: #e4e8f5;
+  --color-line: #e4e8f5;
+  --color-ink: #16215b;
+  --color-ink-muted: #565b85;
+  --color-navy: #16215b;
+  --color-brand: #1f299c;
+  --color-brand-strong: #16215b;
+  --color-blue: #0373ff;
+  --color-cyan: #30d1ff;
+  --color-lilac: #a3a9f5;
+  --color-orange: #f25929;
+  --color-orange-strong: #c8451b;
+
+  /* Legacy aliases: the authenticated views use these names. */
+  --color-accent: #1f299c;
+  --color-accent-strong: #16215b;
+
+  --font-sans:
+    var(--font-manrope), "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-display:
+    "GT Alpina", var(--font-fraunces), "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia,
+    serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --shadow-soft: 0 1px 2px rgb(22 33 91 / 0.04), 0 8px 24px -12px rgb(22 33 91 / 0.16);
+  --shadow-float: 0 2px 6px rgb(22 33 91 / 0.05), 0 24px 60px -24px rgb(22 33 91 / 0.26);
+  --shadow-search: 0 1px 2px rgb(22 33 91 / 0.06), 0 16px 44px -18px rgb(22 33 91 / 0.24);
+
+  --animate-shimmer: shimmer 1.8s linear infinite;
+  --animate-drift: drift 18s ease-in-out infinite alternate;
+  --animate-pulse-ring: pulse-ring 2.8s ease-out infinite;
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  @keyframes drift {
+    from {
+      transform: translate3d(-2%, -1%, 0) scale(1);
+    }
+    to {
+      transform: translate3d(3%, 2%, 0) scale(1.08);
+    }
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 rgb(31 41 156 / 0.28);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgb(31 41 156 / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgb(31 41 156 / 0);
+    }
+  }
 }
 
 html {
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
 }
 
 body {
-  background-color: var(--color-surface);
+  background-color: var(--color-page);
   color: var(--color-ink);
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
   text-rendering: optimizeLegibility;
 }
 
+/* GT Alpina has a tall, tight display texture; Fraunces needs the same setup. */
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings:
+    "SOFT" 0,
+    "WONK" 0;
+  letter-spacing: -0.022em;
+}
+
 ::selection {
-  background-color: color-mix(in oklab, var(--color-accent) 20%, transparent);
+  background-color: color-mix(in oklab, var(--color-lilac) 55%, transparent);
+  color: var(--color-navy);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+/* The search field sits inside an already-focused segment; no inner rectangle. */
+#search:focus-visible {
+  outline: none;
+}
+
+/*
+ * Shared button travel.
+ * The ::before layer is a second colour that sweeps in from the left; the
+ * pressed state nudges the label down a hair. Both are cheap compositor
+ * effects, so a wall of cards stays smooth.
+ */
+.btn-travel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    transform 180ms var(--ease-out-quint),
+    background-color 220ms ease,
+    color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.btn-travel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-travel-color, rgb(255 255 255 / 0.14));
+  transform: translate3d(-101%, 0, 0);
+  transition: transform 480ms var(--ease-out-expo);
+}
+
+.btn-travel:hover::before,
+.btn-travel:focus-visible::before,
+.btn-travel:active::before {
+  transform: translate3d(0, 0, 0);
+}
+
+.btn-travel:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+.btn-travel .btn-travel-icon {
+  transition: transform 360ms var(--ease-out-expo);
+}
+
+.btn-travel:hover .btn-travel-icon,
+.btn-travel:active .btn-travel-icon {
+  transform: translateX(4px);
+}
+
+/* Photos paint in over their skeleton; the animation is short and opacity-only. */
+@keyframes image-in {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.image-in {
+  animation: image-in 420ms var(--ease-out-quint) both;
+}
+
+/* Skeleton: one moving sheen, never a flashing block. */
+.skeleton {
+  background-color: #e9edf9;
+  background-image: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgb(255 255 255 / 0.72) 48%,
+    transparent 76%
+  );
+  background-size: 220% 100%;
+  animation: var(--animate-shimmer);
+}
+
+/*
+ * Confirmation dialogs use the native <dialog> element, which puts them in the
+ * browser's top layer. That means no z-index arms race with the header or the
+ * date-picker sheet; these rules only handle the appearance.
+ */
+.alert-dialog::backdrop {
+  background-color: rgb(22 33 91 / 0.42);
+  backdrop-filter: blur(2px);
+  animation: alert-backdrop-in 180ms ease both;
+}
+
+.alert-dialog[open] {
+  animation: alert-dialog-in 240ms var(--ease-out-expo) both;
+}
+
+@keyframes alert-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes alert-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Toast surface — sonner renders outside React's usual tree. */
+[data-sonner-toaster] {
+  --normal-bg: #ffffff;
+  --normal-text: #16215b;
+  --normal-border: #e4e8f5;
+  --border-radius: 14px;
+  font-family: var(--font-sans) !important;
+}
+
+[data-sonner-toast] {
+  box-shadow: var(--shadow-float) !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Calendar (react-day-picker) — one month on a phone, two on the request card.
+ * The default stylesheet handles the range geometry; these overrides make it
+ * feel like the rest of LendLoop and make pending/approved days obvious.
+ */
+.rdp-lendloop {
+  --rdp-accent-color: var(--color-brand);
+  --rdp-accent-background-color: var(--color-mist);
+  --rdp-day-height: 38px;
+  --rdp-day-width: 38px;
+  --rdp-day_button-border-radius: 9999px;
+  --rdp-day_button-border: 0;
+  --rdp-day_button-height: 36px;
+  --rdp-day_button-width: 36px;
+  --rdp-selected-border: 0;
+  --rdp-range_middle-background-color: var(--color-mist);
+  --rdp-range_middle-color: var(--color-navy);
+  --rdp-range_start-date-background-color: var(--color-brand);
+  --rdp-range_end-date-background-color: var(--color-brand);
+  --rdp-range_start-color: #ffffff;
+  --rdp-range_end-color: #ffffff;
+  --rdp-today-color: var(--color-brand);
+  --rdp-disabled-opacity: 0.32;
+  --rdp-outside-opacity: 0.3;
+  --rdp-months-gap: 2rem;
+  --rdp-nav-height: 2.25rem;
+  --rdp-nav_button-height: 2rem;
+  --rdp-nav_button-width: 2rem;
+  width: 100%;
+}
+
+.rdp-lendloop .rdp-months {
+  width: 100%;
+  max-width: none;
+  justify-content: space-between;
+}
+
+.rdp-lendloop .rdp-month {
+  width: auto;
+}
+
+.rdp-lendloop .rdp-month_grid {
+  width: auto;
+  margin-inline: auto;
+  table-layout: fixed;
+}
+
+@media (min-width: 640px) {
+  .rdp-lendloop .rdp-months {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 639px) {
+  .rdp-lendloop .rdp-month {
+    width: 100%;
+  }
+
+  .rdp-lendloop .rdp-month_grid {
+    width: 100%;
+  }
+}
+
+.rdp-lendloop .rdp-caption_label {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 650;
+  color: var(--color-navy);
+}
+
+.rdp-lendloop .rdp-weekday {
+  padding: 0.35rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.rdp-lendloop .rdp-day_button {
+  margin-inline: auto;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-navy);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.rdp-lendloop .rdp-day_button:hover:not(:disabled) {
+  background-color: var(--color-mist);
+}
+
+.rdp-lendloop .rdp-selected {
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.rdp-lendloop .rdp-selected .rdp-day_button {
+  border: 0;
+  font-weight: 650;
+}
+
+.rdp-lendloop .rdp-today:not(.rdp-selected) .rdp-day_button {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-brand) 45%, transparent);
+  color: var(--color-brand);
+}
+
+.rdp-lendloop .rdp-booked {
+  opacity: 1;
+}
+
+.rdp-lendloop .rdp-booked .rdp-day_button {
+  background-color: #fff0e9;
+  color: var(--color-orange-strong);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  cursor: not-allowed;
+}
+
+.rdp-lendloop .rdp-booked .rdp-day_button:hover {
+  background-color: #ffe4d9;
+}
+
+.rdp-lendloop .rdp-button_previous,
+.rdp-lendloop .rdp-button_next {
+  border: 1px solid var(--color-rule);
+  border-radius: 9999px;
+  background: #ffffff;
+  color: var(--color-navy);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.rdp-lendloop .rdp-button_previous:hover,
+.rdp-lendloop .rdp-button_next:hover {
+  border-color: color-mix(in oklab, var(--color-brand) 30%, transparent);
+  background: var(--color-page);
+}
+
+.rdp-lendloop .rdp-chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+}
+
+.rdp-lendloop .rdp-selected:not(.rdp-range_middle) .rdp-day_button {
+  background-color: var(--color-brand);
+  color: #ffffff;
+}
+
+.rdp-lendloop .rdp-range_start .rdp-day_button,
+.rdp-lendloop .rdp-range_end .rdp-day_button {
+  background-color: var(--color-brand);
+  color: #ffffff;
+  font-weight: 650;
+}
+
+.rdp-lendloop .rdp-booked .rdp-day_button {
+  background-color: #ffe3d5;
+  color: #a13d1f;
+  font-weight: 650;
+  text-decoration-color: #c8451b;
+}
+
+.rdp-lendloop .rdp-booked .rdp-day_button:hover {
+  background-color: #ffd8c6;
+}
+
+/* Past the 30-day window that starts at the chosen pick-up date. */
+.rdp-lendloop .rdp-beyond-limit:not(.rdp-booked) {
+  opacity: 0.36;
+}
+
+.rdp-lendloop .rdp-beyond-limit:not(.rdp-booked) .rdp-day_button {
+  background: transparent;
+  color: var(--color-ink-muted);
+  font-weight: 450;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+/* Hover preview between the chosen start and the date under the cursor. */
+.rdp-lendloop .rdp-preview:not(.rdp-selected) {
+  background-color: color-mix(in oklab, var(--color-mist) 78%, transparent);
+}
+
+.rdp-lendloop .rdp-preview:not(.rdp-selected) .rdp-day_button {
+  background: transparent;
+  color: var(--color-navy);
+}
+
+.rdp-lendloop .rdp-preview-end .rdp-day_button {
+  box-shadow: inset 0 0 0 1.5px var(--color-brand);
+}
+
+/* Hero cards: a slow, independent float that pauses under the pointer/focus. */
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -7px, 0);
+  }
+}
+
+.hero-float {
+  animation: hero-float 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.hero-float:hover,
+.hero-float:focus-within {
+  animation-play-state: paused;
 }

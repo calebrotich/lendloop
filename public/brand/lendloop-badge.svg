@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" role="img" aria-labelledby="ll-badge-title">
+  <title id="ll-badge-title">LendLoop</title>
+  <rect width="32" height="32" rx="8" fill="#1F299C" />
+  <g transform="translate(4 4)">
+    <path d="M7 8H17A4 4 0 0 1 21 12A4 4 0 0 1 17 16H7A4 4 0 0 1 3 12A4 4 0 0 1 7 8ZM7.5 10.4H16.5A1.6 1.6 0 0 1 18.1 12A1.6 1.6 0 0 1 16.5 13.6H7.5A1.6 1.6 0 0 1 5.9 12A1.6 1.6 0 0 1 7.5 10.4Z" fill="#FFFFFF" fill-rule="evenodd" clip-rule="evenodd" />
+    <path d="M8.4 8H7A4 4 0 0 0 3 12A4 4 0 0 0 7 16H8.4V13.6H7.5A1.6 1.6 0 0 1 5.9 12A1.6 1.6 0 0 1 7.5 10.4H8.4Z" fill="#F25929" />
+  </g>
+</svg>

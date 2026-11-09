@@ -1,14 +1,15 @@
 import { v } from "convex/values";
 
-import type { Id } from "./_generated/dataModel";
-import type { MutationCtx, QueryCtx } from "./_generated/server";
+import type { Doc } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import { requireRequestParty, requireUser } from "./lib/authz";
 import { categoryValidator, loanPhaseValidator, loanStatusValidator } from "./lib/constants";
-import { assertLoanWindow, loanPhase, parseDateInput } from "./lib/dates";
+import { assertLoanWindow, loanDayCount, loanPhase, parseDateInput, startOfDay } from "./lib/dates";
 import { appError } from "./lib/errors";
 import { findBookingOverlap } from "./lib/loans";
+import { imageSummaryForTool, imageSummaryValidator } from "./lib/media";
 import { enqueueRequestNotification } from "./lib/outbox";
+import { bookingTotalCents } from "./lib/pricing";
 
 const MAX_BORROWER_REQUESTS = 100;
 const MAX_OWNER_REQUESTS = 100;
@@ -40,30 +41,80 @@ const mineValidator = v.object({
   toolName: v.string(),
   toolCategory: categoryValidator,
   ownerName: v.string(),
+  ownerTrusted: v.boolean(),
   startDate: v.number(),
   endDate: v.number(),
+  dayCount: v.number(),
+  dailyRateCents: v.number(),
+  valueCents: v.number(),
+  totalCents: v.number(),
   status: loanStatusValidator,
   phase: loanPhaseValidator,
   note: v.union(v.null(), v.string()),
+  decidedAt: v.union(v.null(), v.number()),
+  returnedAt: v.union(v.null(), v.number()),
   createdAt: v.number(),
+  updatedAt: v.number(),
+  images: imageSummaryValidator,
 });
 
 const incomingValidator = v.object({
   _id: v.id("loanRequests"),
   toolId: v.id("tools"),
   toolName: v.string(),
+  toolCategory: categoryValidator,
   borrowerName: v.string(),
+  borrowerTrusted: v.boolean(),
   startDate: v.number(),
   endDate: v.number(),
+  dayCount: v.number(),
+  dailyRateCents: v.number(),
+  valueCents: v.number(),
+  totalCents: v.number(),
   status: loanStatusValidator,
   phase: loanPhaseValidator,
   note: v.union(v.null(), v.string()),
+  decidedAt: v.union(v.null(), v.number()),
+  returnedAt: v.union(v.null(), v.number()),
   createdAt: v.number(),
+  updatedAt: v.number(),
+  images: imageSummaryValidator,
 });
 
-async function nameOf(ctx: QueryCtx | MutationCtx, id: Id<"users">) {
-  const user = await ctx.db.get(id);
-  return user?.name ?? "A neighbour";
+/**
+ * The last time this request changed. New writes set `updatedAt`; rows created
+ * before that field existed fall back to the latest timestamp they carry, so
+ * the inboxes can sort by real activity without hiding old loans.
+ */
+function lastActivityAt(request: Doc<"loanRequests">): number {
+  return Math.max(
+    request.createdAt,
+    request.updatedAt ?? 0,
+    request.decidedAt ?? 0,
+    request.returnedAt ?? 0,
+  );
+}
+
+/** The newest change first — deciding a request moves it to the top. */
+function byLatestActivity(a: Doc<"loanRequests">, b: Doc<"loanRequests">): number {
+  return lastActivityAt(b) - lastActivityAt(a);
+}
+
+/**
+ * The agreed rate and replacement value live on the request. A loan created
+ * before pricing existed falls back to the listing's current terms, and a
+ * missing rate reads as free.
+ */
+function priceFor(request: Doc<"loanRequests">, tool: Doc<"tools"> | null) {
+  const dayCount = loanDayCount(request.startDate, request.endDate);
+  const dailyRateCents = request.dailyRateCents ?? tool?.dailyRateCents ?? 0;
+  const valueCents = request.valueCents ?? tool?.valueCents ?? 0;
+  return {
+    dayCount,
+    dailyRateCents,
+    valueCents,
+    totalCents: bookingTotalCents(dailyRateCents, dayCount),
+  };
 }
 
 /** T6 — ask to borrow a listing for a date range. */
@@ -119,9 +170,14 @@ export const create = mutation({
       borrowerId: borrower._id,
       startDate: start,
       endDate: end,
+      // Snapshot the terms: a later edit should not rewrite a booked total or
+      // the replacement-value commitment.
+      dailyRateCents: tool.dailyRateCents ?? 0,
+      valueCents: tool.valueCents ?? 0,
       status: "pending",
       note,
       createdAt: now,
+      updatedAt: now,
     });
 
     // Same transaction as the insert: the owner hears about a request that
@@ -137,6 +193,8 @@ export const create = mutation({
         borrowerId: borrower._id,
         startDate: start,
         endDate: end,
+        dailyRateCents: tool.dailyRateCents ?? 0,
+        valueCents: tool.valueCents ?? 0,
       },
       now,
     );
@@ -156,24 +214,34 @@ export const listMine = query({
     const requests = await ctx.db
       .query("loanRequests")
       .withIndex("by_borrower_and_status", (q) => q.eq("borrowerId", user._id))
-      .order("desc")
       .take(MAX_BORROWER_REQUESTS);
+
+    // The bounded read keeps this a single indexed pass; the sort makes the
+    // list follow the latest decision rather than the status bucket order.
+    requests.sort(byLatestActivity);
 
     const rows = [];
     for (const request of requests) {
       const tool = await ctx.db.get(request.toolId);
+      const owner = await ctx.db.get(request.ownerId);
       rows.push({
         _id: request._id,
         toolId: request.toolId,
         toolName: tool?.name ?? "Removed listing",
         toolCategory: tool?.category ?? "other",
-        ownerName: await nameOf(ctx, request.ownerId),
+        ownerName: owner?.name ?? "A neighbour",
+        ownerTrusted: owner?.isTrustedLender ?? false,
         startDate: request.startDate,
         endDate: request.endDate,
+        ...priceFor(request, tool),
         status: request.status,
         phase: loanPhase(request, now),
         note: request.note ?? null,
+        decidedAt: request.decidedAt ?? null,
+        returnedAt: request.returnedAt ?? null,
         createdAt: request.createdAt,
+        updatedAt: lastActivityAt(request),
+        images: await imageSummaryForTool(ctx, request.toolId),
       });
     }
     return rows;
@@ -191,26 +259,98 @@ export const listIncoming = query({
     const requests = await ctx.db
       .query("loanRequests")
       .withIndex("by_owner_and_status", (q) => q.eq("ownerId", user._id))
-      .order("desc")
       .take(MAX_OWNER_REQUESTS);
+
+    // Same rule as the borrower view: a request the owner just approved or
+    // declined is the one they are most likely to look at next.
+    requests.sort(byLatestActivity);
 
     const rows = [];
     for (const request of requests) {
       const tool = await ctx.db.get(request.toolId);
+      const borrower = await ctx.db.get(request.borrowerId);
       rows.push({
         _id: request._id,
         toolId: request.toolId,
         toolName: tool?.name ?? "Removed listing",
-        borrowerName: await nameOf(ctx, request.borrowerId),
+        toolCategory: tool?.category ?? "other",
+        borrowerName: borrower?.name ?? "A neighbour",
+        borrowerTrusted: borrower?.isTrustedLender ?? false,
         startDate: request.startDate,
         endDate: request.endDate,
+        ...priceFor(request, tool),
         status: request.status,
         phase: loanPhase(request, now),
         note: request.note ?? null,
+        decidedAt: request.decidedAt ?? null,
+        returnedAt: request.returnedAt ?? null,
         createdAt: request.createdAt,
+        updatedAt: lastActivityAt(request),
+        images: await imageSummaryForTool(ctx, request.toolId),
       });
     }
     return rows;
+  },
+});
+
+/**
+ * The header's incoming signal: a bounded count of requests that need an
+ * answer, plus the loan states an owner can act on. It is deliberately cheap —
+ * two indexed reads and no joins — because it is subscribed on every page.
+ */
+export const incomingSummary = query({
+  args: {},
+  returns: v.object({
+    pending: v.number(),
+    latestPendingAt: v.union(v.null(), v.number()),
+    upcoming: v.number(),
+    active: v.number(),
+    overdue: v.number(),
+  }),
+  handler: async (ctx) => {
+    // The header subscribes to this query on every page, including during the
+    // brief window before SyncUser has created the profile. Returning zeroes
+    // for an anonymous or not-yet-provisioned caller keeps the public header
+    // from crashing; it exposes no data either way.
+    const identity = await ctx.auth.getUserIdentity();
+    const user =
+      identity === null
+        ? null
+        : await ctx.db
+            .query("users")
+            .withIndex("by_tokenIdentifier", (q) =>
+              q.eq("tokenIdentifier", identity.tokenIdentifier),
+            )
+            .unique();
+    if (user === null) {
+      return { pending: 0, latestPendingAt: null, upcoming: 0, active: 0, overdue: 0 };
+    }
+
+    const today = startOfDay(Date.now());
+
+    const pending = await ctx.db
+      .query("loanRequests")
+      .withIndex("by_owner_and_status", (q) => q.eq("ownerId", user._id).eq("status", "pending"))
+      .take(MAX_OWNER_REQUESTS);
+
+    const approved = await ctx.db
+      .query("loanRequests")
+      .withIndex("by_owner_and_status", (q) => q.eq("ownerId", user._id).eq("status", "approved"))
+      .take(MAX_OWNER_REQUESTS);
+
+    let upcoming = 0;
+    let active = 0;
+    let overdue = 0;
+    for (const loan of approved) {
+      if (loan.endDate < today) overdue += 1;
+      else if (loan.startDate > today) upcoming += 1;
+      else active += 1;
+    }
+
+    const latestPendingAt =
+      pending.length === 0 ? null : Math.max(...pending.map((request) => request.createdAt));
+
+    return { pending: pending.length, latestPendingAt, upcoming, active, overdue };
   },
 });
 
@@ -244,7 +384,7 @@ export const approve = mutation({
     }
 
     const now = Date.now();
-    await ctx.db.patch(request._id, { status: "approved", decidedAt: now });
+    await ctx.db.patch(request._id, { status: "approved", decidedAt: now, updatedAt: now });
     await enqueueRequestNotification(ctx, "request.approved", request, now);
     return null;
   },
@@ -265,7 +405,7 @@ export const decline = mutation({
     }
 
     const now = Date.now();
-    await ctx.db.patch(request._id, { status: "declined", decidedAt: now });
+    await ctx.db.patch(request._id, { status: "declined", decidedAt: now, updatedAt: now });
     await enqueueRequestNotification(ctx, "request.declined", request, now);
     return null;
   },
@@ -286,7 +426,7 @@ export const cancel = mutation({
     }
 
     const now = Date.now();
-    await ctx.db.patch(request._id, { status: "cancelled" });
+    await ctx.db.patch(request._id, { status: "cancelled", updatedAt: now });
     await enqueueRequestNotification(ctx, "request.cancelled", request, now);
     return null;
   },
@@ -308,7 +448,7 @@ export const markReturned = mutation({
     }
 
     const now = Date.now();
-    await ctx.db.patch(request._id, { status: "returned", returnedAt: now });
+    await ctx.db.patch(request._id, { status: "returned", returnedAt: now, updatedAt: now });
     await enqueueRequestNotification(ctx, "request.returned", request, now);
     return null;
   },

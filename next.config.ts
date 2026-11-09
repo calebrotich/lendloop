@@ -1,10 +1,42 @@
 import { withSentryConfig } from "@sentry/nextjs/config";
 import type { NextConfig } from "next";
 
+/**
+ * Photos live on the R2 public host, not under /public. Next's optimiser will
+ * resize and re-encode them to AVIF/WebP, but it refuses a remote host that is
+ * not allow-listed here. Read the host at build time so the allow-list is the
+ * same one the media functions use, rather than a wildcard.
+ */
+function r2Hostname(): string | null {
+  const raw = process.env.R2_PUBLIC_HOST?.trim();
+  if (raw === undefined || raw.length === 0) return null;
+  try {
+    return new URL(raw.includes("://") ? raw : `https://${raw}`).hostname;
+  } catch {
+    return null;
+  }
+}
+
+const imageHost = r2Hostname();
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   // Never advertise the framework in responses.
   poweredByHeader: false,
+  images: {
+    // A clean clone without R2 still renders: unoptimised images load from the
+    // stored URL instead of failing the optimiser's allow-list check.
+    unoptimized: imageHost === null,
+    remotePatterns: imageHost === null ? [] : [{ protocol: "https" as const, hostname: imageHost }],
+    formats: ["image/avif" as const, "image/webp" as const],
+    minimumCacheTTL: 60 * 60 * 24,
+  },
+  async redirects() {
+    return [
+      // The old signed-in browse page is now the public shelf.
+      { source: "/tools", destination: "/#shelf", permanent: false },
+    ];
+  },
 };
 
 export default withSentryConfig(nextConfig, {

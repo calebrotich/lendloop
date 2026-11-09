@@ -44,6 +44,17 @@ export default defineSchema({
     condition: conditionValidator,
     description: v.string(),
     status: toolStatusValidator,
+    /**
+     * Pricing is optional in the schema so listings created before pricing
+     * existed stay readable. New listings always send both from the form; a
+     * missing daily rate reads as free.
+     *
+     * `valueCents` is the replacement value: it seeds the rate recommendation
+     * and is the amount a borrower agrees to reimburse if the item is lost or
+     * not returned. It is snapshotted onto the loan request at booking time.
+     */
+    valueCents: v.optional(v.number()),
+    dailyRateCents: v.optional(v.number()),
     removedAt: v.optional(v.number()), // soft delete, admin or owner
     createdAt: v.number(),
     updatedAt: v.number(),
@@ -124,11 +135,25 @@ export default defineSchema({
     borrowerId: v.id("users"),
     startDate: v.number(), // epoch ms at UTC midnight
     endDate: v.number(),
+    /**
+     * The rate and replacement value agreed when the request was made,
+     * snapshotted from the listing. An owner who later edits their price or
+     * value does not rewrite an existing booking's terms. Missing on loans
+     * created before pricing existed.
+     */
+    dailyRateCents: v.optional(v.number()),
+    valueCents: v.optional(v.number()),
     status: loanStatusValidator,
     note: v.optional(v.string()),
     decidedAt: v.optional(v.number()),
     returnedAt: v.optional(v.number()),
     createdAt: v.number(),
+    /**
+     * Written whenever the request changes status. Both request inboxes show
+     * the most recently touched request first, not just the newest request;
+     * rows created before this field existed fall back to their other stamps.
+     */
+    updatedAt: v.optional(v.number()),
   })
     .index("by_tool_and_status", ["toolId", "status"])
     .index("by_borrower_and_status", ["borrowerId", "status"])

@@ -6,7 +6,7 @@ import { convexTest } from "convex-test";
 import { ConvexError } from "convex/values";
 import { describe, expect, it } from "vitest";
 
-import { api } from "./_generated/api";
+import { api, internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
 import schema from "./schema";
 
@@ -58,6 +58,8 @@ async function insertTool(
     status: "available" | "unavailable";
     removedAt: number;
     createdAt: number;
+    valueCents: number;
+    dailyRateCents: number;
   }> = {},
 ) {
   return await t.run(
@@ -69,6 +71,8 @@ async function insertTool(
         condition: "good",
         description: "18V with two batteries.",
         status: overrides.status ?? "available",
+        valueCents: overrides.valueCents,
+        dailyRateCents: overrides.dailyRateCents,
         removedAt: overrides.removedAt,
         createdAt: overrides.createdAt ?? 1_700_000_000_000,
         updatedAt: overrides.createdAt ?? 1_700_000_000_000,
@@ -113,7 +117,7 @@ function codeOf(error: unknown): string | undefined {
 }
 
 describe("tools.listPublic", () => {
-  it("returns only name, category and a photo summary — nothing else", async () => {
+  it("returns only name, category and a photo summary", async () => {
     const t = convexTest(schema, modules);
     const { id } = await provision(t, "owner_1", "owner@example.test");
     await insertTool(t, id);
@@ -179,6 +183,169 @@ describe("tools.listPublic", () => {
     const shelf = await t.query(api.tools.listPublic, {});
 
     expect(shelf.map((tool) => tool.name)).toEqual(["Still here"]);
+  });
+});
+
+describe("tools.listShowcase", () => {
+  it("is anonymous, bounded to the public fields and never leaks identity", async () => {
+    const t = convexTest(schema, modules);
+    const { id } = await provision(t, "owner_1", "owner@example.test");
+    await t.run(
+      async (ctx) => await ctx.db.patch(id, { name: "Caleb Rotich", isTrustedLender: true }),
+    );
+    await insertTool(t, id);
+
+    const shelf = await t.query(api.tools.listShowcase, {});
+
+    expect(shelf).toHaveLength(1);
+    expect(Object.keys(shelf[0] ?? {}).sort()).toEqual([
+      "_id",
+      "availability",
+      "busyUntil",
+      "category",
+      "condition",
+      "createdAt",
+      "dailyRateCents",
+      "description",
+      "images",
+      "name",
+      "ownerTrusted",
+    ]);
+    expect(shelf[0]).toMatchObject({
+      name: "Cordless drill",
+      condition: "good",
+      description: "18V with two batteries.",
+      ownerTrusted: true,
+      availability: "available",
+      busyUntil: null,
+    });
+    // The shelf advertises trust, never the person behind the listing.
+    expect(JSON.stringify(shelf)).not.toContain("owner@example.test");
+    expect(JSON.stringify(shelf)).not.toContain("Caleb");
+  });
+
+  it("keeps paused and on-loan listings, with derived availability", async () => {
+    const t = convexTest(schema, modules);
+    const { id } = await provision(t, "owner_1", "owner@example.test");
+    await insertTool(t, id, { name: "Available" });
+    await insertTool(t, id, { name: "Paused", status: "unavailable" });
+    const onLoan = await insertTool(t, id, { name: "On loan" });
+    await insertLoan(t, onLoan, id);
+
+    const shelf = await t.query(api.tools.listShowcase, {});
+    const byName = new Map(shelf.map((tool) => [tool.name, tool]));
+
+    expect(byName.get("Available")?.availability).toBe("available");
+    expect(byName.get("Paused")?.availability).toBe("paused");
+    expect(byName.get("On loan")?.availability).toBe("on_loan");
+    expect(byName.get("On loan")?.busyUntil).toBeTypeOf("number");
+  });
+
+  it("hides removed listings and sorts newest first", async () => {
+    const t = convexTest(schema, modules);
+    const { id } = await provision(t, "owner_1", "owner@example.test");
+    await insertTool(t, id, { name: "Older", createdAt: 1_700_000_000_000 });
+    await insertTool(t, id, { name: "Newer", createdAt: 1_700_000_100_000 });
+    await insertTool(t, id, { name: "Removed", removedAt: 1_700_000_200_000 });
+
+    const shelf = await t.query(api.tools.listShowcase, {});
+
+    expect(shelf.map((tool) => tool.name)).toEqual(["Newer", "Older"]);
+  });
+});
+
+describe("tools.getPublicListing", () => {
+  it("returns a public detail with the full gallery, ordered", async () => {
+    const t = convexTest(schema, modules);
+    const { id } = await provision(t, "owner_1", "owner@example.test");
+    const toolId = await insertTool(t, id);
+    await t.run(async (ctx) => {
+      for (const [sortOrder, objectKey] of [
+        [1, "tools/second.webp"],
+        [0, "tools/first.webp"],
+      ] as const) {
+        await ctx.db.insert("toolImages", {
+          toolId,
+          ownerId: id,
+          objectKey,
+          contentType: "image/webp",
+          byteSize: 1_024,
+          width: 800,
+          height: 600,
+          sortOrder,
+          createdAt: 1_700_000_000_000,
+        });
+      }
+    });
+
+    const listing = await t.query(api.tools.getPublicListing, { toolId });
+
+    expect(listing?.name).toBe("Cordless drill");
+    expect(listing === null || "ownerName" in listing).toBe(false);
+    expect(listing?.images.map((image) => image.url)).toEqual([
+      "https://cdn.example.test/tools/first.webp",
+      "https://cdn.example.test/tools/second.webp",
+    ]);
+    expect(JSON.stringify(listing)).not.toContain("owner@example.test");
+  });
+
+  it("exposes future pending and approved ranges, merged, but no other statuses", async () => {
+    const t = convexTest(schema, modules);
+    const { id } = await provision(t, "owner_1", "owner@example.test");
+    const borrower = await provision(t, "borrower_1", "borrower@example.test");
+    const toolId = await insertTool(t, id);
+    const today = Math.floor(Date.now() / 86_400_000) * 86_400_000;
+    const day = 86_400_000;
+
+    const loans = [
+      { status: "pending" as const, start: today + 2 * day, end: today + 4 * day },
+      { status: "approved" as const, start: today + 4 * day, end: today + 6 * day },
+      { status: "declined" as const, start: today + 8 * day, end: today + 10 * day },
+      { status: "returned" as const, start: today - 6 * day, end: today - 4 * day },
+      { status: "pending" as const, start: today - 3 * day, end: today - 1 * day },
+    ];
+
+    await t.run(async (ctx) => {
+      for (const loan of loans) {
+        await ctx.db.insert("loanRequests", {
+          toolId,
+          ownerId: id,
+          borrowerId: borrower.id,
+          startDate: loan.start,
+          endDate: loan.end,
+          status: loan.status,
+          createdAt: Date.now(),
+        });
+      }
+    });
+
+    const listing = await t.query(api.tools.getPublicListing, { toolId });
+
+    expect(listing?.busyRanges).toEqual([{ startDate: today + 2 * day, endDate: today + 6 * day }]);
+  });
+
+  it("tells the owner it is theirs, without exposing owner identity", async () => {
+    const t = convexTest(schema, modules);
+    const owner = await provision(t, "owner_1", "owner@example.test");
+    const other = await provision(t, "borrower_1", "borrower@example.test");
+    const toolId = await insertTool(t, owner.id);
+
+    expect((await t.query(api.tools.getPublicListing, { toolId }))?.isOwner).toBe(false);
+    expect((await other.as.query(api.tools.getPublicListing, { toolId }))?.isOwner).toBe(false);
+
+    const mine = await owner.as.query(api.tools.getPublicListing, { toolId });
+    expect(mine?.isOwner).toBe(true);
+    // Ownership is a boolean for the viewer; the id never leaves the database.
+    expect(mine === null || "ownerId" in mine).toBe(false);
+    expect(JSON.stringify(mine)).not.toContain(owner.id);
+  });
+
+  it("returns null for a removed listing so the route can 404", async () => {
+    const t = convexTest(schema, modules);
+    const { id } = await provision(t, "owner_1", "owner@example.test");
+    const toolId = await insertTool(t, id, { removedAt: 1_700_000_100_000 });
+
+    await expect(t.query(api.tools.getPublicListing, { toolId })).resolves.toBeNull();
   });
 });
 
@@ -251,6 +418,120 @@ describe("tools.create", () => {
     );
 
     expect(codeOf(error)).toBe("UNAUTHORIZED");
+  });
+});
+
+describe("tools pricing", () => {
+  it("stores the value and daily rate, and exposes the value only on the detail", async () => {
+    const t = convexTest(schema, modules);
+    const { as, id: userId } = await provision(t, "user_sam", "sam@example.test");
+
+    const toolId = await as.mutation(api.tools.create, {
+      name: "Cordless drill",
+      category: "power_tools",
+      condition: "good",
+      description: "18V with two batteries.",
+      valueCents: 12_000,
+      dailyRateCents: 480,
+    });
+
+    const row = await t.run(async (ctx) => await ctx.db.get(toolId));
+    expect(row).toMatchObject({ valueCents: 12_000, dailyRateCents: 480 });
+
+    const shelf = await t.query(api.tools.listShowcase, {});
+    expect(shelf[0]?.dailyRateCents).toBe(480);
+    expect(JSON.stringify(shelf)).not.toContain("valueCents");
+
+    const mine = await as.query(api.tools.listMine, {});
+    expect(mine[0]).toMatchObject({ valueCents: 12_000, dailyRateCents: 480 });
+
+    const listing = await t.query(api.tools.getPublicListing, { toolId });
+    expect(listing?.valueCents).toBe(12_000);
+    expect(row?.ownerId).toBe(userId);
+  });
+
+  it("rejects a daily rate above the replacement value and non-integer cents", async () => {
+    const t = convexTest(schema, modules);
+    const { as } = await provision(t, "user_sam", "sam@example.test");
+
+    const aboveValue = await capturedError(
+      as.mutation(api.tools.create, {
+        name: "Cordless drill",
+        category: "power_tools",
+        condition: "good",
+        description: "18V with two batteries.",
+        valueCents: 1_000,
+        dailyRateCents: 2_000,
+      }),
+    );
+    expect(codeOf(aboveValue)).toBe("VALIDATION");
+
+    const fractional = await capturedError(
+      as.mutation(api.tools.create, {
+        name: "Cordless drill",
+        category: "power_tools",
+        condition: "good",
+        description: "18V with two batteries.",
+        valueCents: 1_000,
+        dailyRateCents: 4.5,
+      }),
+    );
+    expect(codeOf(fractional)).toBe("VALIDATION");
+  });
+
+  it("keeps an existing price when an edit omits pricing", async () => {
+    const t = convexTest(schema, modules);
+    const { as } = await provision(t, "user_sam", "sam@example.test");
+    const toolId = await as.mutation(api.tools.create, {
+      name: "Cordless drill",
+      category: "power_tools",
+      condition: "good",
+      description: "18V with two batteries.",
+      valueCents: 12_000,
+      dailyRateCents: 480,
+    });
+
+    await as.mutation(api.tools.update, {
+      toolId,
+      name: "Impact driver",
+      category: "power_tools",
+      condition: "like_new",
+      description: "Replaced the drill; this one has more torque.",
+      status: "available",
+    });
+
+    const row = await t.run(async (ctx) => await ctx.db.get(toolId));
+    expect(row).toMatchObject({ valueCents: 12_000, dailyRateCents: 480 });
+  });
+});
+
+describe("migrations.backfillPricing", () => {
+  it("fills missing prices, leaves an explicit free rate alone and skips priced listings", async () => {
+    const t = convexTest(schema, modules);
+    const { id } = await provision(t, "owner_1", "owner@example.test");
+    const missing = await insertTool(t, id, { name: "No price" });
+    const free = await insertTool(t, id, {
+      name: "Lent free",
+      valueCents: 10_000,
+      dailyRateCents: 0,
+    });
+    const priced = await insertTool(t, id, {
+      name: "Already priced",
+      valueCents: 20_000,
+      dailyRateCents: 800,
+    });
+
+    const result = await t.mutation(internal.migrations.backfillPricing, {});
+    expect(result).toEqual({ scanned: 3, updated: 1 });
+
+    const rows = await t.run(async (ctx) => ({
+      missing: await ctx.db.get(missing),
+      free: await ctx.db.get(free),
+      priced: await ctx.db.get(priced),
+    }));
+    expect(rows.missing).toMatchObject({ valueCents: 12_000, dailyRateCents: 480 });
+    expect(rows.free).toMatchObject({ valueCents: 10_000, dailyRateCents: 0 });
+    expect(rows.priced).toMatchObject({ valueCents: 20_000, dailyRateCents: 800 });
   });
 });
 

@@ -7,7 +7,7 @@ import { useState } from "react";
 import { api } from "@/convex/_generated/api";
 import { RequestStatusBadge } from "@/components/request-status";
 import { appErrorMessage } from "@/lib/convex-error";
-import { formatRange, timeAgo } from "@/lib/format";
+import { formatMoney, formatRange, formatRate, timeAgo } from "@/lib/format";
 
 type Listing = FunctionReturnType<typeof api.tools.listAvailable>[number];
 
@@ -88,7 +88,8 @@ export function AdminPanel() {
                   <span className="text-ink-muted">
                     {" "}
                     · {loan.ownerName} → {loan.borrowerName} ·{" "}
-                    {formatRange(loan.startDate, loan.endDate)}
+                    {formatRange(loan.startDate, loan.endDate)} ·{" "}
+                    {loan.totalCents === 0 ? "Free" : formatMoney(loan.totalCents)}
                   </span>
                 </div>
                 <RequestStatusBadge phase={loan.phase} />
@@ -112,7 +113,8 @@ export function AdminPanel() {
                 <span className="font-medium">{listing.name}</span>
                 <span className="text-ink-muted">
                   {" "}
-                  · {listing.ownerName} · {listing.availability.replace("_", " ")}
+                  · {listing.ownerName} · {formatRate(listing.dailyRateCents)} ·{" "}
+                  {listing.availability.replace("_", " ")}
                 </span>
               </div>
               {confirming === listing._id ? (

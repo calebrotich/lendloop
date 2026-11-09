@@ -1,41 +1,46 @@
 "use client";
 
-import { useAuth } from "@clerk/nextjs";
+import { ClerkProvider, useAuth } from "@clerk/nextjs";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { ConvexReactClient } from "convex/react";
 import type { ReactNode } from "react";
+import { Toaster } from "sonner";
 
 import { SyncUser } from "@/components/sync-user";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 // Constructed once per module load. A missing URL must not throw during build:
 // CI and clean clones have no keys, and an unconfigured build should render an
 // explanation rather than fail to compile.
 const convex = convexUrl ? new ConvexReactClient(convexUrl) : null;
 
-/**
- * ClerkProvider lives in the server layout so it can see the request's proxy
- * configuration. This component only renders the client providers that need to
- * sit inside it; `clerkConfigured` comes from the same server check, so an
- * unconfigured build still explains itself instead of throwing.
- */
-export function Providers({
-  children,
-  clerkConfigured,
-}: {
-  children: ReactNode;
-  clerkConfigured: boolean;
-}) {
-  if (convex === null || !clerkConfigured) {
+export function Providers({ children }: { children: ReactNode }) {
+  if (convex === null || publishableKey === undefined) {
     return <MissingConfig />;
   }
 
   return (
-    <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-      <SyncUser />
-      {children}
-    </ConvexProviderWithClerk>
+    <ClerkProvider publishableKey={publishableKey}>
+      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+        <SyncUser />
+        <Toaster
+          position="bottom-center"
+          offset={24}
+          gap={10}
+          visibleToasts={3}
+          toastOptions={{
+            classNames: {
+              toast: "font-sans",
+              title: "font-semibold text-navy",
+              description: "text-ink-muted",
+            },
+          }}
+        />
+        {children}
+      </ConvexProviderWithClerk>
+    </ClerkProvider>
   );
 }
 

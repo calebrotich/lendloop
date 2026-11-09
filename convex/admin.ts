@@ -5,9 +5,10 @@ import type { MutationCtx, QueryCtx } from "./_generated/server";
 import { internalMutation, mutation, query } from "./_generated/server";
 import { requireAdmin } from "./lib/authz";
 import { loanPhaseValidator, loanStatusValidator, roleValidator } from "./lib/constants";
-import { loanPhase } from "./lib/dates";
+import { loanDayCount, loanPhase } from "./lib/dates";
 import { readCsvEnv } from "./lib/env";
 import { appError } from "./lib/errors";
+import { bookingTotalCents } from "./lib/pricing";
 import { discardToolImages } from "./lib/media";
 
 const ADMIN_LIST_LIMIT = 100;
@@ -75,6 +76,9 @@ export const listAllLoans = query({
       borrowerName: v.string(),
       startDate: v.number(),
       endDate: v.number(),
+      dayCount: v.number(),
+      dailyRateCents: v.number(),
+      totalCents: v.number(),
       status: loanStatusValidator,
       phase: loanPhaseValidator,
       createdAt: v.number(),
@@ -89,6 +93,8 @@ export const listAllLoans = query({
     const rows = [];
     for (const request of requests) {
       const tool = await ctx.db.get(request.toolId);
+      const dayCount = loanDayCount(request.startDate, request.endDate);
+      const dailyRateCents = request.dailyRateCents ?? tool?.dailyRateCents ?? 0;
       rows.push({
         _id: request._id,
         toolName: tool?.name ?? "Removed listing",
@@ -96,6 +102,9 @@ export const listAllLoans = query({
         borrowerName: await nameOf(ctx, request.borrowerId),
         startDate: request.startDate,
         endDate: request.endDate,
+        dayCount,
+        dailyRateCents,
+        totalCents: bookingTotalCents(dailyRateCents, dayCount),
         status: request.status,
         phase: loanPhase(request, now),
         createdAt: request.createdAt,

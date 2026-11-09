@@ -12,6 +12,11 @@ export const LIMITS = {
   /** Per-owner cap; also the page size cap for "My listings". */
   maxListings: 100,
 
+  /** Pricing is stored in cents. Bounds are sanity checks, not policy. */
+  minValueCents: 100,
+  maxValueCents: 100_000_000,
+  maxDailyRateCents: 10_000_000,
+
   /** Photos per listing. Also the bound on every image read. */
   maxImagesPerTool: 6,
   /**

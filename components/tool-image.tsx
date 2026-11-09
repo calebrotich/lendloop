@@ -1,25 +1,10 @@
 "use client";
 
+import { ImageOff } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
-function PhotoIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.5"
-      viewBox="0 0 24 24"
-    >
-      <rect width="16" height="16" x="4" y="4" rx="2" />
-      <circle cx="9" cy="9" r="1.5" />
-      <path d="m4 17 4.5-4.5a2 2 0 0 1 2.8 0L20 20" />
-    </svg>
-  );
-}
+import { Icon } from "@/components/ui/icon";
 
 export interface ToolImageProps {
   src: string | null;
@@ -29,13 +14,19 @@ export interface ToolImageProps {
   className?: string;
   /** Above-the-fold images should not be lazy. */
   priority?: boolean;
+  /** Responsive hint for the browser's srcset choice. */
+  sizes?: string;
 }
 
+const DEFAULT_SIZES = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
+
 /**
- * A plain <img> on purpose: R2 already sits behind a CDN with a bounded cache,
- * and the stored width/height prevent layout shift. Routing these through the
- * Next image optimiser would add a second cache and a per-image bill for no
- * gain. The lint rule is disabled with that trade-off documented.
+ * Listing media through `next/image`.
+ *
+ * R2 stays the origin, but Next now does the per-device work: a card requests a
+ * ~400px AVIF instead of a 2048px JPEG, and the optimiser caches the result at
+ * the edge for a week. Local blob previews (the upload tray) bypass the
+ * optimiser because there is no URL to fetch.
  */
 export function ToolImage({
   src,
@@ -44,6 +35,7 @@ export function ToolImage({
   height,
   className,
   priority = false,
+  sizes = DEFAULT_SIZES,
 }: ToolImageProps) {
   // Track which source failed so navigating to a different photo in the gallery
   // does not inherit the previous broken-image state.
@@ -57,18 +49,37 @@ export function ToolImage({
         role="img"
         className={`flex items-center justify-center bg-surface text-ink-muted/60 ${className ?? ""}`}
       >
-        <PhotoIcon className="size-7" />
+        <Icon icon={ImageOff} size={26} className="opacity-70" />
       </div>
     );
   }
 
+  const isLocalPreview = src.startsWith("blob:") || src.startsWith("data:");
+
+  if (isLocalPreview) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- An object URL has no optimiser input.
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        onError={() => setFailedSrc(src)}
+        className={className}
+      />
+    );
+  }
+
   return (
-    // eslint-disable-next-line @next/next/no-img-element -- R2 is the CDN; see comment above.
-    <img
+    <Image
       src={src}
       alt={alt}
-      width={width}
-      height={height}
+      width={width ?? 1200}
+      height={height ?? 900}
+      sizes={sizes}
+      priority={priority}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
       onError={() => setFailedSrc(src)}

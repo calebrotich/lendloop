@@ -1,5 +1,6 @@
 import { DEFAULT_APP_BASE_URL } from "./appUrl";
 import { readEnv } from "./env";
+import { CURRENCY } from "./pricing";
 
 /**
  * Transactional email rendering.
@@ -106,7 +107,7 @@ export interface LayoutInput {
 
 function header(logoUrl: string | null): string {
   if (logoUrl === null) {
-    return `<div style="font:700 24px/28px ${FONT};color:${PALETTE.navy};letter-spacing:-0.02em;">LendLoop<span style="color:${PALETTE.orange};">.</span></div>`;
+    return `<div style="font:700 24px/28px ${FONT};color:${PALETTE.navy};letter-spacing:-0.02em;">LendLoop</div>`;
   }
   return `<img src="${esc(logoUrl)}" width="140" height="30" alt="LendLoop" style="display:block;width:140px;max-width:140px;height:auto;border:0;outline:none;text-decoration:none;">`;
 }
@@ -124,16 +125,35 @@ function hero(input: LayoutInput): string {
 }
 
 function factRows(facts: Fact[]): string {
-  const cells = facts
-    .map(
-      (fact) =>
-        `<td width="50%" valign="top" style="padding:12px 14px;background-color:${PALETTE.mist};border-radius:10px;">` +
-        `<div style="font:600 10px/14px ${FONT};letter-spacing:.08em;text-transform:uppercase;color:${PALETTE.muted};">${esc(fact.label)}</div>` +
-        `<div style="margin-top:4px;font:600 15px/20px ${FONT};color:${PALETTE.navy};">${esc(fact.value)}</div>` +
-        `</td>`,
-    )
-    .join('<td width="12" style="width:12px;font-size:0;line-height:0;">&nbsp;</td>');
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;"><tr>${cells}</tr></table>`;
+  const rows: string[] = [];
+  for (let index = 0; index < facts.length; index += 2) {
+    const pair = facts.slice(index, index + 2);
+    const cells = pair
+      .map(
+        (fact) =>
+          `<td width="50%" valign="top" style="padding:12px 14px;background-color:${PALETTE.mist};border-radius:10px;">` +
+          `<div style="font:600 10px/14px ${FONT};letter-spacing:.08em;text-transform:uppercase;color:${PALETTE.muted};">${esc(fact.label)}</div>` +
+          `<div style="margin-top:4px;font:600 15px/20px ${FONT};color:${PALETTE.navy};">${esc(fact.value)}</div>` +
+          `</td>`,
+      )
+      .join('<td width="12" style="width:12px;font-size:0;line-height:0;">&nbsp;</td>');
+    rows.push(`<tr>${cells}</tr>`);
+    if (index + 2 < facts.length) {
+      rows.push(
+        '<tr><td colspan="3" height="8" style="height:8px;font-size:0;line-height:0;">&nbsp;</td></tr>',
+      );
+    }
+  }
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;">${rows.join("")}</table>`;
+}
+
+/** Email clients are not guaranteed to have Intl, so format cents locally. */
+function money(cents: number): string {
+  const whole = Math.floor(Math.abs(cents) / 100);
+  const fraction = Math.abs(cents) % 100;
+  const grouped = String(whole).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const symbol = CURRENCY === "USD" ? "$" : `${CURRENCY} `;
+  return `${symbol}${grouped}${fraction === 0 ? "" : `.${String(fraction).padStart(2, "0")}`}`;
 }
 
 export function renderLayout(input: LayoutInput): string {
@@ -187,7 +207,7 @@ export function renderLayout(input: LayoutInput): string {
     `<tr><td style="padding:30px 32px 28px 32px;">`,
     `<div style="border-top:1px solid ${PALETTE.rule};padding-top:18px;">`,
     `<p style="margin:0;font:400 13px/20px ${FONT};color:${PALETTE.muted};">You're receiving this because ${esc(input.footerReason)}.</p>`,
-    `<p style="margin:8px 0 0 0;font:600 13px/20px ${FONT};color:${PALETTE.navy};">LendLoop<span style="color:${PALETTE.orange};">.</span> <span style="font-weight:400;color:${PALETTE.muted};">Neighbourhood tool lending</span></p>`,
+    `<p style="margin:8px 0 0 0;font:600 13px/20px ${FONT};color:${PALETTE.navy};">LendLoop <span style="font-weight:400;color:${PALETTE.muted};">Neighbourhood tool lending</span></p>`,
     `</div>`,
     `</td></tr>`,
     `</table>`,
@@ -210,6 +230,12 @@ export interface RequestEmailInput {
   toolImageUrl: string | null;
   startDate: string;
   endDate: string;
+  /** Optional because pre-pricing loans still have a valid email. */
+  dayCount?: number;
+  dailyRateCents?: number;
+  totalCents?: number;
+  /** The replacement value the borrower agrees to reimburse if it is lost. */
+  valueCents?: number;
   deepLink: string;
 }
 
@@ -226,6 +252,10 @@ interface RequestCopy {
 function requestCopy(input: RequestEmailInput): RequestCopy {
   const range = `${humanDate(input.startDate)} to ${humanDate(input.endDate)}`;
   const hi = `Hi ${input.recipientName},`;
+  const reimbursement =
+    input.valueCents === undefined || input.valueCents <= 0
+      ? null
+      : `If it’s lost or not returned, you’ve agreed to reimburse the ${money(input.valueCents)} replacement value.`;
 
   switch (input.event) {
     case "request.created":
@@ -251,10 +281,11 @@ function requestCopy(input: RequestEmailInput): RequestCopy {
           hi,
           `Your request for ${input.toolName} (${range}) was approved.`,
           "Arrange a pickup time with the owner, and bring it back by the end date so it stays available for the next person.",
+          ...(reimbursement === null ? [] : [reimbursement]),
         ],
         cta: "Open my requests",
         reason: `you requested ${input.toolName}`,
-        text: `${hi}\n\nYour request for ${input.toolName} (${range}) was approved.\n\nArrange a pickup time with the owner, and bring it back by the end date so it stays available for the next person.\n\nOpen my requests:\n${input.deepLink}\n\n— LendLoop`,
+        text: `${hi}\n\nYour request for ${input.toolName} (${range}) was approved.\n\nArrange a pickup time with the owner, and bring it back by the end date so it stays available for the next person.${reimbursement === null ? "" : `\n\n${reimbursement}`}\n\nOpen my requests:\n${input.deepLink}\n\n— LendLoop`,
       };
     case "request.declined":
       return {
@@ -317,6 +348,26 @@ function requestCopy(input: RequestEmailInput): RequestCopy {
 
 export function renderRequestEmail(input: RequestEmailInput): EmailContent {
   const copy = requestCopy(input);
+  const facts: Fact[] = [
+    { label: "From", value: humanDate(input.startDate) },
+    { label: "Until", value: humanDate(input.endDate) },
+  ];
+  if (input.totalCents !== undefined && input.dailyRateCents !== undefined) {
+    const free = input.dailyRateCents === 0;
+    facts.push({
+      label: "Rate",
+      value: free
+        ? "Free"
+        : `${money(input.dailyRateCents)} / day${input.dayCount === undefined ? "" : ` × ${input.dayCount} ${input.dayCount === 1 ? "day" : "days"}`}`,
+    });
+    facts.push({ label: "Booking total", value: free ? "Free" : money(input.totalCents) });
+  }
+  if (input.valueCents !== undefined && input.valueCents > 0) {
+    facts.push({
+      label: "Replacement value",
+      value: `${money(input.valueCents)} if lost or not returned`,
+    });
+  }
   return {
     subject: copy.subject,
     text: copy.text,
@@ -325,10 +376,7 @@ export function renderRequestEmail(input: RequestEmailInput): EmailContent {
       eyebrow: copy.eyebrow,
       heading: copy.heading,
       paragraphs: copy.body,
-      facts: [
-        { label: "From", value: humanDate(input.startDate) },
-        { label: "Until", value: humanDate(input.endDate) },
-      ],
+      facts,
       image:
         input.toolImageUrl === null
           ? null

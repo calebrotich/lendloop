@@ -8,9 +8,10 @@ import type {
   OutboxTarget,
   RequestEventKind,
 } from "./constants";
-import { formatDateInput } from "./dates";
+import { formatDateInput, loanDayCount } from "./dates";
 import { renderRequestEmail } from "./emailTemplates";
 import { imageSummaryForTool } from "./media";
+import { bookingTotalCents } from "./pricing";
 import { deepLinkFor, type RequestNotificationPayload } from "./n8n";
 
 /**
@@ -45,6 +46,8 @@ export interface NotifiableRequest {
   borrowerId: Id<"users">;
   startDate: number;
   endDate: number;
+  dailyRateCents?: number;
+  valueCents?: number;
 }
 
 export interface EventInput {
@@ -186,6 +189,9 @@ export async function enqueueRequestNotification(
   // falls back to a monogram block rather than a broken image.
   const cover = tool === null ? null : (await imageSummaryForTool(ctx, tool._id)).cover;
   const toolImageUrl = cover === null ? null : cover.url;
+  const dayCount = loanDayCount(request.startDate, request.endDate);
+  const dailyRateCents = request.dailyRateCents ?? tool?.dailyRateCents ?? 0;
+  const valueCents = request.valueCents ?? tool?.valueCents ?? 0;
 
   const payload: RequestNotificationPayload = {
     event,
@@ -205,6 +211,10 @@ export async function enqueueRequestNotification(
       toolImageUrl,
       startDate: formatDateInput(request.startDate),
       endDate: formatDateInput(request.endDate),
+      dayCount,
+      dailyRateCents,
+      valueCents,
+      totalCents: bookingTotalCents(dailyRateCents, dayCount),
       deepLink: deepLinkFor(notifyOwner ? "incoming-requests" : "my-requests", request._id),
     }),
   };

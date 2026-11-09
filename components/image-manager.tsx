@@ -3,9 +3,11 @@
 import type { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { useAction, useMutation, useQuery } from "convex/react";
+import { ImagePlus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { ToolImage } from "@/components/tool-image";
+import { Icon } from "@/components/ui/icon";
 import { appErrorMessage } from "@/lib/convex-error";
 import { snapshotFileSelection } from "@/lib/file-selection";
 import { ACCEPTED_IMAGE_TYPES, prepareImage } from "@/lib/image-upload";
@@ -286,20 +288,26 @@ export function ImageManager({ toolId }: { toolId: Id<"tools"> }) {
     <section
       aria-labelledby={`photos-${toolId}`}
       aria-busy={isUploading}
-      className="rounded-xl border border-line bg-surface-raised p-5"
+      className="rounded-[26px] border border-rule/80 bg-white p-5 shadow-soft sm:p-6"
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h3 id={`photos-${toolId}`} className="text-sm font-medium">
-          Photos
-        </h3>
-        <span className="text-xs text-ink-muted">
-          {savedCount + activeCount} of {LIMITS.maxImagesPerTool}
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-[10px] font-bold tracking-[0.16em] text-brand uppercase">Photos</p>
+          <h3
+            id={`photos-${toolId}`}
+            className="font-display mt-1.5 text-[26px] leading-none text-navy"
+          >
+            Add photos
+          </h3>
+          <p className="mt-2 max-w-md text-[12px] leading-relaxed text-ink-muted">
+            The first photo becomes the cover. Uploads start as soon as you choose them; photos are
+            resized and stripped of location data before they are served publicly.
+          </p>
+        </div>
+        <span className="shrink-0 rounded-full bg-mist/60 px-2.5 py-1 text-[10.5px] font-semibold text-brand tabular-nums">
+          {savedCount + activeCount} / {LIMITS.maxImagesPerTool}
         </span>
       </div>
-      <p className="mt-1 text-xs leading-relaxed text-ink-muted">
-        The first photo is the cover. Your preview appears immediately; upload starts automatically.
-        Photos are resized and stripped of location data before they are served publicly.
-      </p>
 
       {error !== null && (
         <p role="alert" className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -318,8 +326,10 @@ export function ImageManager({ toolId }: { toolId: Id<"tools"> }) {
           setDragging(false);
           if (!isUploading && !atLimit) void handleFiles(event.dataTransfer.files);
         }}
-        className={`mt-4 flex flex-col items-center justify-center rounded-xl border border-dashed px-4 py-6 text-center transition-colors focus-within:border-accent ${
-          dragging ? "border-accent bg-accent/5" : "border-line hover:border-accent/50"
+        className={`mt-5 flex flex-col items-center justify-center rounded-[20px] border-2 border-dashed px-4 py-8 text-center transition-colors focus-within:border-brand ${
+          dragging
+            ? "border-brand bg-mist/50"
+            : "border-rule hover:border-brand/40 hover:bg-page/60"
         } ${atLimit || isUploading ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
       >
         <input
@@ -333,10 +343,13 @@ export function ImageManager({ toolId }: { toolId: Id<"tools"> }) {
           }}
           className="sr-only"
         />
-        <span className="text-sm font-medium">
+        <span className="flex size-11 items-center justify-center rounded-full bg-mist text-brand">
+          <Icon icon={ImagePlus} size={20} />
+        </span>
+        <span className="mt-3 text-[13.5px] font-semibold text-navy">
           {isUploading ? "Uploading…" : atLimit ? "Photo limit reached" : "Add photos"}
         </span>
-        <span className="mt-0.5 text-xs text-ink-muted">
+        <span className="mt-1 max-w-xs text-[11.5px] leading-relaxed text-ink-muted">
           {atLimit
             ? `Remove one to add another (max ${LIMITS.maxImagesPerTool}).`
             : "Drag and drop, or click to choose. JPEG, PNG, WebP, AVIF or HEIC."}
@@ -344,17 +357,18 @@ export function ImageManager({ toolId }: { toolId: Id<"tools"> }) {
       </label>
 
       {(images !== undefined && images.length > 0) || pending.length > 0 ? (
-        <ul aria-live="polite" className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <ul aria-live="polite" className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {images?.map((image, index) => (
             <li
               key={image._id}
-              className="group relative overflow-hidden rounded-xl border border-line bg-surface"
+              className="group relative overflow-hidden rounded-2xl border border-rule/80 bg-page"
             >
               <ToolImage
                 src={image.url}
                 alt={`Photo ${index + 1}`}
                 width={image.width}
                 height={image.height}
+                sizes="(max-width: 640px) 50vw, 240px"
                 className="aspect-[4/3] w-full object-cover"
               />
               {index === 0 && (
@@ -469,7 +483,7 @@ export function ImageManager({ toolId }: { toolId: Id<"tools"> }) {
           ))}
         </ul>
       ) : (
-        <p className="mt-4 text-xs text-ink-muted">
+        <p className="mt-4 text-[11px] text-ink-muted">
           No photos yet. Listings with a clear cover photo get more requests.
         </p>
       )}

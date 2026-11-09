@@ -24,10 +24,15 @@
     "@hookform/resolvers": "^7.0.3",
     "@sentry/nextjs": "^11",
     "convex": "^1.49.0",
+    "date-fns": "^4.4.0",
+    "lucide-react": "^1.70.0",
+    "motion": "^14.10.1",
     "next": "16.4.5",
     "react": "19.3.1",
+    "react-day-picker": "^10.0.2",
     "react-dom": "19.3.1",
     "react-hook-form": "^7.91.0",
+    "sonner": "^2.0.8",
     "zod": "^4.6.7"
   },
   "devDependencies": {
