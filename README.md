@@ -2,6 +2,9 @@
 
 **Borrow what you need. Lend what you don't.**
 
+<img width="1512" height="982" alt="lendloopnow" src="https://github.com/user-attachments/assets/7abd6523-9795-4d76-8458-e302975f8277" />
+
+
 LendLoop is a neighbourhood tool-lending board. Neighbours list tools with a daily rate and a
 replacement value; borrowers ask for a date range; owners approve, decline or mark the loan
 returned. [n8n](https://n8n.io) carries the notifications and overdue reminders in both directions.
