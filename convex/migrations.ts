@@ -22,6 +22,12 @@ const CATEGORY_VALUE_CENTS: Record<string, number> = {
   camping: 15_000,
   cleaning: 20_000,
   automotive: 10_000,
+  electronics: 35_000,
+  sports_fitness: 12_000,
+  bikes: 30_000,
+  music: 25_000,
+  photography: 40_000,
+  party_events: 8_000,
   other: 7_000,
 };
 

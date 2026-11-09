@@ -15,6 +15,12 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   camping: "Camping",
   cleaning: "Cleaning",
   automotive: "Automotive",
+  electronics: "Electronics",
+  sports_fitness: "Sports & fitness",
+  bikes: "Bikes & scooters",
+  music: "Music & audio",
+  photography: "Photography",
+  party_events: "Party & events",
   other: "Other",
 };
 
@@ -26,6 +32,12 @@ export const CATEGORIES = [
   "camping",
   "cleaning",
   "automotive",
+  "electronics",
+  "sports_fitness",
+  "bikes",
+  "music",
+  "photography",
+  "party_events",
   "other",
 ] as const satisfies readonly Category[];
 

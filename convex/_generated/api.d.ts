@@ -32,6 +32,8 @@ import type * as media from "../media.js";
 import type * as migrations from "../migrations.js";
 import type * as requests from "../requests.js";
 import type * as seed from "../seed.js";
+import type * as seedData from "../seedData.js";
+import type * as seedProd from "../seedProd.js";
 import type * as toolImages from "../toolImages.js";
 import type * as tools from "../tools.js";
 import type * as users from "../users.js";
@@ -67,6 +69,8 @@ declare const fullApi: ApiFromModules<{
   migrations: typeof migrations;
   requests: typeof requests;
   seed: typeof seed;
+  seedData: typeof seedData;
+  seedProd: typeof seedProd;
   toolImages: typeof toolImages;
   tools: typeof tools;
   users: typeof users;

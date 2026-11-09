@@ -1,6 +1,21 @@
 "use client";
 
-import { Drill, Hammer, Sprout, CookingPot, TentTree, SprayCan, Car, Boxes } from "lucide-react";
+import {
+  Drill,
+  Hammer,
+  Sprout,
+  CookingPot,
+  TentTree,
+  SprayCan,
+  Car,
+  Tv,
+  Dumbbell,
+  Bike,
+  Music4,
+  Camera,
+  PartyPopper,
+  Boxes,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 import type { Category } from "@/convex/lib/constants";
@@ -61,6 +76,42 @@ export const CATEGORY_ART: Record<Category, CategoryArt> = {
     ink: "#565b85",
     label: CATEGORY_LABELS.automotive,
   },
+  electronics: {
+    icon: Tv,
+    tint: "#e8ecf7",
+    ink: "#2b3a67",
+    label: CATEGORY_LABELS.electronics,
+  },
+  sports_fitness: {
+    icon: Dumbbell,
+    tint: "#eaf7ef",
+    ink: "#1f7a4d",
+    label: CATEGORY_LABELS.sports_fitness,
+  },
+  bikes: {
+    icon: Bike,
+    tint: "#fff3e4",
+    ink: "#a85600",
+    label: CATEGORY_LABELS.bikes,
+  },
+  music: {
+    icon: Music4,
+    tint: "#f3e9ff",
+    ink: "#6b3fb7",
+    label: CATEGORY_LABELS.music,
+  },
+  photography: {
+    icon: Camera,
+    tint: "#e7f1f3",
+    ink: "#0f5c6b",
+    label: CATEGORY_LABELS.photography,
+  },
+  party_events: {
+    icon: PartyPopper,
+    tint: "#fff0f3",
+    ink: "#b8305f",
+    label: CATEGORY_LABELS.party_events,
+  },
   other: {
     icon: Boxes,
     tint: "#f0eefc",
@@ -80,7 +131,7 @@ export function CategoryArtwork({
   compact?: boolean;
   showLabel?: boolean;
 }) {
-  const art = CATEGORY_ART[category];
+  const art = CATEGORY_ART[category] ?? CATEGORY_ART.other;
 
   return (
     <div

@@ -21,7 +21,7 @@ import {
 } from "./lib/media";
 
 /** Bounded by design: the public page is a shelf, not a data export. */
-const MAX_PUBLIC_TOOLS = 60;
+const MAX_PUBLIC_TOOLS = 200;
 
 /**
  * The public listing page is the one place a listing is more than a name and a
@@ -29,7 +29,7 @@ const MAX_PUBLIC_TOOLS = 60;
  * never a name, an id or an email. `listPublic` above stays minimal for the
  * legacy strip; the showcase queries feed the rich landing and detail pages.
  */
-const MAX_SHOWCASE_TOOLS = 48;
+const MAX_SHOWCASE_TOOLS = 200;
 
 const publicListingValidator = v.object({
   _id: v.id("tools"),
@@ -510,7 +510,7 @@ export const remove = mutation({
   },
 });
 
-const BROWSE_LIMIT = 60;
+const BROWSE_LIMIT = 200;
 
 const browseToolValidator = v.object({
   _id: v.id("tools"),
@@ -563,12 +563,14 @@ export const listAvailable = query({
           ? await ctx.db
               .query("tools")
               .withIndex("by_status", (q) => q.eq("status", status))
+              .order("desc")
               .take(BROWSE_LIMIT)
           : await ctx.db
               .query("tools")
               .withIndex("by_category_and_status", (q) =>
                 q.eq("category", category).eq("status", status),
               )
+              .order("desc")
               .take(BROWSE_LIMIT);
       rows.push(...batch);
     }

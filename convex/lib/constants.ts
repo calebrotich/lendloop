@@ -17,6 +17,12 @@ export const categoryValidator = v.union(
   v.literal("camping"),
   v.literal("cleaning"),
   v.literal("automotive"),
+  v.literal("electronics"),
+  v.literal("sports_fitness"),
+  v.literal("bikes"),
+  v.literal("music"),
+  v.literal("photography"),
+  v.literal("party_events"),
   v.literal("other"),
 );
 export type Category = Infer<typeof categoryValidator>;

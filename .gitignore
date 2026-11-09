@@ -60,3 +60,7 @@ docs/deployment-vps.md
 .env.sentry-build-plugin
 .vercel
 .env.local
+
+# Seed image cache (downloaded originals + re-encoded webp)
+.seed-cache/
+__pycache__/

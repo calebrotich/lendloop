@@ -1,0 +1,222 @@
+[
+  {
+    "name": "Acoustic guitar with hard case",
+    "category": "music",
+    "condition": "good",
+    "description": "Full-size dreadnought acoustic with a solid spruce top and a warm, balanced tone. Set up with light strings and a low action. Includes a hard case, capo and spare strings. A few honest marks.",
+    "valueCents": 18000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": ["acoustic guitar", "guitar acoustic", "dreadnought guitar"]
+  },
+  {
+    "name": "Electric guitar and practice amp",
+    "category": "music",
+    "condition": "good",
+    "description": "Solid-body electric guitar with a 15W practice amp, a cable and a gig bag. Great for learning chords, recording riffs or playing at a small gathering. Action is comfortable and frets are clean.",
+    "valueCents": 32000,
+    "dailyRateCents": 1000,
+    "status": "available",
+    "imageQueries": ["electric guitar", "guitar electric", "guitar amplifier practice"]
+  },
+  {
+    "name": "88-key digital piano",
+    "category": "music",
+    "condition": "like_new",
+    "description": "Full-size 88-key digital piano with weighted keys, built-in speakers and a sustain pedal. Headphone output for quiet practice. Includes a stand and a bench. The keys are all responsive.",
+    "valueCents": 55000,
+    "dailyRateCents": 1800,
+    "status": "available",
+    "imageQueries": ["digital piano", "electric piano keyboard", "piano keyboard 88 keys"]
+  },
+  {
+    "name": "40W guitar amplifier",
+    "category": "music",
+    "condition": "good",
+    "description": "Forty-watt combo amp with clean and overdrive channels, reverb and a headphone out. Loud enough for a small venue, quiet enough for a bedroom. The speaker has no tears.",
+    "valueCents": 14000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": ["guitar amplifier", "combo amp guitar", "electric guitar amp"]
+  },
+  {
+    "name": "12-channel audio mixer",
+    "category": "music",
+    "condition": "like_new",
+    "description": "Twelve-channel mixer with four mic preamps, two stereo line channels and built-in effects. Perfect for a small gig, a podcast or a school event. Includes a power supply and a manual.",
+    "valueCents": 25000,
+    "dailyRateCents": 900,
+    "status": "available",
+    "imageQueries": ["audio mixer", "mixing console audio", "sound mixer board"]
+  },
+  {
+    "name": "DJ controller, 2-channel",
+    "category": "music",
+    "condition": "good",
+    "description": "Two-channel DJ controller with jog wheels, hot cues and a built-in sound card. Connects by USB to a laptop and works with the main DJ software. Includes a carry case and cables.",
+    "valueCents": 28000,
+    "dailyRateCents": 1000,
+    "status": "unavailable",
+    "imageQueries": ["dj controller", "dj mixer controller", "dj equipment"]
+  },
+  {
+    "name": "Wireless microphone, pair",
+    "category": "music",
+    "condition": "like_new",
+    "description": "Two handheld wireless microphones with a receiver, about 50m of range and 8 hours per battery pair. Clear for speeches, karaoke and small events. Includes XLR and jack cables.",
+    "valueCents": 11000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["wireless microphone", "handheld microphone wireless", "microphone set"]
+  },
+  {
+    "name": "Powered PA speaker, 12-inch",
+    "category": "music",
+    "condition": "good",
+    "description": "Twelve-inch powered speaker with 400W of output and two mic inputs. Stands on a pole or sits on a table. Good for a party, a market stall or a garden ceremony. Includes a power cable.",
+    "valueCents": 22000,
+    "dailyRateCents": 800,
+    "status": "available",
+    "imageQueries": ["pa speaker", "powered speaker pa", "loudspeaker public address"]
+  },
+  {
+    "name": "DSLR camera with 18-55mm lens",
+    "category": "photography",
+    "condition": "good",
+    "description": "Entry-level DSLR with an 18-55mm zoom, a spare battery and a 32GB card. Great for portraits, holidays and product photos. The sensor was cleaned recently and the shutter count is low.",
+    "valueCents": 38000,
+    "dailyRateCents": 1200,
+    "status": "available",
+    "imageQueries": ["dslr camera", "digital slr camera", "camera dslr lens"]
+  },
+  {
+    "name": "Mirrorless camera, body only",
+    "category": "photography",
+    "condition": "like_new",
+    "description": "Mirrorless body with a 24MP sensor, 4K video and two spare batteries. Takes the same lens mount as the telephoto in my other listing, so you can borrow both for one trip.",
+    "valueCents": 70000,
+    "dailyRateCents": 2200,
+    "status": "available",
+    "imageQueries": ["mirrorless camera", "camera mirrorless body", "digital camera mirrorless"]
+  },
+  {
+    "name": "70-200mm telephoto lens",
+    "category": "photography",
+    "condition": "like_new",
+    "description": "Weather-sealed 70-200mm f/2.8 zoom for sport, wildlife and portraits with soft backgrounds. Sharp wide open and the stabiliser works. Includes hood, caps and a padded bag.",
+    "valueCents": 85000,
+    "dailyRateCents": 2500,
+    "status": "available",
+    "imageQueries": ["telephoto lens", "zoom lens camera", "camera lens telephoto"]
+  },
+  {
+    "name": "Carbon fibre tripod",
+    "category": "photography",
+    "condition": "good",
+    "description": "Four-section carbon tripod with a ball head and a quick-release plate. Reaches 1.6m and folds to 45cm. Holds a full-frame camera and a heavy lens steadily. Light enough to carry all day.",
+    "valueCents": 16000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": ["tripod camera", "carbon tripod", "camera tripod ball head"]
+  },
+  {
+    "name": "Ring light with stand",
+    "category": "photography",
+    "condition": "new",
+    "description": "Eighteen-inch ring light with a 2m stand, phone holder and a bag. Gives even, warm light for portraits, video calls and product shots. Three colour temperatures and ten brightness levels.",
+    "valueCents": 8000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["ring light", "ring light photography", "led ring light stand"]
+  },
+  {
+    "name": "3-axis gimbal stabiliser",
+    "category": "photography",
+    "condition": "good",
+    "description": "Handheld three-axis gimbal for a phone or a small camera. Makes walking shots and panning video smooth. The motors calibrate in seconds and last about 12 hours. Includes a mini tripod.",
+    "valueCents": 22000,
+    "dailyRateCents": 800,
+    "status": "available",
+    "imageQueries": ["gimbal stabilizer", "camera gimbal", "video stabilizer gimbal"]
+  },
+  {
+    "name": "Instant camera with film",
+    "category": "photography",
+    "condition": "new",
+    "description": "Instant film camera with a built-in flash and selfie mirror. Comes with two packs of film (16 shots). Great for weddings, parties and scrapbooks. The film is in date and stored cool.",
+    "valueCents": 11000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["instant camera", "polaroid camera", "instant film camera"]
+  },
+  {
+    "name": "Photo backdrop and stand kit",
+    "category": "photography",
+    "condition": "good",
+    "description": "Two-by-three-metre backdrop stand with a white and a grey cloth, plus clips and sandbags. Sets up in ten minutes for portraits, product photos or a party photo booth. Everything packs into one bag.",
+    "valueCents": 9000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["photo backdrop", "backdrop stand photography", "studio backdrop kit"]
+  },
+  {
+    "name": "6ft folding table",
+    "category": "party_events",
+    "condition": "good",
+    "description": "Six-foot folding table with a wipe-clean top and folding legs. Seats six to eight for a buffet table, a market stall or a card game. The catch on one leg is stiff but it locks safely.",
+    "valueCents": 4500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": ["folding table", "banquet table folding", "trestle table"]
+  },
+  {
+    "name": "Folding chairs, set of 6",
+    "category": "party_events",
+    "condition": "good",
+    "description": "Six folding chairs with padded seats and a carry strap. Sturdy enough for a garden party and light enough to stack in a shed. The fabric is clean and all hinges are tight.",
+    "valueCents": 6000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["folding chairs", "stacking chairs", "party chairs folding"]
+  },
+  {
+    "name": "3x3m pop-up gazebo",
+    "category": "party_events",
+    "condition": "good",
+    "description": "Pop-up gazebo with a 3x3m canopy, four side panels and leg weights. Sets up in five minutes with two people. Gives shade or rain cover for a garden party or a stall. The bag has a small tear.",
+    "valueCents": 11000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["pop up gazebo", "gazebo canopy garden", "event gazebo"]
+  },
+  {
+    "name": "Disco ball and light",
+    "category": "party_events",
+    "condition": "like_new",
+    "description": "Mirror disco ball with a motor and a colour-changing LED pin spot. Fills a room with moving dots. The motor is quiet and the ball is undamaged. Includes a mounting bracket for a ceiling or stand.",
+    "valueCents": 5000,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": ["disco ball", "mirror ball disco", "disco ball light"]
+  },
+  {
+    "name": "Chafing dish set, 3 pans",
+    "category": "party_events",
+    "condition": "like_new",
+    "description": "Three stainless chafing dishes with lids, water pans and fuel holders. Keeps food warm for hours at a buffet or a party. All pieces are clean and the lids fit well. Fuel canisters not included.",
+    "valueCents": 7000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["chafing dish", "buffet food warmer", "chafing dish set"]
+  },
+  {
+    "name": "Warm-white string lights, 20m",
+    "category": "party_events",
+    "condition": "new",
+    "description": "Twenty metres of warm-white festoon lights on a black cable, with ten spare bulbs and clips. Indoor or outdoor use. Made a garden party feel like a wedding. The bulbs are all working.",
+    "valueCents": 3000,
+    "dailyRateCents": 100,
+    "status": "available",
+    "imageQueries": ["string lights", "festoon lights garden", "fairy lights outdoor"]
+  }
+]

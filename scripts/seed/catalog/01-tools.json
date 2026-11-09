@@ -1,0 +1,366 @@
+[
+  {
+    "name": "18V brushless cordless drill",
+    "category": "power_tools",
+    "condition": "good",
+    "description": "Two-speed brushless drill with two 2.0Ah batteries, charger and a 40-piece bit set. Used it for decking, shelf brackets and flat-pack furniture; the chuck holds bits tight. Comes in the original hard case.",
+    "valueCents": 18000,
+    "dailyRateCents": 700,
+    "status": "available",
+    "imageQueries": [
+      "cordless drill",
+      "electric drill",
+      "power drill"
+    ]
+  },
+  {
+    "name": "20V hammer drill and masonry bits",
+    "category": "power_tools",
+    "condition": "like_new",
+    "description": "Hammer mode makes short work of brick and concrete; drill mode handles timber and metal. Includes two 4.0Ah batteries, a fast charger and a 12-piece masonry bit set. Only used for one bathroom refit.",
+    "valueCents": 24000,
+    "dailyRateCents": 900,
+    "status": "available",
+    "imageQueries": [
+      "hammer drill",
+      "rotary hammer drill",
+      "masonry drill"
+    ]
+  },
+  {
+    "name": "Impact driver with 60-piece bit set",
+    "category": "power_tools",
+    "condition": "good",
+    "description": "Drives long screws and lag bolts without stripping heads. 1/4-inch hex quick-release, two batteries, belt hook and a 60-piece driver set. Handy for fences, garden furniture and decking.",
+    "valueCents": 14000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": [
+      "impact driver",
+      "cordless impact driver",
+      "power screwdriver"
+    ]
+  },
+  {
+    "name": "7¼-inch circular saw, corded",
+    "category": "power_tools",
+    "condition": "good",
+    "description": "1500W circular saw with a fresh 24-tooth blade for ripping timber and sheet goods. Cuts 65mm at 90 degrees. The base plate is slightly scuffed but the shoe still runs square to the blade.",
+    "valueCents": 13000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": [
+      "circular saw",
+      "electric circular saw",
+      "circular saw wood"
+    ]
+  },
+  {
+    "name": "Variable-speed jigsaw with blades",
+    "category": "power_tools",
+    "condition": "fair",
+    "description": "Cuts curves in plywood, worktops and plastic with the orbital action switched on. Includes 10 assorted blades and a dust port. The plastic base has a crack near the front but it does not affect the cut.",
+    "valueCents": 9000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": [
+      "jigsaw saw",
+      "electric jigsaw",
+      "jigsaw woodworking"
+    ]
+  },
+  {
+    "name": "4½-inch angle grinder",
+    "category": "power_tools",
+    "condition": "good",
+    "description": "900W angle grinder for cutting rebar, grinding welds and stripping paint. Takes 115mm discs. Two guards and a side handle included. The spindle lock sticks a little — hold the disc still when changing it.",
+    "valueCents": 11000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": [
+      "angle grinder",
+      "grinder power tool",
+      "cutting disc grinder"
+    ]
+  },
+  {
+    "name": "Random orbital sander, 125mm",
+    "category": "power_tools",
+    "condition": "like_new",
+    "description": "Smooths filler, paint edges and bare timber quickly. Dust bag and a stack of 80/120/240 discs included. Velcro pad still grabs well. Ideal before varnishing a table or sanding a door frame.",
+    "valueCents": 12000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": [
+      "orbital sander",
+      "random orbital sander",
+      "sanding machine"
+    ]
+  },
+  {
+    "name": "Corded reciprocating saw",
+    "category": "power_tools",
+    "condition": "good",
+    "description": "Demolition saw for pruning thick branches, cutting pipe and breaking down pallets. Takes standard reciprocating blades. Includes six wood and metal blades. Loud, so bring ear defenders.",
+    "valueCents": 14000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": [
+      "reciprocating saw",
+      "sabre saw",
+      "demolition saw"
+    ]
+  },
+  {
+    "name": "Brad nailer and small compressor",
+    "category": "power_tools",
+    "condition": "good",
+    "description": "18-gauge brad nailer with a 6-litre compressor and 10m hose. Perfect for skirting, architraves and trim without filling hammer marks. Compressor is oil-free and quiet enough for a flat.",
+    "valueCents": 22000,
+    "dailyRateCents": 900,
+    "status": "available",
+    "imageQueries": [
+      "brad nailer",
+      "nail gun compressor",
+      "pneumatic nailer"
+    ]
+  },
+  {
+    "name": "2000W heat gun with nozzles",
+    "category": "power_tools",
+    "condition": "good",
+    "description": "Strips paint and varnish, loosens stubborn nuts and shrinks heat-shrink tubing. Two temperature settings with four nozzles. The cable is 3m — you will still want an extension lead outside.",
+    "valueCents": 7000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": [
+      "heat gun",
+      "hot air gun tool",
+      "paint stripper heat gun"
+    ]
+  },
+  {
+    "name": "Plunge router with 12 bits",
+    "category": "power_tools",
+    "condition": "like_new",
+    "description": "1400W plunge router for grooves, rebates, hinge recesses and roundovers. Includes 12 router bits, guide fence and dust extraction port. Depth stop works smoothly; the fine adjuster needs a firm turn.",
+    "valueCents": 21000,
+    "dailyRateCents": 800,
+    "status": "available",
+    "imageQueries": [
+      "plunge router",
+      "woodworking router",
+      "router tool"
+    ]
+  },
+  {
+    "name": "Rotary multi-tool kit",
+    "category": "power_tools",
+    "condition": "good",
+    "description": "Corded rotary tool for detail sanding, cutting and polishing in tight spots. Comes with 40 accessories and a flexible shaft. Great for model work, trimming plastic and cleaning grout.",
+    "valueCents": 9500,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": [
+      "rotary tool",
+      "dremel tool",
+      "multi tool rotary"
+    ]
+  },
+  {
+    "name": "6-inch bench grinder",
+    "category": "power_tools",
+    "condition": "fair",
+    "description": "Two-wheel bench grinder for sharpening chisels, axes and drill bits. One coarse and one fine wheel, plus eye shields. Bolts onto a bench; the left wheel is a little out of round but usable.",
+    "valueCents": 12000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": [
+      "bench grinder",
+      "grinding wheel machine",
+      "tool sharpening grinder"
+    ]
+  },
+  {
+    "name": "10-inch sliding mitre saw",
+    "category": "power_tools",
+    "condition": "like_new",
+    "description": "Sliding compound mitre saw for skirting, studwork and decking with accurate 45-degree cuts. Laser guide works. Includes a 60-tooth blade and material clamp. Heavy — bring a friend to move it.",
+    "valueCents": 32000,
+    "dailyRateCents": 1200,
+    "status": "available",
+    "imageQueries": [
+      "mitre saw",
+      "compound miter saw",
+      "sliding mitre saw"
+    ]
+  },
+  {
+    "name": "94-piece socket and spanner set",
+    "category": "hand_tools",
+    "condition": "like_new",
+    "description": "Chrome vanadium socket set covering 4–32mm with ratchets, extensions and combination spanners. Everything is present and sorted in the case. Ideal for car jobs, bikes and flat-pack assembly.",
+    "valueCents": 12000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": [
+      "socket set",
+      "socket wrench set",
+      "spanner set"
+    ]
+  },
+  {
+    "name": "Adjustable spanner set, 3 sizes",
+    "category": "hand_tools",
+    "condition": "good",
+    "description": "Three adjustable spanners (150mm, 200mm, 250mm) for plumbing, car repairs and anything without a fixed size. Jaws move freely and grip well. A trace of surface rust on the smallest one.",
+    "valueCents": 4500,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": [
+      "adjustable spanner",
+      "adjustable wrench",
+      "spanner tool"
+    ]
+  },
+  {
+    "name": "Precision screwdriver set, 60 bits",
+    "category": "hand_tools",
+    "condition": "like_new",
+    "description": "Magnetic precision driver with 60 bits for phones, laptops, glasses and small appliances. Includes Torx, tri-wing and pentalobe. The case hinge is fine; one bit is slightly rounded.",
+    "valueCents": 4000,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": [
+      "precision screwdriver set",
+      "screwdriver bits",
+      "watch repair screwdriver"
+    ]
+  },
+  {
+    "name": "16oz fibreglass claw hammer",
+    "category": "hand_tools",
+    "condition": "good",
+    "description": "General-purpose claw hammer for driving nails and pulling them out. Fibreglass handle absorbs shock. The face has a few dings from years of shed projects but the grip is solid.",
+    "valueCents": 2500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": [
+      "claw hammer",
+      "hammer hand tool",
+      "carpentry hammer"
+    ]
+  },
+  {
+    "name": "Heavy-duty hacksaw with blades",
+    "category": "hand_tools",
+    "condition": "fair",
+    "description": "Cuts metal pipe, threaded rod and angle iron. Includes ten 24-TPI blades and a spare frame. Blade tensioner holds well. Best used with a drop of oil on the cut.",
+    "valueCents": 2000,
+    "dailyRateCents": 100,
+    "status": "available",
+    "imageQueries": [
+      "hacksaw",
+      "metal cutting hand saw",
+      "hacksaw blades"
+    ]
+  },
+  {
+    "name": "14-inch pipe wrench",
+    "category": "hand_tools",
+    "condition": "good",
+    "description": "Heavy cast pipe wrench for loosening old plumbing unions and galvanised pipe. Jaws bite hard. The handle has been taped where the original grip wore through — cosmetic only.",
+    "valueCents": 5000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": [
+      "pipe wrench",
+      "plumbing wrench",
+      "monkey wrench"
+    ]
+  },
+  {
+    "name": "1/2-inch torque wrench, 40–210Nm",
+    "category": "hand_tools",
+    "condition": "like_new",
+    "description": "Calibrated click-type torque wrench for wheel nuts, cylinder heads and suspension bolts. Comes with a 1/2-inch to 3/8-inch adapter and a hard case. Last calibrated about a year ago.",
+    "valueCents": 9000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": [
+      "torque wrench",
+      "click torque wrench",
+      "car torque wrench"
+    ]
+  },
+  {
+    "name": "Pliers and cutters set, 5-piece",
+    "category": "hand_tools",
+    "condition": "good",
+    "description": "Long-nose, combination, side-cutting, water-pump and wire-stripping pliers. Insulated handles. The side cutters still slice copper wire cleanly; the spring on the long-nose pair is a bit soft.",
+    "valueCents": 5500,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": [
+      "pliers set",
+      "wire cutters",
+      "hand tools pliers"
+    ]
+  },
+  {
+    "name": "Wood chisel set, 6-piece",
+    "category": "hand_tools",
+    "condition": "good",
+    "description": "Bevel-edge chisels from 6mm to 38mm for hinge mortises, cleaning joints and paring. Honed and ready to cut. Includes a honing guide. Please do not use them on screws or nails.",
+    "valueCents": 6000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": [
+      "wood chisel set",
+      "chisel woodworking",
+      "hand chisel tool"
+    ]
+  },
+  {
+    "name": "1200mm spirit level",
+    "category": "hand_tools",
+    "condition": "like_new",
+    "description": "Box-section aluminium level with three vials (horizontal, vertical and 45 degrees). Accurate enough for hanging doors, tiling and shelving. One end cap is missing, so treat the last centimetre as rough.",
+    "valueCents": 4500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": [
+      "spirit level",
+      "bubble level",
+      "carpentry level"
+    ]
+  },
+  {
+    "name": "8m steel tape measure",
+    "category": "hand_tools",
+    "condition": "new",
+    "description": "8-metre auto-lock tape with a magnetic hook and clear metric and imperial markings. The lock holds firmly and the blade retracts smoothly. A budget favourite for measuring rooms and timber.",
+    "valueCents": 1800,
+    "dailyRateCents": 100,
+    "status": "available",
+    "imageQueries": [
+      "tape measure",
+      "measuring tape tool",
+      "steel tape measure"
+    ]
+  },
+  {
+    "name": "Rolling tool chest with tools",
+    "category": "hand_tools",
+    "condition": "good",
+    "description": "Seven-drawer rolling chest on castors, stocked with screwdrivers, pliers, a hammer, a level and assorted spanners. Everything in the photos is included. The top drawer lock is stiff but works.",
+    "valueCents": 26000,
+    "dailyRateCents": 900,
+    "status": "available",
+    "imageQueries": [
+      "tool chest",
+      "tool cabinet",
+      "tool box"
+    ]
+  }
+]

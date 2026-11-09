@@ -1,0 +1,352 @@
+[
+  {
+    "name": "Corded hedge trimmer, 500W",
+    "category": "garden",
+    "condition": "good",
+    "description": "500W hedge trimmer with 55cm double-sided blades. Cuts privet, box and laurel cleanly. 10m cable included. The guard is scuffed but the blades were sharpened last season.",
+    "valueCents": 8000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": [
+      "hedge trimmer",
+      "electric hedge trimmer",
+      "hedge shears"
+    ]
+  },
+  {
+    "name": "Petrol lawn mower, 46cm cut",
+    "category": "garden",
+    "condition": "fair",
+    "description": "Four-stroke petrol mower with a 46cm deck and a 60-litre grass box. Mulching plug included. Starts on the second pull when cold. Best for medium lawns; the rear roller makes stripes.",
+    "valueCents": 26000,
+    "dailyRateCents": 1000,
+    "status": "available",
+    "imageQueries": [
+      "lawn mower",
+      "petrol mower",
+      "push lawn mower"
+    ]
+  },
+  {
+    "name": "Cordless grass strimmer",
+    "category": "garden",
+    "condition": "good",
+    "description": "Battery strimmer with 30 minutes of runtime per charge and a spare battery. Trims edges, fences and around planters. The spool is easy to refill. Comes with two 2.0Ah batteries and a charger.",
+    "valueCents": 12000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": [
+      "strimmer",
+      "grass trimmer",
+      "string trimmer"
+    ]
+  },
+  {
+    "name": "Electric leaf blower",
+    "category": "garden",
+    "condition": "like_new",
+    "description": "Blows leaves, grass clippings and sawdust off paths and driveways. Variable speed and a vacuum mode with a collection bag. Light enough to use one-handed. Cable is 8m.",
+    "valueCents": 8500,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": [
+      "leaf blower",
+      "garden blower",
+      "electric leaf vacuum"
+    ]
+  },
+  {
+    "name": "Petrol chainsaw, 40cm bar",
+    "category": "garden",
+    "condition": "good",
+    "description": "45cc petrol chainsaw with a 40cm bar for logs, storm damage and clearing scrub. One spare chain and a sharpening file included. Starts reliably; the bar oil reservoir needs topping up each use.",
+    "valueCents": 22000,
+    "dailyRateCents": 1000,
+    "status": "available",
+    "imageQueries": [
+      "chainsaw",
+      "petrol chainsaw",
+      "tree cutting chainsaw"
+    ]
+  },
+  {
+    "name": "Electric pressure washer, 130 bar",
+    "category": "garden",
+    "condition": "good",
+    "description": "Cold-water pressure washer for patios, driveways, bikes and garden furniture. 130 bar with three nozzles and a 6m hose. The trigger gun drips slightly when released; a new O-ring is included.",
+    "valueCents": 18000,
+    "dailyRateCents": 700,
+    "status": "available",
+    "imageQueries": [
+      "pressure washer",
+      "high pressure cleaner",
+      "jet washer garden"
+    ]
+  },
+  {
+    "name": "Galvanised wheelbarrow",
+    "category": "garden",
+    "condition": "fair",
+    "description": "Steel wheelbarrow with a 65-litre tray and a pneumatic tyre. Hauls soil, compost, gravel and garden waste. The tyre holds air; the tray has one small dent that does not affect use.",
+    "valueCents": 7000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": [
+      "wheelbarrow",
+      "garden wheelbarrow",
+      "barrow garden tool"
+    ]
+  },
+  {
+    "name": "Garden tool set with border spade",
+    "category": "garden",
+    "condition": "good",
+    "description": "Border spade, fork, weed fork and hand trowel with ash handles. Used for planting, edging and turning compost. Cleaned and oiled after each use. The spade edge is sharp — please handle carefully.",
+    "valueCents": 6000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": [
+      "garden tools",
+      "spade fork garden",
+      "gardening tools set"
+    ]
+  },
+  {
+    "name": "Bypass secateurs and loppers",
+    "category": "garden",
+    "condition": "like_new",
+    "description": "Bypass secateurs plus long-handled loppers for branches up to 40mm. Both have been cleaned and oiled. The secateurs spring is new; the loppers have a slightly loose pivot that you can tighten by hand.",
+    "valueCents": 4500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": [
+      "secateurs",
+      "pruning shears",
+      "garden loppers"
+    ]
+  },
+  {
+    "name": "30m garden hose reel",
+    "category": "garden",
+    "condition": "good",
+    "description": "Wall-mounted reel with 30m of reinforced hose, a spray gun and connectors. Fits a standard outdoor tap. The reel swivels smoothly; one connector has been replaced with a brass one.",
+    "valueCents": 5500,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": [
+      "garden hose reel",
+      "hosepipe garden",
+      "water hose reel"
+    ]
+  },
+  {
+    "name": "Mini rotavator, petrol",
+    "category": "garden",
+    "condition": "fair",
+    "description": "Petrol cultivator for breaking up beds, mixing compost and weeding between rows. Starts easily and digs to about 20cm. Foldable handles fit in a car boot. Please use it on dry soil.",
+    "valueCents": 29000,
+    "dailyRateCents": 1200,
+    "status": "available",
+    "imageQueries": [
+      "rotavator",
+      "tiller garden machine",
+      "cultivator petrol"
+    ]
+  },
+  {
+    "name": "Telescopic pole pruner",
+    "category": "garden",
+    "condition": "good",
+    "description": "Reaches branches up to 4m without a ladder. Telescopic aluminium pole with a bypass cutting head and a pruning saw. The rope and pulley work smoothly. Ideal for fruit trees and hedges.",
+    "valueCents": 11000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": [
+      "pole pruner",
+      "telescopic tree pruner",
+      "tree branch cutter"
+    ]
+  },
+  {
+    "name": "5.5L stand mixer with bowl",
+    "category": "kitchen",
+    "condition": "like_new",
+    "description": "Planetary stand mixer with a 5.5-litre bowl, dough hook, whisk and paddle. Kneads bread, creams butter and whips cream without strain. The slow speed is quiet; the head tilt lock is firm.",
+    "valueCents": 32000,
+    "dailyRateCents": 1000,
+    "status": "available",
+    "imageQueries": [
+      "stand mixer",
+      "kitchen mixer appliance",
+      "dough mixer kitchen"
+    ]
+  },
+  {
+    "name": "11-cup food processor",
+    "category": "kitchen",
+    "condition": "good",
+    "description": "Food processor with an 11-cup bowl, chopping blade, dough blade and three discs for slicing and grating. Great for pesto, hummus, pastry and coleslaw. The lid interlock works reliably.",
+    "valueCents": 18000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": [
+      "food processor",
+      "kitchen food processor",
+      "chopping machine kitchen"
+    ]
+  },
+  {
+    "name": "High-speed blender, 1.8L",
+    "category": "kitchen",
+    "condition": "like_new",
+    "description": "1200W blender that crushes ice, frozen fruit and nuts for smoothies, soups and sauces. Two 1.8-litre jugs included (one with a travel lid). The base is stable and the blades are sharp.",
+    "valueCents": 16000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": [
+      "blender kitchen",
+      "smoothie blender",
+      "kitchen blender appliance"
+    ]
+  },
+  {
+    "name": "5.8L air fryer",
+    "category": "kitchen",
+    "condition": "new",
+    "description": "Large air fryer with eight presets for chips, chicken, fish and vegetables. Uses far less oil than a fryer and heats up in three minutes. The basket is non-stick and washes easily.",
+    "valueCents": 12000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": [
+      "air fryer",
+      "air fryer kitchen appliance",
+      "hot air fryer"
+    ]
+  },
+  {
+    "name": "Bean-to-cup espresso machine",
+    "category": "kitchen",
+    "condition": "good",
+    "description": "Grinds beans and pulls espresso at the touch of a button, with a steam wand for milk. Includes a tamper and two portafilter baskets. Descaled last month. Please bring your own beans.",
+    "valueCents": 48000,
+    "dailyRateCents": 1500,
+    "status": "unavailable",
+    "imageQueries": [
+      "espresso machine",
+      "coffee machine espresso",
+      "barista coffee machine"
+    ]
+  },
+  {
+    "name": "6L slow cooker",
+    "category": "kitchen",
+    "condition": "good",
+    "description": "Six-litre slow cooker with low, high and keep-warm settings. Feeds six comfortably — stews, curries, pulled pork and overnight porridge. The ceramic pot and glass lid are both intact.",
+    "valueCents": 7000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": [
+      "slow cooker",
+      "crock pot",
+      "slow cooker kitchen"
+    ]
+  },
+  {
+    "name": "Bread maker with gluten-free cycle",
+    "category": "kitchen",
+    "condition": "like_new",
+    "description": "Programmable bread maker with 12 cycles including gluten-free, dough and jam. Makes a 1kg loaf overnight. The paddle and measuring cup are included. The non-stick pan is scratch-free.",
+    "valueCents": 13000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": [
+      "bread maker",
+      "bread machine kitchen",
+      "bread baking machine"
+    ]
+  },
+  {
+    "name": "Stainless pasta machine",
+    "category": "kitchen",
+    "condition": "like_new",
+    "description": "Hand-crank roller for fresh tagliatelle, ravioli and lasagne sheets. Nine thickness settings and a clamp that fits most worktops. Includes a drying rack and a cutter attachment.",
+    "valueCents": 6000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": [
+      "pasta machine",
+      "pasta maker kitchen",
+      "fresh pasta roller"
+    ]
+  },
+  {
+    "name": "Ice cream maker, 1.5L",
+    "category": "kitchen",
+    "condition": "good",
+    "description": "Freezer-bowl ice cream maker for gelato, sorbet and frozen yoghurt. The bowl needs 12 hours in a freezer first. Includes a recipe booklet and a spare paddle. Works best with chilled mix.",
+    "valueCents": 9000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": [
+      "ice cream maker",
+      "ice cream machine kitchen",
+      "gelato maker"
+    ]
+  },
+  {
+    "name": "Belgian waffle maker",
+    "category": "kitchen",
+    "condition": "good",
+    "description": "Deep-pocket waffle iron with non-stick plates and a browning dial. Makes two thick Belgian waffles at a time. The plates wipe clean and the indicator light works. Great for weekend brunch.",
+    "valueCents": 5500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": [
+      "waffle maker",
+      "waffle iron kitchen",
+      "belgian waffle machine"
+    ]
+  },
+  {
+    "name": "9-tray food dehydrator",
+    "category": "kitchen",
+    "condition": "like_new",
+    "description": "Nine-tray dehydrator for dried fruit, jerky, herbs and vegetable crisps. Adjustable thermostat from 35 to 70 degrees and a timer. Trays are dishwasher-safe. Used for two seasons.",
+    "valueCents": 14000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": [
+      "food dehydrator",
+      "dehydrator trays food",
+      "dried fruit machine"
+    ]
+  },
+  {
+    "name": "Sous-vide circulator",
+    "category": "kitchen",
+    "condition": "like_new",
+    "description": "Immersion circulator that holds water within 0.1 degrees, for steak, chicken and vegetables. Clamps onto any pot. Includes a vacuum-sealed starter bag set. App pairing works but is optional.",
+    "valueCents": 11000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": [
+      "sous vide",
+      "sous vide cooker",
+      "immersion circulator"
+    ]
+  },
+  {
+    "name": "Cold-press juicer",
+    "category": "kitchen",
+    "condition": "fair",
+    "description": "Slow masticating juicer for leafy greens, carrots, apples and ginger. Produces dry pulp and clear juice with minimal foam. All removable parts have been washed. The feed chute is 75mm.",
+    "valueCents": 15000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": [
+      "juicer machine",
+      "cold press juicer",
+      "fruit vegetable juicer"
+    ]
+  }
+]

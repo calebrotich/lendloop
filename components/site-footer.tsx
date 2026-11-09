@@ -18,6 +18,7 @@ const COLUMNS = [
   {
     title: "The fine print",
     links: [
+      { label: "Photo credits", href: "/credits" },
       { label: "Service status", href: "/api/health" },
       { label: "Back to top", href: "/#top" },
     ],

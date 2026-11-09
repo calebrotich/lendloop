@@ -1,0 +1,342 @@
+[
+  {
+    "name": "3-person tunnel tent",
+    "category": "camping",
+    "condition": "good",
+    "description": "Three-person tunnel tent with two sleeping compartments and a porch for boots and bags. 3000mm hydrostatic head, taped seams and an aluminium pole set. Packs into two stuff sacks.",
+    "valueCents": 22000,
+    "dailyRateCents": 800,
+    "status": "available",
+    "imageQueries": ["tunnel tent", "camping tent three person", "family tent camping"]
+  },
+  {
+    "name": "Two-person three-season tent",
+    "category": "camping",
+    "condition": "like_new",
+    "description": "Two-person, three-season tent that pitches in about five minutes. One patched corner on the fly sheet, otherwise waterproof. Includes footprint and pegs. Roomy enough for two adults and day packs.",
+    "valueCents": 18000,
+    "dailyRateCents": 700,
+    "status": "available",
+    "imageQueries": ["two person tent", "backpacking tent", "camping tent"]
+  },
+  {
+    "name": "Down sleeping bag, -5°C",
+    "category": "camping",
+    "condition": "good",
+    "description": "Mummy-style down sleeping bag rated to -5°C, with a draught collar and a full-length zip. Compresses to about the size of a melon. Recently cleaned and lofted. Suits someone up to 1.85m.",
+    "valueCents": 15000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": ["sleeping bag", "down sleeping bag", "camping sleeping bag"]
+  },
+  {
+    "name": "Twin-burner camping stove",
+    "category": "camping",
+    "condition": "good",
+    "description": "Two-burner gas stove with a piezo ignition and a wind guard. Fits standard camping gas canisters. Boils a litre in under four minutes. The left burner simmers nicely; the right one is hotter.",
+    "valueCents": 7000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["camping stove", "gas camping stove", "portable camping cooker"]
+  },
+  {
+    "name": "45L hard cooler box",
+    "category": "camping",
+    "condition": "good",
+    "description": "Rotomoulded cooler that keeps ice for up to four days. 45 litres — enough for a family weekend. Has a drain plug and a bottle opener moulded into the lid. One small scuff on the base.",
+    "valueCents": 11000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["cooler box", "camping cooler", "ice cooler box"]
+  },
+  {
+    "name": "Rechargeable headlamp, 400lm",
+    "category": "camping",
+    "condition": "like_new",
+    "description": "400-lumen rechargeable headlamp with red night mode and three brightness settings. USB-C charging, about six hours on medium. The strap is adjustable and the tilt clicks firmly.",
+    "valueCents": 3500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": ["headlamp", "head torch", "rechargeable headlamp camping"]
+  },
+  {
+    "name": "Folding camping chairs, pair",
+    "category": "camping",
+    "condition": "good",
+    "description": "Two folding camping chairs with cup holders and a carry bag. Steel frame holds up to 110kg. The fabric is clean and the joints are tight. Easy to pack down for the car.",
+    "valueCents": 6000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["camping chair", "folding camping chair", "camp chairs outdoor"]
+  },
+  {
+    "name": "Double camping hammock",
+    "category": "camping",
+    "condition": "like_new",
+    "description": "Parachute nylon double hammock with tree straps and carabiners. Sleeps two or one very comfortably. Packs to the size of a grapefruit. The straps are 2.5m each and have no fraying.",
+    "valueCents": 5500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": ["camping hammock", "double hammock", "hammock tree straps"]
+  },
+  {
+    "name": "Aluminium camping table",
+    "category": "camping",
+    "condition": "good",
+    "description": "Roll-top aluminium table that folds into a carry bag. Seats four for cooking or cards. The legs lock firmly and the surface wipes clean. A good height for camp chairs.",
+    "valueCents": 6500,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["camping table", "folding camping table", "aluminium camp table"]
+  },
+  {
+    "name": "Gravity water filter, 10L",
+    "category": "camping",
+    "condition": "like_new",
+    "description": "Ten-litre gravity filter that removes sediment and bacteria without pumping or power. Flow rate is about a litre every four minutes. Includes a spare filter cartridge. Great for camping and off-grid trips.",
+    "valueCents": 8000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["water filter camping", "gravity water filter", "outdoor water purification"]
+  },
+  {
+    "name": "LED camping lantern",
+    "category": "camping",
+    "condition": "new",
+    "description": "Rechargeable LED lantern with four brightness levels and a warm night mode. Runs up to 40 hours on low. USB-C charging and a fold-out hook for hanging in a tent. Two units available on request.",
+    "valueCents": 2500,
+    "dailyRateCents": 100,
+    "status": "available",
+    "imageQueries": ["camping lantern", "led camping light", "lantern rechargeable outdoor"]
+  },
+  {
+    "name": "Steam cleaner with floor head",
+    "category": "cleaning",
+    "condition": "good",
+    "description": "Pressurised steam cleaner for tiles, grout, oven doors and bathroom seals. Includes a floor head, brush and jet nozzle. Heats up in four minutes. Two microfibre pads are included and washed.",
+    "valueCents": 15000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": ["steam cleaner", "steam mop", "steam cleaning machine"]
+  },
+  {
+    "name": "Cylinder vacuum cleaner, 2000W",
+    "category": "cleaning",
+    "condition": "good",
+    "description": "Powerful cylinder vacuum with a HEPA filter and a 2.5-litre bag. Strong suction on carpet and hard floors. Includes a crevice tool and an upholstery brush. The hose has no leaks.",
+    "valueCents": 9000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["vacuum cleaner", "cylinder vacuum", "household vacuum cleaner"]
+  },
+  {
+    "name": "Carpet and upholstery cleaner",
+    "category": "cleaning",
+    "condition": "like_new",
+    "description": "Spray-and-extract cleaner for carpets, rugs and sofas. Heats the water and pulls out the dirt. Includes a hand tool for stairs and car seats. The recovery tank seals properly.",
+    "valueCents": 22000,
+    "dailyRateCents": 800,
+    "status": "available",
+    "imageQueries": ["carpet cleaner", "carpet cleaning machine", "upholstery cleaner machine"]
+  },
+  {
+    "name": "Wet and dry shop vacuum, 30L",
+    "category": "cleaning",
+    "condition": "good",
+    "description": "30-litre wet and dry vacuum for sawdust, plaster dust, workshop mess and blocked sinks. Powerful enough for a garage or a renovation. Includes a hose, floor nozzle and a pleated filter.",
+    "valueCents": 13000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": ["shop vacuum", "wet dry vacuum", "workshop vacuum cleaner"]
+  },
+  {
+    "name": "Rotary floor polisher",
+    "category": "cleaning",
+    "condition": "fair",
+    "description": "Single-disc rotary polisher for hard floors, tiles and terrazzo. Scrubs, buffs and strips wax. Two pads included. Heavy, but the wheels make it easy to move between rooms.",
+    "valueCents": 26000,
+    "dailyRateCents": 1000,
+    "status": "available",
+    "imageQueries": ["floor polisher", "floor scrubbing machine", "rotary floor buffer"]
+  },
+  {
+    "name": "Window cleaning kit, 3m pole",
+    "category": "cleaning",
+    "condition": "good",
+    "description": "Three-metre telescopic window cleaning pole with a squeegee, scrubber and hose adapter. Reaches upstairs windows without a ladder. Includes a bucket and two spare blades.",
+    "valueCents": 7000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["window cleaning", "squeegee window cleaner", "window cleaning pole"]
+  },
+  {
+    "name": "Upholstery spot cleaner",
+    "category": "cleaning",
+    "condition": "like_new",
+    "description": "Compact spot cleaner for sofa stains, car seats and rugs. Spray, agitate and extract in one pass. Heats the water for better stain lift. The brush attachment is new.",
+    "valueCents": 11000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["spot cleaner", "upholstery cleaning machine", "portable carpet cleaner"]
+  },
+  {
+    "name": "Drain cleaning auger, 10m",
+    "category": "cleaning",
+    "condition": "good",
+    "description": "Manual drain auger with a 10m steel cable for sinks, showers and outside drains. The drum feeds and retracts smoothly. Includes a drop head and a boring head. Gloves recommended.",
+    "valueCents": 8500,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["drain auger", "drain snake tool", "plumbing drain cleaner"]
+  },
+  {
+    "name": "Gutter cleaning vacuum kit",
+    "category": "cleaning",
+    "condition": "good",
+    "description": "Gutter attachment set for a wet and dry vacuum: 4m of hose, three shaped nozzles and a shoulder strap. Clears leaves and moss from gutters while standing safely below. Fits most 30–40L vacs.",
+    "valueCents": 14000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": ["gutter cleaning", "gutter vacuum", "roof gutter leaves"]
+  },
+  {
+    "name": "Dehumidifier, 20L per day",
+    "category": "cleaning",
+    "condition": "like_new",
+    "description": "Extracts up to 20 litres a day from damp rooms, drying laundry and basements. Auto shut-off when full, plus continuous drain hose. Castors and a carry handle. Filter was cleaned recently.",
+    "valueCents": 19000,
+    "dailyRateCents": 700,
+    "status": "available",
+    "imageQueries": ["dehumidifier", "dehumidifier machine", "home dehumidifier"]
+  },
+  {
+    "name": "3-ton trolley jack",
+    "category": "automotive",
+    "condition": "good",
+    "description": "Low-profile 3-ton trolley jack that fits under lowered cars. Lifts to 500mm with a smooth release valve. Includes a rubber saddle pad. Please use axle stands before going under a car.",
+    "valueCents": 12000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": ["trolley jack", "car jack hydraulic", "floor jack garage"]
+  },
+  {
+    "name": "Digital tyre inflator",
+    "category": "automotive",
+    "condition": "like_new",
+    "description": "Preset the pressure and it stops automatically. Plugs into the 12V socket and inflates a car tyre in about two minutes. Includes a long hose and a bright LED light. Reads in PSI and bar.",
+    "valueCents": 4500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": ["tyre inflator", "tire inflator digital", "air compressor tyre pump"]
+  },
+  {
+    "name": "OBD-II diagnostic scanner",
+    "category": "automotive",
+    "condition": "good",
+    "description": "Reads and clears engine fault codes, shows live sensor data and checks emissions readiness. Works with most cars from 2001 onwards. Bluetooth app included. The screen has one small scratch.",
+    "valueCents": 9000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["obd scanner", "car diagnostic scanner", "obd2 reader"]
+  },
+  {
+    "name": "12V battery charger and maintainer",
+    "category": "automotive",
+    "condition": "good",
+    "description": "Smart charger with trickle and repair modes for cars, motorbikes and lawn mowers. Automatically stops when full. Comes with crocodile clips and an eyelet lead. Ideal for a car left standing.",
+    "valueCents": 7000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["battery charger car", "car battery charger", "12v charger maintainer"]
+  },
+  {
+    "name": "Jump starter power pack",
+    "category": "automotive",
+    "condition": "like_new",
+    "description": "Portable lithium jump starter for petrol engines up to 6L and diesels up to 3L. Holds charge for months and doubles as a power bank. Includes insulated clamps and a case.",
+    "valueCents": 11000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["jump starter", "car jump starter pack", "portable jump starter"]
+  },
+  {
+    "name": "1/2-inch impact wrench",
+    "category": "automotive",
+    "condition": "good",
+    "description": "Cordless impact wrench with 600Nm of torque for wheel nuts, suspension and rusty bolts. Two batteries and a charger included. Comes with four impact sockets. The battery latch is firm.",
+    "valueCents": 15000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": ["impact wrench", "cordless impact wrench", "wheel nut gun"]
+  },
+  {
+    "name": "4-ton axle stands, pair",
+    "category": "automotive",
+    "condition": "good",
+    "description": "Two ratchet axle stands rated to four tons each, with a wide base for stability. Adjusts from 280mm to 430mm. Please never rely on a jack alone — these are the safety net.",
+    "valueCents": 6000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["axle stands", "jack stands car", "car support stands"]
+  },
+  {
+    "name": "Car ramps, pair",
+    "category": "automotive",
+    "condition": "fair",
+    "description": "Two steel ramps that lift the front wheels about 250mm for oil changes and underside checks. Rubber feet stop them sliding. Rated to 2.5 tonnes per ramp. Best on a flat, hard surface.",
+    "valueCents": 5500,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["car ramps", "vehicle ramps garage", "car ramps lifting"]
+  },
+  {
+    "name": "Telescopic wheel brace",
+    "category": "automotive",
+    "condition": "good",
+    "description": "Extending wheel brace for stubborn wheel nuts on cars and vans. Fits 17, 19 and 21mm sockets, plus a 1/2-inch drive. The telescope locks positively. Slides under a seat when closed.",
+    "valueCents": 3500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": ["wheel brace", "wheel nut wrench", "telescopic lug wrench"]
+  },
+  {
+    "name": "Car vacuum cleaner, 12V",
+    "category": "automotive",
+    "condition": "good",
+    "description": "12V handheld car vacuum with a 5m cable and three nozzles for seats, footwells and boot corners. Strong enough for crumbs and sand. The filter is washable and was cleaned after the last use.",
+    "valueCents": 4000,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": ["car vacuum cleaner", "handheld car vacuum", "12v vacuum car"]
+  },
+  {
+    "name": "Aluminium extension ladder, 3.5m",
+    "category": "other",
+    "condition": "good",
+    "description": "Three-section aluminium extension ladder reaching 3.5m, with a stabiliser bar and rubber feet. Fits in a hatchback when collapsed. The rope and pulley run freely. Please return it dry.",
+    "valueCents": 15000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": ["extension ladder", "aluminium ladder", "telescopic extension ladder"]
+  },
+  {
+    "name": "6ft fibreglass step ladder",
+    "category": "other",
+    "condition": "like_new",
+    "description": "Fibreglass stepladder, six steps, with a fold-out tray for tools. Non-conductive, so it is the safer choice near wiring. Rated to 150kg. The treads and locking arms are in good shape.",
+    "valueCents": 9000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["step ladder", "fibreglass stepladder", "folding step ladder"]
+  },
+  {
+    "name": "8-inch Dobsonian telescope",
+    "category": "other",
+    "condition": "good",
+    "description": "Eight-inch Dobsonian reflector for planets, the moon and brighter deep-sky objects. Comes with two eyepieces, a finder scope and a collimation cap. The base swivels smoothly. Please handle it gently.",
+    "valueCents": 42000,
+    "dailyRateCents": 1400,
+    "status": "available",
+    "imageQueries": ["dobsonian telescope", "amateur telescope", "reflecting telescope"]
+  }
+]

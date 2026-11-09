@@ -1,0 +1,292 @@
+[
+  {
+    "name": "1080p home projector",
+    "category": "electronics",
+    "condition": "good",
+    "description": "Full-HD projector with HDMI and USB inputs, 3000 lumens and a built-in speaker. Throws a 100-inch image from about 3m. Ideal for film nights, football and garden screenings. Remote included.",
+    "valueCents": 22000,
+    "dailyRateCents": 800,
+    "status": "available",
+    "imageQueries": ["projector", "home cinema projector", "video projector"]
+  },
+  {
+    "name": "55-inch 4K TV",
+    "category": "electronics",
+    "condition": "like_new",
+    "description": "55-inch 4K smart TV with three HDMI ports and streaming apps. Sharp picture and even backlight. No stand included — it is set up for wall mounting, but the VESA bracket is here to borrow.",
+    "valueCents": 42000,
+    "dailyRateCents": 1500,
+    "status": "available",
+    "imageQueries": ["4k tv", "television screen", "flat screen tv"]
+  },
+  {
+    "name": "Games console with two controllers",
+    "category": "electronics",
+    "condition": "good",
+    "description": "Current-generation games console with two wireless controllers and a few family games installed. HDMI cable and power supply included. The console is reset to factory settings before each loan.",
+    "valueCents": 30000,
+    "dailyRateCents": 1000,
+    "status": "unavailable",
+    "imageQueries": ["games console", "video game console", "gaming controller console"]
+  },
+  {
+    "name": "Camera drone with extra battery",
+    "category": "electronics",
+    "condition": "like_new",
+    "description": "Foldable camera drone that shoots 1080p video and stabilised stills. Two batteries give about 45 minutes total. Includes a controller, spare props and a carry case. Please check local flight rules.",
+    "valueCents": 38000,
+    "dailyRateCents": 1400,
+    "status": "available",
+    "imageQueries": ["camera drone", "quadcopter drone", "drone aerial camera"]
+  },
+  {
+    "name": "10-inch tablet",
+    "category": "electronics",
+    "condition": "good",
+    "description": "Ten-inch tablet with a keyboard case and a stylus. Good for streaming, reading, email and taking notes. Battery holds a full day of light use. Charger and a protective sleeve included.",
+    "valueCents": 18000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": ["tablet computer", "tablet device", "tablet touchscreen"]
+  },
+  {
+    "name": "Soundbar with subwoofer",
+    "category": "electronics",
+    "condition": "like_new",
+    "description": "Soundbar with a wireless subwoofer for a much clearer film and sport experience. HDMI ARC and optical inputs. Pairs with the supplied remote. The subwoofer needs a nearby power socket.",
+    "valueCents": 16000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": ["soundbar", "soundbar speaker", "tv soundbar subwoofer"]
+  },
+  {
+    "name": "27-inch QHD monitor",
+    "category": "electronics",
+    "condition": "good",
+    "description": "27-inch 1440p monitor with an HDMI and a DisplayPort input, plus a height-adjustable stand. Sharp text for study or work, and 75Hz for casual gaming. Two cables included.",
+    "valueCents": 20000,
+    "dailyRateCents": 700,
+    "status": "available",
+    "imageQueries": ["computer monitor", "desktop monitor screen", "qhd monitor"]
+  },
+  {
+    "name": "Wireless printer and scanner",
+    "category": "electronics",
+    "condition": "fair",
+    "description": "Colour inkjet printer with a flatbed scanner and duplex printing. Connects over Wi-Fi or USB. Takes standard cartridges. The feed rollers work reliably; a new black cartridge is fitted.",
+    "valueCents": 9000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["printer scanner", "wireless printer", "office printer scanner"]
+  },
+  {
+    "name": "VR headset, 128GB",
+    "category": "electronics",
+    "condition": "good",
+    "description": "Standalone VR headset with 128GB of storage and two controllers. Great for games, workouts and virtual tours. Includes a carry case and a lens cleaning cloth. Straps are adjustable.",
+    "valueCents": 28000,
+    "dailyRateCents": 1000,
+    "status": "available",
+    "imageQueries": ["vr headset", "virtual reality headset", "vr goggles"]
+  },
+  {
+    "name": "Portable air conditioner, 9000 BTU",
+    "category": "electronics",
+    "condition": "good",
+    "description": "Portable 9000 BTU air conditioner for bedrooms and small living rooms. Cools, dehumidifies and fans. Includes a window vent kit and a remote. Needs an outside vent; the hose is 1.5m.",
+    "valueCents": 32000,
+    "dailyRateCents": 1200,
+    "status": "available",
+    "imageQueries": ["portable air conditioner", "air conditioner unit", "portable ac cooling"]
+  },
+  {
+    "name": "Smart speaker with screen",
+    "category": "electronics",
+    "condition": "like_new",
+    "description": "Countertop smart display that plays music, shows recipes and makes video calls. Works with the main voice assistants. Includes a stand and a charger. Ideal for a kitchen or a home office.",
+    "valueCents": 7000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["smart speaker", "smart display speaker", "smart speaker screen"]
+  },
+  {
+    "name": "500Wh portable power station",
+    "category": "electronics",
+    "condition": "good",
+    "description": "Rechargeable power station with AC, USB and 12V outputs. Runs a fridge, a laptop or power tools for a few hours. Charges from mains or a car. Useful for camping, load-shedding or a stall.",
+    "valueCents": 38000,
+    "dailyRateCents": 1400,
+    "status": "available",
+    "imageQueries": ["portable power station", "battery power station", "portable power supply"]
+  },
+  {
+    "name": "Folding treadmill",
+    "category": "sports_fitness",
+    "condition": "good",
+    "description": "Foldable treadmill with 12 programmes and a 12km/h top speed. Folds upright to save space. The belt is clean and runs true. Recommended for walking and light jogging rather than sprint training.",
+    "valueCents": 45000,
+    "dailyRateCents": 1500,
+    "status": "available",
+    "imageQueries": ["treadmill", "folding treadmill", "home treadmill machine"]
+  },
+  {
+    "name": "Adjustable dumbbells, pair of 24kg",
+    "category": "sports_fitness",
+    "condition": "like_new",
+    "description": "Two adjustable dumbbells from 2 to 24kg each, with a quick-dial selector. Replaces a whole rack and fits under a bed. The mechanisms are smooth and the plates are free of rust.",
+    "valueCents": 26000,
+    "dailyRateCents": 900,
+    "status": "available",
+    "imageQueries": ["dumbbells", "adjustable dumbbells", "dumbbell weights set"]
+  },
+  {
+    "name": "Yoga mat and blocks set",
+    "category": "sports_fitness",
+    "condition": "new",
+    "description": "6mm non-slip yoga mat with two cork blocks and a strap. Used indoors, cleaned after every session. Rolls up into the included carry strap. Good for yoga, pilates or stretching.",
+    "valueCents": 4500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": ["yoga mat", "yoga blocks", "exercise mat fitness"]
+  },
+  {
+    "name": "Kettlebell set, 6 to 16kg",
+    "category": "sports_fitness",
+    "condition": "good",
+    "description": "Three cast-iron kettlebells — 6kg, 10kg and 16kg — with a wide handle for two-handed swings. Great for swings, squats, presses and carries. The bases are flat and the paint is intact.",
+    "valueCents": 15000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": ["kettlebell", "kettlebell weights", "kettlebell fitness"]
+  },
+  {
+    "name": "Rowing machine",
+    "category": "sports_fitness",
+    "condition": "good",
+    "description": "Air-resistance rower with a smooth stroke and an LCD monitor showing time, distance and calories. Folds for storage. The seat rolls freely and the chain was oiled recently. Very quiet.",
+    "valueCents": 38000,
+    "dailyRateCents": 1300,
+    "status": "unavailable",
+    "imageQueries": ["rowing machine", "indoor rower", "rowing ergometer"]
+  },
+  {
+    "name": "Magnetic exercise bike",
+    "category": "sports_fitness",
+    "condition": "like_new",
+    "description": "Upright exercise bike with eight resistance levels and a heart-rate display. Adjustable seat and handlebars. Very quiet, so it suits a flat. Castors make it easy to move. Pedals have straps.",
+    "valueCents": 32000,
+    "dailyRateCents": 1100,
+    "status": "available",
+    "imageQueries": ["exercise bike", "stationary bike fitness", "indoor cycling bike"]
+  },
+  {
+    "name": "Resistance band set",
+    "category": "sports_fitness",
+    "condition": "new",
+    "description": "Five latex resistance bands with different strengths, plus handles, ankle straps and a door anchor. Packs into a small bag for travel or a hotel room. One band shows light wear but still stretches well.",
+    "valueCents": 3500,
+    "dailyRateCents": 100,
+    "status": "available",
+    "imageQueries": ["resistance bands", "fitness bands workout", "exercise resistance band"]
+  },
+  {
+    "name": "Boxing gloves and pads",
+    "category": "sports_fitness",
+    "condition": "good",
+    "description": "Pair of 12oz boxing gloves with two focus pads and hand wraps. The padding is still firm and the lining has been cleaned. Good for pad work, fitness boxing and learning the basics.",
+    "valueCents": 7000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["boxing gloves", "boxing pads training", "boxing equipment"]
+  },
+  {
+    "name": "Badminton set with net",
+    "category": "sports_fitness",
+    "condition": "good",
+    "description": "Portable badminton net with two posts, four rackets and a tube of shuttles. Sets up in a garden or hall in about ten minutes. The net has no tears. Rackets are strung and the grips are fresh.",
+    "valueCents": 5500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": ["badminton set", "badminton rackets net", "badminton equipment"]
+  },
+  {
+    "name": "Hardtail mountain bike, 29er",
+    "category": "bikes",
+    "condition": "good",
+    "description": "Large-frame 29er hardtail with a 1x11 drivetrain and hydraulic disc brakes. Tyres have plenty of tread. Recently serviced: new brake pads and a tuned derailleur. Suits riders around 1.80m.",
+    "valueCents": 42000,
+    "dailyRateCents": 1400,
+    "status": "available",
+    "imageQueries": ["mountain bike", "hardtail mountain bike", "mtb bicycle"]
+  },
+  {
+    "name": "Aluminium road bike, 54cm",
+    "category": "bikes",
+    "condition": "like_new",
+    "description": "54cm aluminium road frame with a carbon fork and 22-speed gearing. Light and quick on tarmac. Includes clipless pedals and two bottle cages. A small paint chip on the top tube, no cracks.",
+    "valueCents": 65000,
+    "dailyRateCents": 2000,
+    "status": "available",
+    "imageQueries": ["road bike", "racing bicycle road", "road bicycle"]
+  },
+  {
+    "name": "Bike repair stand",
+    "category": "bikes",
+    "condition": "good",
+    "description": "Height-adjustable repair stand that clamps the seatpost or frame, leaving both wheels free to spin. 360-degree rotating clamp and a tool tray. Folds flat. Essential for drivetrain and brake work.",
+    "valueCents": 9000,
+    "dailyRateCents": 400,
+    "status": "available",
+    "imageQueries": ["bicycle repair stand", "bike work stand", "bike maintenance stand"]
+  },
+  {
+    "name": "Floor pump with gauge",
+    "category": "bikes",
+    "condition": "like_new",
+    "description": "Steel floor pump with a 160psi gauge and a dual Presta/Schrader head. Inflates a road tyre in a few strokes. The hose is reinforced and the base is stable. Ideal for weekly tyre checks.",
+    "valueCents": 3500,
+    "dailyRateCents": 200,
+    "status": "available",
+    "imageQueries": ["bicycle pump", "bike floor pump", "tyre pump gauge"]
+  },
+  {
+    "name": "Tow-bar bike rack, 3 bikes",
+    "category": "bikes",
+    "condition": "good",
+    "description": "Tow-bar mounted rack that carries three bikes, with a tilt function for boot access and a locking arm. Fits a standard 50mm tow ball. Lights and number plate holder work. Bikes not included.",
+    "valueCents": 15000,
+    "dailyRateCents": 600,
+    "status": "available",
+    "imageQueries": ["bike rack car", "bicycle carrier car", "tow bar bike rack"]
+  },
+  {
+    "name": "Kids' 20-inch bike",
+    "category": "bikes",
+    "condition": "good",
+    "description": "Twenty-inch kids' bike for roughly ages six to nine, with six gears, a light frame and training-wheel mounts. Brakes adjusted and tyres pumped. The saddle and grips are in good condition.",
+    "valueCents": 12000,
+    "dailyRateCents": 500,
+    "status": "available",
+    "imageQueries": ["kids bicycle", "childrens bike", "child bicycle"]
+  },
+  {
+    "name": "Adult kick scooter",
+    "category": "bikes",
+    "condition": "good",
+    "description": "Folding adult scooter with 200mm wheels, a rear brake and an adjustable bar. Folds in one movement for the bus or boot. Good for short commutes and park paths. Weight limit 100kg.",
+    "valueCents": 8000,
+    "dailyRateCents": 300,
+    "status": "available",
+    "imageQueries": ["kick scooter", "adult scooter", "folding scooter"]
+  },
+  {
+    "name": "Electric city bike, 60km range",
+    "category": "bikes",
+    "condition": "like_new",
+    "description": "Step-through electric bike with a 60km assisted range, five power levels and a removable battery. Includes a charger, lights and a rear rack. Brakes and gears were serviced this month.",
+    "valueCents": 90000,
+    "dailyRateCents": 2500,
+    "status": "unavailable",
+    "imageQueries": ["electric bike", "e-bike city", "electric bicycle"]
+  }
+]
