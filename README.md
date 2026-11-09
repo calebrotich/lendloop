@@ -4,7 +4,6 @@
 
 <img width="1512" height="982" alt="lendloopnow" src="https://github.com/user-attachments/assets/7abd6523-9795-4d76-8458-e302975f8277" />
 
-
 LendLoop is a neighbourhood tool-lending board. Neighbours list tools with a daily rate and a
 replacement value; borrowers ask for a date range; owners approve, decline or mark the loan
 returned. [n8n](https://n8n.io) carries the notifications and overdue reminders in both directions.
@@ -19,10 +18,8 @@ project's verified domain to real recipients. Local development uses Mailpit and
 | Artifact                         | Where                                                                                        |
 | -------------------------------- | -------------------------------------------------------------------------------------------- |
 | Live app                         | <https://lendloopnow.vercel.app>                                                             |
-| Source                           | this repository · [github.com/calebrotich/lendloop](https://github.com/calebrotich/lendloop) |
 | n8n workflows                    | [`automation/workflows/`](automation/workflows) — W1, W2, W3                                 |
 | Production note                  | [`docs/production.md`](docs/production.md)                                                   |
-| Setup, architecture and security | this file                                                                                    |
 
 ## What it does
 
