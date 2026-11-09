@@ -12,9 +12,7 @@ export interface ToolImageProps {
   width?: number;
   height?: number;
   className?: string;
-  /** Above-the-fold images should not be lazy. */
-  priority?: boolean;
-  /** Responsive hint for the browser's srcset choice. */
+  preload?: boolean;
   sizes?: string;
 }
 
@@ -34,7 +32,7 @@ export function ToolImage({
   width,
   height,
   className,
-  priority = false,
+  preload = false,
   sizes = DEFAULT_SIZES,
 }: ToolImageProps) {
   // Track which source failed so navigating to a different photo in the gallery
@@ -64,7 +62,7 @@ export function ToolImage({
         alt={alt}
         width={width}
         height={height}
-        loading={priority ? "eager" : "lazy"}
+        loading={preload ? "eager" : "lazy"}
         decoding="async"
         onError={() => setFailedSrc(src)}
         className={className}
@@ -79,8 +77,7 @@ export function ToolImage({
       width={width ?? 1200}
       height={height ?? 900}
       sizes={sizes}
-      priority={priority}
-      loading={priority ? "eager" : "lazy"}
+      preload={preload}
       decoding="async"
       onError={() => setFailedSrc(src)}
       className={className}

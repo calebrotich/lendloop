@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: ListingPageProps): Promise<Me
   const description = listing.description.slice(0, 150);
   const image = listing.images.find(
     (photo): photo is { url: string; width: number; height: number } => photo.url !== null,
-  )?.url;
+  );
 
   return {
     title: listing.name,
@@ -32,7 +32,18 @@ export async function generateMetadata({ params }: ListingPageProps): Promise<Me
       title: `${listing.name} on LendLoop`,
       description,
       type: "website",
-      ...(image === undefined ? {} : { images: [{ url: image, alt: listing.name }] }),
+      ...(image === undefined
+        ? {}
+        : {
+            images: [
+              {
+                url: image.url,
+                width: image.width,
+                height: image.height,
+                alt: listing.name,
+              },
+            ],
+          }),
     },
   };
 }

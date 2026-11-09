@@ -12,14 +12,14 @@ import { useSavedListing } from "@/lib/use-saved-listing";
 
 interface ListingCardProps {
   listing: ShowcaseListing;
-  priority?: boolean;
+  preload?: boolean;
 }
 
 /**
  * The browse card. One link covers the card; the save control sits above it so
  * the whole surface stays clickable without nesting a button inside an anchor.
  */
-export function ListingCard({ listing, priority = false }: ListingCardProps) {
+export function ListingCard({ listing, preload = false }: ListingCardProps) {
   const { saved, toggle } = useSavedListing(listing._id);
   const availability = AVAILABILITY[listing.availability];
 
@@ -43,7 +43,7 @@ export function ListingCard({ listing, priority = false }: ListingCardProps) {
             category={listing.category}
             width={listing.images.cover?.width}
             height={listing.images.cover?.height}
-            priority={priority}
+            preload={preload}
             showArtLabel={false}
             className="h-full w-full transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
           />

@@ -103,7 +103,7 @@ export function HeroLoop({ listings, onCategorySelect }: HeroLoopProps) {
               <div style={{ rotate: `${position.rotate}deg` }}>
                 <HeroListingCard
                   listing={listing}
-                  priority={position.index === 0}
+                  preload={position.index === 0}
                   onCategorySelect={onCategorySelect}
                 />
               </div>
@@ -190,11 +190,11 @@ export function HeroLoopMobile({ listings, onCategorySelect }: HeroLoopProps) {
 
 function HeroListingCard({
   listing,
-  priority = false,
+  preload = false,
   onCategorySelect,
 }: {
   listing: ShowcaseListing;
-  priority?: boolean;
+  preload?: boolean;
   onCategorySelect: (category: ShowcaseListing["category"]) => void;
 }) {
   return (
@@ -212,7 +212,7 @@ function HeroListingCard({
           category={listing.category}
           width={listing.images.cover?.width}
           height={listing.images.cover?.height}
-          priority={priority}
+          preload={preload}
           showArtLabel={false}
           sizes="220px"
           className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.045]"

@@ -65,8 +65,8 @@ export function ListingGallery({ images, name, category }: ListingGalleryProps) 
               alt={`${name} — photo 1`}
               width={cover?.width ?? 1200}
               height={cover?.height ?? 900}
-              sizes="(max-width: 768px) 100vw, 66vw"
-              priority
+              sizes="(max-width: 768px) 92vw, 66vw"
+              preload
               className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02]"
             />
           </button>

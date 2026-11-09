@@ -93,7 +93,7 @@ export function ListingShelf({
                 exit={reduce === true ? undefined : { opacity: 0, scale: 0.97 }}
                 transition={{ duration: 0.32, delay: Math.min(index * 0.03, 0.18) }}
               >
-                <ListingCard listing={listing} priority={index < 4} />
+                <ListingCard listing={listing} preload={index < 4} />
               </motion.li>
             ))}
           </AnimatePresence>

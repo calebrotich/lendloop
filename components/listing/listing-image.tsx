@@ -13,15 +13,20 @@ interface ListingImageProps {
   width?: number;
   height?: number;
   className?: string;
-  /** Above-the-fold covers load eagerly. */
-  priority?: boolean;
+  preload?: boolean;
   compactArt?: boolean;
   showArtLabel?: boolean;
   /** Responsive hint for the browser's srcset choice. */
   sizes?: string;
 }
 
-const DEFAULT_SIZES = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
+/**
+ * Matches the 1/2/3-column grids these images feed. Past the 1280px container
+ * a card stops growing, so 33vw would keep asking for larger files than the
+ * ~392px it actually paints.
+ */
+const DEFAULT_SIZES =
+  "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 392px";
 
 /**
  * A listing photo with a designed fallback and a quiet loading state.
@@ -37,7 +42,7 @@ export function ListingImage({
   width,
   height,
   className = "",
-  priority = false,
+  preload = false,
   compactArt = false,
   showArtLabel = true,
   sizes = DEFAULT_SIZES,
@@ -56,8 +61,7 @@ export function ListingImage({
             width={width ?? 1200}
             height={height ?? 900}
             sizes={sizes}
-            priority={priority}
-            loading={priority ? "eager" : "lazy"}
+            preload={preload}
             decoding="async"
             onError={() => setFailedSrc(src)}
             className="image-in h-full w-full object-cover"
