@@ -7,11 +7,7 @@
     "valueCents": 18000,
     "dailyRateCents": 700,
     "status": "available",
-    "imageQueries": [
-      "cordless drill",
-      "electric drill",
-      "power drill"
-    ]
+    "imageQueries": ["cordless drill", "electric drill", "power drill"]
   },
   {
     "name": "20V hammer drill and masonry bits",
@@ -21,11 +17,7 @@
     "valueCents": 24000,
     "dailyRateCents": 900,
     "status": "available",
-    "imageQueries": [
-      "hammer drill",
-      "rotary hammer drill",
-      "masonry drill"
-    ]
+    "imageQueries": ["hammer drill", "rotary hammer drill", "masonry drill"]
   },
   {
     "name": "Impact driver with 60-piece bit set",
@@ -35,11 +27,7 @@
     "valueCents": 14000,
     "dailyRateCents": 600,
     "status": "available",
-    "imageQueries": [
-      "impact driver",
-      "cordless impact driver",
-      "power screwdriver"
-    ]
+    "imageQueries": ["impact driver", "cordless impact driver", "power screwdriver"]
   },
   {
     "name": "7¼-inch circular saw, corded",
@@ -49,11 +37,7 @@
     "valueCents": 13000,
     "dailyRateCents": 600,
     "status": "available",
-    "imageQueries": [
-      "circular saw",
-      "electric circular saw",
-      "circular saw wood"
-    ]
+    "imageQueries": ["circular saw", "electric circular saw", "circular saw wood"]
   },
   {
     "name": "Variable-speed jigsaw with blades",
@@ -63,11 +47,7 @@
     "valueCents": 9000,
     "dailyRateCents": 500,
     "status": "available",
-    "imageQueries": [
-      "jigsaw saw",
-      "electric jigsaw",
-      "jigsaw woodworking"
-    ]
+    "imageQueries": ["jigsaw saw", "electric jigsaw", "jigsaw woodworking"]
   },
   {
     "name": "4½-inch angle grinder",
@@ -77,11 +57,7 @@
     "valueCents": 11000,
     "dailyRateCents": 500,
     "status": "available",
-    "imageQueries": [
-      "angle grinder",
-      "grinder power tool",
-      "cutting disc grinder"
-    ]
+    "imageQueries": ["angle grinder", "grinder power tool", "cutting disc grinder"]
   },
   {
     "name": "Random orbital sander, 125mm",
@@ -91,11 +67,7 @@
     "valueCents": 12000,
     "dailyRateCents": 500,
     "status": "available",
-    "imageQueries": [
-      "orbital sander",
-      "random orbital sander",
-      "sanding machine"
-    ]
+    "imageQueries": ["orbital sander", "random orbital sander", "sanding machine"]
   },
   {
     "name": "Corded reciprocating saw",
@@ -105,11 +77,7 @@
     "valueCents": 14000,
     "dailyRateCents": 600,
     "status": "available",
-    "imageQueries": [
-      "reciprocating saw",
-      "sabre saw",
-      "demolition saw"
-    ]
+    "imageQueries": ["reciprocating saw", "sabre saw", "demolition saw"]
   },
   {
     "name": "Brad nailer and small compressor",
@@ -119,11 +87,7 @@
     "valueCents": 22000,
     "dailyRateCents": 900,
     "status": "available",
-    "imageQueries": [
-      "brad nailer",
-      "nail gun compressor",
-      "pneumatic nailer"
-    ]
+    "imageQueries": ["brad nailer", "nail gun compressor", "pneumatic nailer"]
   },
   {
     "name": "2000W heat gun with nozzles",
@@ -133,11 +97,7 @@
     "valueCents": 7000,
     "dailyRateCents": 400,
     "status": "available",
-    "imageQueries": [
-      "heat gun",
-      "hot air gun tool",
-      "paint stripper heat gun"
-    ]
+    "imageQueries": ["heat gun", "hot air gun tool", "paint stripper heat gun"]
   },
   {
     "name": "Plunge router with 12 bits",
@@ -147,11 +107,7 @@
     "valueCents": 21000,
     "dailyRateCents": 800,
     "status": "available",
-    "imageQueries": [
-      "plunge router",
-      "woodworking router",
-      "router tool"
-    ]
+    "imageQueries": ["plunge router", "woodworking router", "router tool"]
   },
   {
     "name": "Rotary multi-tool kit",
@@ -161,11 +117,7 @@
     "valueCents": 9500,
     "dailyRateCents": 400,
     "status": "available",
-    "imageQueries": [
-      "rotary tool",
-      "dremel tool",
-      "multi tool rotary"
-    ]
+    "imageQueries": ["rotary tool", "dremel tool", "multi tool rotary"]
   },
   {
     "name": "6-inch bench grinder",
@@ -175,11 +127,7 @@
     "valueCents": 12000,
     "dailyRateCents": 500,
     "status": "available",
-    "imageQueries": [
-      "bench grinder",
-      "grinding wheel machine",
-      "tool sharpening grinder"
-    ]
+    "imageQueries": ["bench grinder", "grinding wheel machine", "tool sharpening grinder"]
   },
   {
     "name": "10-inch sliding mitre saw",
@@ -189,11 +137,7 @@
     "valueCents": 32000,
     "dailyRateCents": 1200,
     "status": "available",
-    "imageQueries": [
-      "mitre saw",
-      "compound miter saw",
-      "sliding mitre saw"
-    ]
+    "imageQueries": ["mitre saw", "compound miter saw", "sliding mitre saw"]
   },
   {
     "name": "94-piece socket and spanner set",
@@ -203,11 +147,7 @@
     "valueCents": 12000,
     "dailyRateCents": 500,
     "status": "available",
-    "imageQueries": [
-      "socket set",
-      "socket wrench set",
-      "spanner set"
-    ]
+    "imageQueries": ["socket set", "socket wrench set", "spanner set"]
   },
   {
     "name": "Adjustable spanner set, 3 sizes",
@@ -217,11 +157,7 @@
     "valueCents": 4500,
     "dailyRateCents": 300,
     "status": "available",
-    "imageQueries": [
-      "adjustable spanner",
-      "adjustable wrench",
-      "spanner tool"
-    ]
+    "imageQueries": ["adjustable spanner", "adjustable wrench", "spanner tool"]
   },
   {
     "name": "Precision screwdriver set, 60 bits",
@@ -231,11 +167,7 @@
     "valueCents": 4000,
     "dailyRateCents": 200,
     "status": "available",
-    "imageQueries": [
-      "precision screwdriver set",
-      "screwdriver bits",
-      "watch repair screwdriver"
-    ]
+    "imageQueries": ["precision screwdriver set", "screwdriver bits", "watch repair screwdriver"]
   },
   {
     "name": "16oz fibreglass claw hammer",
@@ -245,11 +177,7 @@
     "valueCents": 2500,
     "dailyRateCents": 200,
     "status": "available",
-    "imageQueries": [
-      "claw hammer",
-      "hammer hand tool",
-      "carpentry hammer"
-    ]
+    "imageQueries": ["claw hammer", "hammer hand tool", "carpentry hammer"]
   },
   {
     "name": "Heavy-duty hacksaw with blades",
@@ -259,11 +187,7 @@
     "valueCents": 2000,
     "dailyRateCents": 100,
     "status": "available",
-    "imageQueries": [
-      "hacksaw",
-      "metal cutting hand saw",
-      "hacksaw blades"
-    ]
+    "imageQueries": ["hacksaw", "metal cutting hand saw", "hacksaw blades"]
   },
   {
     "name": "14-inch pipe wrench",
@@ -273,11 +197,7 @@
     "valueCents": 5000,
     "dailyRateCents": 300,
     "status": "available",
-    "imageQueries": [
-      "pipe wrench",
-      "plumbing wrench",
-      "monkey wrench"
-    ]
+    "imageQueries": ["pipe wrench", "plumbing wrench", "monkey wrench"]
   },
   {
     "name": "1/2-inch torque wrench, 40–210Nm",
@@ -287,11 +207,7 @@
     "valueCents": 9000,
     "dailyRateCents": 400,
     "status": "available",
-    "imageQueries": [
-      "torque wrench",
-      "click torque wrench",
-      "car torque wrench"
-    ]
+    "imageQueries": ["torque wrench", "click torque wrench", "car torque wrench"]
   },
   {
     "name": "Pliers and cutters set, 5-piece",
@@ -301,11 +217,7 @@
     "valueCents": 5500,
     "dailyRateCents": 300,
     "status": "available",
-    "imageQueries": [
-      "pliers set",
-      "wire cutters",
-      "hand tools pliers"
-    ]
+    "imageQueries": ["pliers set", "wire cutters", "hand tools pliers"]
   },
   {
     "name": "Wood chisel set, 6-piece",
@@ -315,11 +227,7 @@
     "valueCents": 6000,
     "dailyRateCents": 300,
     "status": "available",
-    "imageQueries": [
-      "wood chisel set",
-      "chisel woodworking",
-      "hand chisel tool"
-    ]
+    "imageQueries": ["wood chisel set", "chisel woodworking", "hand chisel tool"]
   },
   {
     "name": "1200mm spirit level",
@@ -329,11 +237,7 @@
     "valueCents": 4500,
     "dailyRateCents": 200,
     "status": "available",
-    "imageQueries": [
-      "spirit level",
-      "bubble level",
-      "carpentry level"
-    ]
+    "imageQueries": ["spirit level", "bubble level", "carpentry level"]
   },
   {
     "name": "8m steel tape measure",
@@ -343,11 +247,7 @@
     "valueCents": 1800,
     "dailyRateCents": 100,
     "status": "available",
-    "imageQueries": [
-      "tape measure",
-      "measuring tape tool",
-      "steel tape measure"
-    ]
+    "imageQueries": ["tape measure", "measuring tape tool", "steel tape measure"]
   },
   {
     "name": "Rolling tool chest with tools",
@@ -357,10 +257,6 @@
     "valueCents": 26000,
     "dailyRateCents": 900,
     "status": "available",
-    "imageQueries": [
-      "tool chest",
-      "tool cabinet",
-      "tool box"
-    ]
+    "imageQueries": ["tool chest", "tool cabinet", "tool box"]
   }
 ]

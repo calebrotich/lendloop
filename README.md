@@ -8,8 +8,8 @@ returned. [n8n](https://n8n.io) carries the notifications and overdue reminders 
 
 **Live:** <https://lendloopnow.vercel.app>
 
-**Email is live.** Convex renders every message and n8n sends it through Zoho SMTP from
-`lendloop@bahasha.app` to real recipients. Local development uses Mailpit and never sends mail.
+**Email is live.** Convex renders every message and n8n sends it through Zoho SMTP from the
+project's verified domain to real recipients. Local development uses Mailpit and never sends mail.
 
 ## Project map
 
@@ -137,13 +137,13 @@ node scripts/seed/generate-convex-data.mjs # write convex/seedData.ts + lib/imag
 node scripts/seed/upload-r2.mjs            # upload the WebP files to R2 (idempotent)
 ```
 
-Then deploy and run the operator mutation with the owner emails (they must already exist in
-`users` — signing in once creates the row):
+Then deploy and run the operator mutation with your owner emails (they must already exist in
+`users` — signing in once creates the row). Replace the example addresses below:
 
 ```bash
 pnpm exec convex deploy
 pnpm exec convex run seedProd:seedProduction \
-  '{"ownerEmails":["calebrotich10@gmail.com","bahasha.app@gmail.com","crotich3@gmail.com","lendloop@bahasha.app"]}'
+  '{"ownerEmails":["owner-a@example.com","owner-b@example.com","owner-c@example.com","owner-d@example.com"]}'
 ```
 
 `seedProduction` is idempotent by (owner, exact name) and runs in one transaction, so re-running
@@ -170,7 +170,3 @@ R2 check (`R2_INTEGRATION=1`).
 - [`docs/production.md`](docs/production.md) — production shape, live email and next hardening
   steps.
 - [`docs/media-storage.md`](docs/media-storage.md) — R2 upload flow, limits and housekeeping.
-
-## License
-
-Portfolio project. LendLoop is a fictional product; the seed data is invented.

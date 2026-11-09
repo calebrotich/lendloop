@@ -7,11 +7,7 @@
     "valueCents": 8000,
     "dailyRateCents": 400,
     "status": "available",
-    "imageQueries": [
-      "hedge trimmer",
-      "electric hedge trimmer",
-      "hedge shears"
-    ]
+    "imageQueries": ["hedge trimmer", "electric hedge trimmer", "hedge shears"]
   },
   {
     "name": "Petrol lawn mower, 46cm cut",
@@ -21,11 +17,7 @@
     "valueCents": 26000,
     "dailyRateCents": 1000,
     "status": "available",
-    "imageQueries": [
-      "lawn mower",
-      "petrol mower",
-      "push lawn mower"
-    ]
+    "imageQueries": ["lawn mower", "petrol mower", "push lawn mower"]
   },
   {
     "name": "Cordless grass strimmer",
@@ -35,11 +27,7 @@
     "valueCents": 12000,
     "dailyRateCents": 500,
     "status": "available",
-    "imageQueries": [
-      "strimmer",
-      "grass trimmer",
-      "string trimmer"
-    ]
+    "imageQueries": ["strimmer", "grass trimmer", "string trimmer"]
   },
   {
     "name": "Electric leaf blower",
@@ -49,11 +37,7 @@
     "valueCents": 8500,
     "dailyRateCents": 400,
     "status": "available",
-    "imageQueries": [
-      "leaf blower",
-      "garden blower",
-      "electric leaf vacuum"
-    ]
+    "imageQueries": ["leaf blower", "garden blower", "electric leaf vacuum"]
   },
   {
     "name": "Petrol chainsaw, 40cm bar",
@@ -63,11 +47,7 @@
     "valueCents": 22000,
     "dailyRateCents": 1000,
     "status": "available",
-    "imageQueries": [
-      "chainsaw",
-      "petrol chainsaw",
-      "tree cutting chainsaw"
-    ]
+    "imageQueries": ["chainsaw", "petrol chainsaw", "tree cutting chainsaw"]
   },
   {
     "name": "Electric pressure washer, 130 bar",
@@ -77,11 +57,7 @@
     "valueCents": 18000,
     "dailyRateCents": 700,
     "status": "available",
-    "imageQueries": [
-      "pressure washer",
-      "high pressure cleaner",
-      "jet washer garden"
-    ]
+    "imageQueries": ["pressure washer", "high pressure cleaner", "jet washer garden"]
   },
   {
     "name": "Galvanised wheelbarrow",
@@ -91,11 +67,7 @@
     "valueCents": 7000,
     "dailyRateCents": 300,
     "status": "available",
-    "imageQueries": [
-      "wheelbarrow",
-      "garden wheelbarrow",
-      "barrow garden tool"
-    ]
+    "imageQueries": ["wheelbarrow", "garden wheelbarrow", "barrow garden tool"]
   },
   {
     "name": "Garden tool set with border spade",
@@ -105,11 +77,7 @@
     "valueCents": 6000,
     "dailyRateCents": 300,
     "status": "available",
-    "imageQueries": [
-      "garden tools",
-      "spade fork garden",
-      "gardening tools set"
-    ]
+    "imageQueries": ["garden tools", "spade fork garden", "gardening tools set"]
   },
   {
     "name": "Bypass secateurs and loppers",
@@ -119,11 +87,7 @@
     "valueCents": 4500,
     "dailyRateCents": 200,
     "status": "available",
-    "imageQueries": [
-      "secateurs",
-      "pruning shears",
-      "garden loppers"
-    ]
+    "imageQueries": ["secateurs", "pruning shears", "garden loppers"]
   },
   {
     "name": "30m garden hose reel",
@@ -133,11 +97,7 @@
     "valueCents": 5500,
     "dailyRateCents": 300,
     "status": "available",
-    "imageQueries": [
-      "garden hose reel",
-      "hosepipe garden",
-      "water hose reel"
-    ]
+    "imageQueries": ["garden hose reel", "hosepipe garden", "water hose reel"]
   },
   {
     "name": "Mini rotavator, petrol",
@@ -147,11 +107,7 @@
     "valueCents": 29000,
     "dailyRateCents": 1200,
     "status": "available",
-    "imageQueries": [
-      "rotavator",
-      "tiller garden machine",
-      "cultivator petrol"
-    ]
+    "imageQueries": ["rotavator", "tiller garden machine", "cultivator petrol"]
   },
   {
     "name": "Telescopic pole pruner",
@@ -161,11 +117,7 @@
     "valueCents": 11000,
     "dailyRateCents": 500,
     "status": "available",
-    "imageQueries": [
-      "pole pruner",
-      "telescopic tree pruner",
-      "tree branch cutter"
-    ]
+    "imageQueries": ["pole pruner", "telescopic tree pruner", "tree branch cutter"]
   },
   {
     "name": "5.5L stand mixer with bowl",
@@ -175,11 +127,7 @@
     "valueCents": 32000,
     "dailyRateCents": 1000,
     "status": "available",
-    "imageQueries": [
-      "stand mixer",
-      "kitchen mixer appliance",
-      "dough mixer kitchen"
-    ]
+    "imageQueries": ["stand mixer", "kitchen mixer appliance", "dough mixer kitchen"]
   },
   {
     "name": "11-cup food processor",
@@ -189,11 +137,7 @@
     "valueCents": 18000,
     "dailyRateCents": 600,
     "status": "available",
-    "imageQueries": [
-      "food processor",
-      "kitchen food processor",
-      "chopping machine kitchen"
-    ]
+    "imageQueries": ["food processor", "kitchen food processor", "chopping machine kitchen"]
   },
   {
     "name": "High-speed blender, 1.8L",
@@ -203,11 +147,7 @@
     "valueCents": 16000,
     "dailyRateCents": 600,
     "status": "available",
-    "imageQueries": [
-      "blender kitchen",
-      "smoothie blender",
-      "kitchen blender appliance"
-    ]
+    "imageQueries": ["blender kitchen", "smoothie blender", "kitchen blender appliance"]
   },
   {
     "name": "5.8L air fryer",
@@ -217,11 +157,7 @@
     "valueCents": 12000,
     "dailyRateCents": 500,
     "status": "available",
-    "imageQueries": [
-      "air fryer",
-      "air fryer kitchen appliance",
-      "hot air fryer"
-    ]
+    "imageQueries": ["air fryer", "air fryer kitchen appliance", "hot air fryer"]
   },
   {
     "name": "Bean-to-cup espresso machine",
@@ -231,11 +167,7 @@
     "valueCents": 48000,
     "dailyRateCents": 1500,
     "status": "unavailable",
-    "imageQueries": [
-      "espresso machine",
-      "coffee machine espresso",
-      "barista coffee machine"
-    ]
+    "imageQueries": ["espresso machine", "coffee machine espresso", "barista coffee machine"]
   },
   {
     "name": "6L slow cooker",
@@ -245,11 +177,7 @@
     "valueCents": 7000,
     "dailyRateCents": 300,
     "status": "available",
-    "imageQueries": [
-      "slow cooker",
-      "crock pot",
-      "slow cooker kitchen"
-    ]
+    "imageQueries": ["slow cooker", "crock pot", "slow cooker kitchen"]
   },
   {
     "name": "Bread maker with gluten-free cycle",
@@ -259,11 +187,7 @@
     "valueCents": 13000,
     "dailyRateCents": 400,
     "status": "available",
-    "imageQueries": [
-      "bread maker",
-      "bread machine kitchen",
-      "bread baking machine"
-    ]
+    "imageQueries": ["bread maker", "bread machine kitchen", "bread baking machine"]
   },
   {
     "name": "Stainless pasta machine",
@@ -273,11 +197,7 @@
     "valueCents": 6000,
     "dailyRateCents": 300,
     "status": "available",
-    "imageQueries": [
-      "pasta machine",
-      "pasta maker kitchen",
-      "fresh pasta roller"
-    ]
+    "imageQueries": ["pasta machine", "pasta maker kitchen", "fresh pasta roller"]
   },
   {
     "name": "Ice cream maker, 1.5L",
@@ -287,11 +207,7 @@
     "valueCents": 9000,
     "dailyRateCents": 300,
     "status": "available",
-    "imageQueries": [
-      "ice cream maker",
-      "ice cream machine kitchen",
-      "gelato maker"
-    ]
+    "imageQueries": ["ice cream maker", "ice cream machine kitchen", "gelato maker"]
   },
   {
     "name": "Belgian waffle maker",
@@ -301,11 +217,7 @@
     "valueCents": 5500,
     "dailyRateCents": 200,
     "status": "available",
-    "imageQueries": [
-      "waffle maker",
-      "waffle iron kitchen",
-      "belgian waffle machine"
-    ]
+    "imageQueries": ["waffle maker", "waffle iron kitchen", "belgian waffle machine"]
   },
   {
     "name": "9-tray food dehydrator",
@@ -315,11 +227,7 @@
     "valueCents": 14000,
     "dailyRateCents": 500,
     "status": "available",
-    "imageQueries": [
-      "food dehydrator",
-      "dehydrator trays food",
-      "dried fruit machine"
-    ]
+    "imageQueries": ["food dehydrator", "dehydrator trays food", "dried fruit machine"]
   },
   {
     "name": "Sous-vide circulator",
@@ -329,11 +237,7 @@
     "valueCents": 11000,
     "dailyRateCents": 400,
     "status": "available",
-    "imageQueries": [
-      "sous vide",
-      "sous vide cooker",
-      "immersion circulator"
-    ]
+    "imageQueries": ["sous vide", "sous vide cooker", "immersion circulator"]
   },
   {
     "name": "Cold-press juicer",
@@ -343,10 +247,6 @@
     "valueCents": 15000,
     "dailyRateCents": 500,
     "status": "available",
-    "imageQueries": [
-      "juicer machine",
-      "cold press juicer",
-      "fruit vegetable juicer"
-    ]
+    "imageQueries": ["juicer machine", "cold press juicer", "fruit vegetable juicer"]
   }
 ]

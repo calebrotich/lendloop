@@ -75,7 +75,9 @@ for (const file of files) {
       problems.push(`${label}: name too long (${row.name?.length})`);
     }
     if (typeof row.description !== "string" || row.description.length > LIMITS.descriptionMax) {
-      problems.push(`${label}: description ${row.description?.length} chars > ${LIMITS.descriptionMax}`);
+      problems.push(
+        `${label}: description ${row.description?.length} chars > ${LIMITS.descriptionMax}`,
+      );
     }
     if (row.description?.trim().length < LIMITS.descriptionMin) {
       problems.push(`${label}: description too short`);
@@ -123,5 +125,7 @@ const payload = {
 };
 writeFileSync(OUT, `${JSON.stringify(payload, null, 2)}\n`);
 
-console.log(`catalogue OK: ${listings.length} listings across ${Object.keys(byCategory).length} categories`);
+console.log(
+  `catalogue OK: ${listings.length} listings across ${Object.keys(byCategory).length} categories`,
+);
 console.log(JSON.stringify(byCategory, null, 2));

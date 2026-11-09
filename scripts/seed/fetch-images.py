@@ -44,7 +44,7 @@ MANIFEST = CACHE / "manifest.json"
 CATALOG = HERE / "catalog.json"
 SOURCES = HERE / "image-sources.json"
 OVERRIDES = HERE / "image-overrides.json"
-USER_AGENT = "LendLoopSeed/1.0 (https://lendloopnow.vercel.app; seed@lendloop.app)"
+USER_AGENT = "LendLoopSeed/1.0 (https://lendloopnow.vercel.app; seed@example.com)"
 
 LICENSE_OK = re.compile(
     r"^(public domain|pd[- ]|cc0|cc by( |-sa)? ?\d|cc by( |-sa)?$|copyrighted free use|no restrictions)",

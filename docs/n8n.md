@@ -111,9 +111,9 @@ Prereqs: `docker compose up -d`, `pnpm exec convex dev`, and `.env` filled with 
 
 ## Production
 
-Production runs the same workflows on self-hosted n8n, with Zoho SMTP sending from
-`LendLoop <lendloop@bahasha.app>` to real recipients. `LENDLOOP_OPS_EMAIL` is
-`lendloop@bahasha.app`. Local Mailpit is a development sink only.
+Production runs the same workflows on self-hosted n8n, with Zoho SMTP sending from the
+project's verified domain to real recipients. Set `LENDLOOP_OPS_EMAIL` to the operator address
+configured for that deployment. Local Mailpit is a development sink only.
 
 Set the production webhook URLs and `APP_BASE_URL` on the Convex deployment. The production shape
 and hardening plan are in [`docs/production.md`](production.md).

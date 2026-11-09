@@ -128,9 +128,7 @@ export function ListingDetail({ listing, related }: ListingDetailProps) {
                     {listing.ownerTrusted ? "Trusted lender" : "A neighbour on your shelf"}
                   </p>
                   <p className="mt-0.5 text-[11.5px] text-ink-muted">
-                    {listing.ownerTrusted
-                      ? "A neighbour you can count on"
-                      : "No name, no profile — just the tool and the dates"}
+                    {listing.ownerTrusted ? "A neighbour you can count on" : "A neighbour"}
                   </p>
                 </div>
               </div>

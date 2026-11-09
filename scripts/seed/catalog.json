@@ -26,11 +26,7 @@
       "valueCents": 18000,
       "dailyRateCents": 700,
       "status": "available",
-      "imageQueries": [
-        "cordless drill",
-        "electric drill",
-        "power drill"
-      ]
+      "imageQueries": ["cordless drill", "electric drill", "power drill"]
     },
     {
       "name": "20V hammer drill and masonry bits",
@@ -40,11 +36,7 @@
       "valueCents": 24000,
       "dailyRateCents": 900,
       "status": "available",
-      "imageQueries": [
-        "hammer drill",
-        "rotary hammer drill",
-        "masonry drill"
-      ]
+      "imageQueries": ["hammer drill", "rotary hammer drill", "masonry drill"]
     },
     {
       "name": "Impact driver with 60-piece bit set",
@@ -54,11 +46,7 @@
       "valueCents": 14000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "impact driver",
-        "cordless impact driver",
-        "power screwdriver"
-      ]
+      "imageQueries": ["impact driver", "cordless impact driver", "power screwdriver"]
     },
     {
       "name": "7¼-inch circular saw, corded",
@@ -68,11 +56,7 @@
       "valueCents": 13000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "circular saw",
-        "electric circular saw",
-        "circular saw wood"
-      ]
+      "imageQueries": ["circular saw", "electric circular saw", "circular saw wood"]
     },
     {
       "name": "Variable-speed jigsaw with blades",
@@ -82,11 +66,7 @@
       "valueCents": 9000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "jigsaw saw",
-        "electric jigsaw",
-        "jigsaw woodworking"
-      ]
+      "imageQueries": ["jigsaw saw", "electric jigsaw", "jigsaw woodworking"]
     },
     {
       "name": "4½-inch angle grinder",
@@ -96,11 +76,7 @@
       "valueCents": 11000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "angle grinder",
-        "grinder power tool",
-        "cutting disc grinder"
-      ]
+      "imageQueries": ["angle grinder", "grinder power tool", "cutting disc grinder"]
     },
     {
       "name": "Random orbital sander, 125mm",
@@ -110,11 +86,7 @@
       "valueCents": 12000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "orbital sander",
-        "random orbital sander",
-        "sanding machine"
-      ]
+      "imageQueries": ["orbital sander", "random orbital sander", "sanding machine"]
     },
     {
       "name": "Corded reciprocating saw",
@@ -124,11 +96,7 @@
       "valueCents": 14000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "reciprocating saw",
-        "sabre saw",
-        "demolition saw"
-      ]
+      "imageQueries": ["reciprocating saw", "sabre saw", "demolition saw"]
     },
     {
       "name": "Brad nailer and small compressor",
@@ -138,11 +106,7 @@
       "valueCents": 22000,
       "dailyRateCents": 900,
       "status": "available",
-      "imageQueries": [
-        "brad nailer",
-        "nail gun compressor",
-        "pneumatic nailer"
-      ]
+      "imageQueries": ["brad nailer", "nail gun compressor", "pneumatic nailer"]
     },
     {
       "name": "2000W heat gun with nozzles",
@@ -152,11 +116,7 @@
       "valueCents": 7000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "heat gun",
-        "hot air gun tool",
-        "paint stripper heat gun"
-      ]
+      "imageQueries": ["heat gun", "hot air gun tool", "paint stripper heat gun"]
     },
     {
       "name": "Plunge router with 12 bits",
@@ -166,11 +126,7 @@
       "valueCents": 21000,
       "dailyRateCents": 800,
       "status": "available",
-      "imageQueries": [
-        "plunge router",
-        "woodworking router",
-        "router tool"
-      ]
+      "imageQueries": ["plunge router", "woodworking router", "router tool"]
     },
     {
       "name": "Rotary multi-tool kit",
@@ -180,11 +136,7 @@
       "valueCents": 9500,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "rotary tool",
-        "dremel tool",
-        "multi tool rotary"
-      ]
+      "imageQueries": ["rotary tool", "dremel tool", "multi tool rotary"]
     },
     {
       "name": "6-inch bench grinder",
@@ -194,11 +146,7 @@
       "valueCents": 12000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "bench grinder",
-        "grinding wheel machine",
-        "tool sharpening grinder"
-      ]
+      "imageQueries": ["bench grinder", "grinding wheel machine", "tool sharpening grinder"]
     },
     {
       "name": "10-inch sliding mitre saw",
@@ -208,11 +156,7 @@
       "valueCents": 32000,
       "dailyRateCents": 1200,
       "status": "available",
-      "imageQueries": [
-        "mitre saw",
-        "compound miter saw",
-        "sliding mitre saw"
-      ]
+      "imageQueries": ["mitre saw", "compound miter saw", "sliding mitre saw"]
     },
     {
       "name": "94-piece socket and spanner set",
@@ -222,11 +166,7 @@
       "valueCents": 12000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "socket set",
-        "socket wrench set",
-        "spanner set"
-      ]
+      "imageQueries": ["socket set", "socket wrench set", "spanner set"]
     },
     {
       "name": "Adjustable spanner set, 3 sizes",
@@ -236,11 +176,7 @@
       "valueCents": 4500,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "adjustable spanner",
-        "adjustable wrench",
-        "spanner tool"
-      ]
+      "imageQueries": ["adjustable spanner", "adjustable wrench", "spanner tool"]
     },
     {
       "name": "Precision screwdriver set, 60 bits",
@@ -250,11 +186,7 @@
       "valueCents": 4000,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "precision screwdriver set",
-        "screwdriver bits",
-        "watch repair screwdriver"
-      ]
+      "imageQueries": ["precision screwdriver set", "screwdriver bits", "watch repair screwdriver"]
     },
     {
       "name": "16oz fibreglass claw hammer",
@@ -264,11 +196,7 @@
       "valueCents": 2500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "claw hammer",
-        "hammer hand tool",
-        "carpentry hammer"
-      ]
+      "imageQueries": ["claw hammer", "hammer hand tool", "carpentry hammer"]
     },
     {
       "name": "Heavy-duty hacksaw with blades",
@@ -278,11 +206,7 @@
       "valueCents": 2000,
       "dailyRateCents": 100,
       "status": "available",
-      "imageQueries": [
-        "hacksaw",
-        "metal cutting hand saw",
-        "hacksaw blades"
-      ]
+      "imageQueries": ["hacksaw", "metal cutting hand saw", "hacksaw blades"]
     },
     {
       "name": "14-inch pipe wrench",
@@ -292,11 +216,7 @@
       "valueCents": 5000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "pipe wrench",
-        "plumbing wrench",
-        "monkey wrench"
-      ]
+      "imageQueries": ["pipe wrench", "plumbing wrench", "monkey wrench"]
     },
     {
       "name": "1/2-inch torque wrench, 40–210Nm",
@@ -306,11 +226,7 @@
       "valueCents": 9000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "torque wrench",
-        "click torque wrench",
-        "car torque wrench"
-      ]
+      "imageQueries": ["torque wrench", "click torque wrench", "car torque wrench"]
     },
     {
       "name": "Pliers and cutters set, 5-piece",
@@ -320,11 +236,7 @@
       "valueCents": 5500,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "pliers set",
-        "wire cutters",
-        "hand tools pliers"
-      ]
+      "imageQueries": ["pliers set", "wire cutters", "hand tools pliers"]
     },
     {
       "name": "Wood chisel set, 6-piece",
@@ -334,11 +246,7 @@
       "valueCents": 6000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "wood chisel set",
-        "chisel woodworking",
-        "hand chisel tool"
-      ]
+      "imageQueries": ["wood chisel set", "chisel woodworking", "hand chisel tool"]
     },
     {
       "name": "1200mm spirit level",
@@ -348,11 +256,7 @@
       "valueCents": 4500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "spirit level",
-        "bubble level",
-        "carpentry level"
-      ]
+      "imageQueries": ["spirit level", "bubble level", "carpentry level"]
     },
     {
       "name": "8m steel tape measure",
@@ -362,11 +266,7 @@
       "valueCents": 1800,
       "dailyRateCents": 100,
       "status": "available",
-      "imageQueries": [
-        "tape measure",
-        "measuring tape tool",
-        "steel tape measure"
-      ]
+      "imageQueries": ["tape measure", "measuring tape tool", "steel tape measure"]
     },
     {
       "name": "Rolling tool chest with tools",
@@ -376,11 +276,7 @@
       "valueCents": 26000,
       "dailyRateCents": 900,
       "status": "available",
-      "imageQueries": [
-        "tool chest",
-        "tool cabinet",
-        "tool box"
-      ]
+      "imageQueries": ["tool chest", "tool cabinet", "tool box"]
     },
     {
       "name": "Corded hedge trimmer, 500W",
@@ -390,11 +286,7 @@
       "valueCents": 8000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "hedge trimmer",
-        "electric hedge trimmer",
-        "hedge shears"
-      ]
+      "imageQueries": ["hedge trimmer", "electric hedge trimmer", "hedge shears"]
     },
     {
       "name": "Petrol lawn mower, 46cm cut",
@@ -404,11 +296,7 @@
       "valueCents": 26000,
       "dailyRateCents": 1000,
       "status": "available",
-      "imageQueries": [
-        "lawn mower",
-        "petrol mower",
-        "push lawn mower"
-      ]
+      "imageQueries": ["lawn mower", "petrol mower", "push lawn mower"]
     },
     {
       "name": "Cordless grass strimmer",
@@ -418,11 +306,7 @@
       "valueCents": 12000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "strimmer",
-        "grass trimmer",
-        "string trimmer"
-      ]
+      "imageQueries": ["strimmer", "grass trimmer", "string trimmer"]
     },
     {
       "name": "Electric leaf blower",
@@ -432,11 +316,7 @@
       "valueCents": 8500,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "leaf blower",
-        "garden blower",
-        "electric leaf vacuum"
-      ]
+      "imageQueries": ["leaf blower", "garden blower", "electric leaf vacuum"]
     },
     {
       "name": "Petrol chainsaw, 40cm bar",
@@ -446,11 +326,7 @@
       "valueCents": 22000,
       "dailyRateCents": 1000,
       "status": "available",
-      "imageQueries": [
-        "chainsaw",
-        "petrol chainsaw",
-        "tree cutting chainsaw"
-      ]
+      "imageQueries": ["chainsaw", "petrol chainsaw", "tree cutting chainsaw"]
     },
     {
       "name": "Electric pressure washer, 130 bar",
@@ -460,11 +336,7 @@
       "valueCents": 18000,
       "dailyRateCents": 700,
       "status": "available",
-      "imageQueries": [
-        "pressure washer",
-        "high pressure cleaner",
-        "jet washer garden"
-      ]
+      "imageQueries": ["pressure washer", "high pressure cleaner", "jet washer garden"]
     },
     {
       "name": "Galvanised wheelbarrow",
@@ -474,11 +346,7 @@
       "valueCents": 7000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "wheelbarrow",
-        "garden wheelbarrow",
-        "barrow garden tool"
-      ]
+      "imageQueries": ["wheelbarrow", "garden wheelbarrow", "barrow garden tool"]
     },
     {
       "name": "Garden tool set with border spade",
@@ -488,11 +356,7 @@
       "valueCents": 6000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "garden tools",
-        "spade fork garden",
-        "gardening tools set"
-      ]
+      "imageQueries": ["garden tools", "spade fork garden", "gardening tools set"]
     },
     {
       "name": "Bypass secateurs and loppers",
@@ -502,11 +366,7 @@
       "valueCents": 4500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "secateurs",
-        "pruning shears",
-        "garden loppers"
-      ]
+      "imageQueries": ["secateurs", "pruning shears", "garden loppers"]
     },
     {
       "name": "30m garden hose reel",
@@ -516,11 +376,7 @@
       "valueCents": 5500,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "garden hose reel",
-        "hosepipe garden",
-        "water hose reel"
-      ]
+      "imageQueries": ["garden hose reel", "hosepipe garden", "water hose reel"]
     },
     {
       "name": "Mini rotavator, petrol",
@@ -530,11 +386,7 @@
       "valueCents": 29000,
       "dailyRateCents": 1200,
       "status": "available",
-      "imageQueries": [
-        "rotavator",
-        "tiller garden machine",
-        "cultivator petrol"
-      ]
+      "imageQueries": ["rotavator", "tiller garden machine", "cultivator petrol"]
     },
     {
       "name": "Telescopic pole pruner",
@@ -544,11 +396,7 @@
       "valueCents": 11000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "pole pruner",
-        "telescopic tree pruner",
-        "tree branch cutter"
-      ]
+      "imageQueries": ["pole pruner", "telescopic tree pruner", "tree branch cutter"]
     },
     {
       "name": "5.5L stand mixer with bowl",
@@ -558,11 +406,7 @@
       "valueCents": 32000,
       "dailyRateCents": 1000,
       "status": "available",
-      "imageQueries": [
-        "stand mixer",
-        "kitchen mixer appliance",
-        "dough mixer kitchen"
-      ]
+      "imageQueries": ["stand mixer", "kitchen mixer appliance", "dough mixer kitchen"]
     },
     {
       "name": "11-cup food processor",
@@ -572,11 +416,7 @@
       "valueCents": 18000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "food processor",
-        "kitchen food processor",
-        "chopping machine kitchen"
-      ]
+      "imageQueries": ["food processor", "kitchen food processor", "chopping machine kitchen"]
     },
     {
       "name": "High-speed blender, 1.8L",
@@ -586,11 +426,7 @@
       "valueCents": 16000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "blender kitchen",
-        "smoothie blender",
-        "kitchen blender appliance"
-      ]
+      "imageQueries": ["blender kitchen", "smoothie blender", "kitchen blender appliance"]
     },
     {
       "name": "5.8L air fryer",
@@ -600,11 +436,7 @@
       "valueCents": 12000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "air fryer",
-        "air fryer kitchen appliance",
-        "hot air fryer"
-      ]
+      "imageQueries": ["air fryer", "air fryer kitchen appliance", "hot air fryer"]
     },
     {
       "name": "Bean-to-cup espresso machine",
@@ -614,11 +446,7 @@
       "valueCents": 48000,
       "dailyRateCents": 1500,
       "status": "unavailable",
-      "imageQueries": [
-        "espresso machine",
-        "coffee machine espresso",
-        "barista coffee machine"
-      ]
+      "imageQueries": ["espresso machine", "coffee machine espresso", "barista coffee machine"]
     },
     {
       "name": "6L slow cooker",
@@ -628,11 +456,7 @@
       "valueCents": 7000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "slow cooker",
-        "crock pot",
-        "slow cooker kitchen"
-      ]
+      "imageQueries": ["slow cooker", "crock pot", "slow cooker kitchen"]
     },
     {
       "name": "Bread maker with gluten-free cycle",
@@ -642,11 +466,7 @@
       "valueCents": 13000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "bread maker",
-        "bread machine kitchen",
-        "bread baking machine"
-      ]
+      "imageQueries": ["bread maker", "bread machine kitchen", "bread baking machine"]
     },
     {
       "name": "Stainless pasta machine",
@@ -656,11 +476,7 @@
       "valueCents": 6000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "pasta machine",
-        "pasta maker kitchen",
-        "fresh pasta roller"
-      ]
+      "imageQueries": ["pasta machine", "pasta maker kitchen", "fresh pasta roller"]
     },
     {
       "name": "Ice cream maker, 1.5L",
@@ -670,11 +486,7 @@
       "valueCents": 9000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "ice cream maker",
-        "ice cream machine kitchen",
-        "gelato maker"
-      ]
+      "imageQueries": ["ice cream maker", "ice cream machine kitchen", "gelato maker"]
     },
     {
       "name": "Belgian waffle maker",
@@ -684,11 +496,7 @@
       "valueCents": 5500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "waffle maker",
-        "waffle iron kitchen",
-        "belgian waffle machine"
-      ]
+      "imageQueries": ["waffle maker", "waffle iron kitchen", "belgian waffle machine"]
     },
     {
       "name": "9-tray food dehydrator",
@@ -698,11 +506,7 @@
       "valueCents": 14000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "food dehydrator",
-        "dehydrator trays food",
-        "dried fruit machine"
-      ]
+      "imageQueries": ["food dehydrator", "dehydrator trays food", "dried fruit machine"]
     },
     {
       "name": "Sous-vide circulator",
@@ -712,11 +516,7 @@
       "valueCents": 11000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "sous vide",
-        "sous vide cooker",
-        "immersion circulator"
-      ]
+      "imageQueries": ["sous vide", "sous vide cooker", "immersion circulator"]
     },
     {
       "name": "Cold-press juicer",
@@ -726,11 +526,7 @@
       "valueCents": 15000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "juicer machine",
-        "cold press juicer",
-        "fruit vegetable juicer"
-      ]
+      "imageQueries": ["juicer machine", "cold press juicer", "fruit vegetable juicer"]
     },
     {
       "name": "3-person tunnel tent",
@@ -740,11 +536,7 @@
       "valueCents": 22000,
       "dailyRateCents": 800,
       "status": "available",
-      "imageQueries": [
-        "tunnel tent",
-        "camping tent three person",
-        "family tent camping"
-      ]
+      "imageQueries": ["tunnel tent", "camping tent three person", "family tent camping"]
     },
     {
       "name": "Two-person three-season tent",
@@ -754,11 +546,7 @@
       "valueCents": 18000,
       "dailyRateCents": 700,
       "status": "available",
-      "imageQueries": [
-        "two person tent",
-        "backpacking tent",
-        "camping tent"
-      ]
+      "imageQueries": ["two person tent", "backpacking tent", "camping tent"]
     },
     {
       "name": "Down sleeping bag, -5°C",
@@ -768,11 +556,7 @@
       "valueCents": 15000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "sleeping bag",
-        "down sleeping bag",
-        "camping sleeping bag"
-      ]
+      "imageQueries": ["sleeping bag", "down sleeping bag", "camping sleeping bag"]
     },
     {
       "name": "Twin-burner camping stove",
@@ -782,11 +566,7 @@
       "valueCents": 7000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "camping stove",
-        "gas camping stove",
-        "portable camping cooker"
-      ]
+      "imageQueries": ["camping stove", "gas camping stove", "portable camping cooker"]
     },
     {
       "name": "45L hard cooler box",
@@ -796,11 +576,7 @@
       "valueCents": 11000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "cooler box",
-        "camping cooler",
-        "ice cooler box"
-      ]
+      "imageQueries": ["cooler box", "camping cooler", "ice cooler box"]
     },
     {
       "name": "Rechargeable headlamp, 400lm",
@@ -810,11 +586,7 @@
       "valueCents": 3500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "headlamp",
-        "head torch",
-        "rechargeable headlamp camping"
-      ]
+      "imageQueries": ["headlamp", "head torch", "rechargeable headlamp camping"]
     },
     {
       "name": "Folding camping chairs, pair",
@@ -824,11 +596,7 @@
       "valueCents": 6000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "camping chair",
-        "folding camping chair",
-        "camp chairs outdoor"
-      ]
+      "imageQueries": ["camping chair", "folding camping chair", "camp chairs outdoor"]
     },
     {
       "name": "Double camping hammock",
@@ -838,11 +606,7 @@
       "valueCents": 5500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "camping hammock",
-        "double hammock",
-        "hammock tree straps"
-      ]
+      "imageQueries": ["camping hammock", "double hammock", "hammock tree straps"]
     },
     {
       "name": "Aluminium camping table",
@@ -852,11 +616,7 @@
       "valueCents": 6500,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "camping table",
-        "folding camping table",
-        "aluminium camp table"
-      ]
+      "imageQueries": ["camping table", "folding camping table", "aluminium camp table"]
     },
     {
       "name": "Gravity water filter, 10L",
@@ -866,11 +626,7 @@
       "valueCents": 8000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "water filter camping",
-        "gravity water filter",
-        "outdoor water purification"
-      ]
+      "imageQueries": ["water filter camping", "gravity water filter", "outdoor water purification"]
     },
     {
       "name": "LED camping lantern",
@@ -880,11 +636,7 @@
       "valueCents": 2500,
       "dailyRateCents": 100,
       "status": "available",
-      "imageQueries": [
-        "camping lantern",
-        "led camping light",
-        "lantern rechargeable outdoor"
-      ]
+      "imageQueries": ["camping lantern", "led camping light", "lantern rechargeable outdoor"]
     },
     {
       "name": "Steam cleaner with floor head",
@@ -894,11 +646,7 @@
       "valueCents": 15000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "steam cleaner",
-        "steam mop",
-        "steam cleaning machine"
-      ]
+      "imageQueries": ["steam cleaner", "steam mop", "steam cleaning machine"]
     },
     {
       "name": "Cylinder vacuum cleaner, 2000W",
@@ -908,11 +656,7 @@
       "valueCents": 9000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "vacuum cleaner",
-        "cylinder vacuum",
-        "household vacuum cleaner"
-      ]
+      "imageQueries": ["vacuum cleaner", "cylinder vacuum", "household vacuum cleaner"]
     },
     {
       "name": "Carpet and upholstery cleaner",
@@ -922,11 +666,7 @@
       "valueCents": 22000,
       "dailyRateCents": 800,
       "status": "available",
-      "imageQueries": [
-        "carpet cleaner",
-        "carpet cleaning machine",
-        "upholstery cleaner machine"
-      ]
+      "imageQueries": ["carpet cleaner", "carpet cleaning machine", "upholstery cleaner machine"]
     },
     {
       "name": "Wet and dry shop vacuum, 30L",
@@ -936,11 +676,7 @@
       "valueCents": 13000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "shop vacuum",
-        "wet dry vacuum",
-        "workshop vacuum cleaner"
-      ]
+      "imageQueries": ["shop vacuum", "wet dry vacuum", "workshop vacuum cleaner"]
     },
     {
       "name": "Rotary floor polisher",
@@ -950,11 +686,7 @@
       "valueCents": 26000,
       "dailyRateCents": 1000,
       "status": "available",
-      "imageQueries": [
-        "floor polisher",
-        "floor scrubbing machine",
-        "rotary floor buffer"
-      ]
+      "imageQueries": ["floor polisher", "floor scrubbing machine", "rotary floor buffer"]
     },
     {
       "name": "Window cleaning kit, 3m pole",
@@ -964,11 +696,7 @@
       "valueCents": 7000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "window cleaning",
-        "squeegee window cleaner",
-        "window cleaning pole"
-      ]
+      "imageQueries": ["window cleaning", "squeegee window cleaner", "window cleaning pole"]
     },
     {
       "name": "Upholstery spot cleaner",
@@ -978,11 +706,7 @@
       "valueCents": 11000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "spot cleaner",
-        "upholstery cleaning machine",
-        "portable carpet cleaner"
-      ]
+      "imageQueries": ["spot cleaner", "upholstery cleaning machine", "portable carpet cleaner"]
     },
     {
       "name": "Drain cleaning auger, 10m",
@@ -992,11 +716,7 @@
       "valueCents": 8500,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "drain auger",
-        "drain snake tool",
-        "plumbing drain cleaner"
-      ]
+      "imageQueries": ["drain auger", "drain snake tool", "plumbing drain cleaner"]
     },
     {
       "name": "Gutter cleaning vacuum kit",
@@ -1006,11 +726,7 @@
       "valueCents": 14000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "gutter cleaning",
-        "gutter vacuum",
-        "roof gutter leaves"
-      ]
+      "imageQueries": ["gutter cleaning", "gutter vacuum", "roof gutter leaves"]
     },
     {
       "name": "Dehumidifier, 20L per day",
@@ -1020,11 +736,7 @@
       "valueCents": 19000,
       "dailyRateCents": 700,
       "status": "available",
-      "imageQueries": [
-        "dehumidifier",
-        "dehumidifier machine",
-        "home dehumidifier"
-      ]
+      "imageQueries": ["dehumidifier", "dehumidifier machine", "home dehumidifier"]
     },
     {
       "name": "3-ton trolley jack",
@@ -1034,11 +746,7 @@
       "valueCents": 12000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "trolley jack",
-        "car jack hydraulic",
-        "floor jack garage"
-      ]
+      "imageQueries": ["trolley jack", "car jack hydraulic", "floor jack garage"]
     },
     {
       "name": "Digital tyre inflator",
@@ -1048,11 +756,7 @@
       "valueCents": 4500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "tyre inflator",
-        "tire inflator digital",
-        "air compressor tyre pump"
-      ]
+      "imageQueries": ["tyre inflator", "tire inflator digital", "air compressor tyre pump"]
     },
     {
       "name": "OBD-II diagnostic scanner",
@@ -1062,11 +766,7 @@
       "valueCents": 9000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "obd scanner",
-        "car diagnostic scanner",
-        "obd2 reader"
-      ]
+      "imageQueries": ["obd scanner", "car diagnostic scanner", "obd2 reader"]
     },
     {
       "name": "12V battery charger and maintainer",
@@ -1076,11 +776,7 @@
       "valueCents": 7000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "battery charger car",
-        "car battery charger",
-        "12v charger maintainer"
-      ]
+      "imageQueries": ["battery charger car", "car battery charger", "12v charger maintainer"]
     },
     {
       "name": "Jump starter power pack",
@@ -1090,11 +786,7 @@
       "valueCents": 11000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "jump starter",
-        "car jump starter pack",
-        "portable jump starter"
-      ]
+      "imageQueries": ["jump starter", "car jump starter pack", "portable jump starter"]
     },
     {
       "name": "1/2-inch impact wrench",
@@ -1104,11 +796,7 @@
       "valueCents": 15000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "impact wrench",
-        "cordless impact wrench",
-        "wheel nut gun"
-      ]
+      "imageQueries": ["impact wrench", "cordless impact wrench", "wheel nut gun"]
     },
     {
       "name": "4-ton axle stands, pair",
@@ -1118,11 +806,7 @@
       "valueCents": 6000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "axle stands",
-        "jack stands car",
-        "car support stands"
-      ]
+      "imageQueries": ["axle stands", "jack stands car", "car support stands"]
     },
     {
       "name": "Car ramps, pair",
@@ -1132,11 +816,7 @@
       "valueCents": 5500,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "car ramps",
-        "vehicle ramps garage",
-        "car ramps lifting"
-      ]
+      "imageQueries": ["car ramps", "vehicle ramps garage", "car ramps lifting"]
     },
     {
       "name": "Telescopic wheel brace",
@@ -1146,11 +826,7 @@
       "valueCents": 3500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "wheel brace",
-        "wheel nut wrench",
-        "telescopic lug wrench"
-      ]
+      "imageQueries": ["wheel brace", "wheel nut wrench", "telescopic lug wrench"]
     },
     {
       "name": "Car vacuum cleaner, 12V",
@@ -1160,11 +836,7 @@
       "valueCents": 4000,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "car vacuum cleaner",
-        "handheld car vacuum",
-        "12v vacuum car"
-      ]
+      "imageQueries": ["car vacuum cleaner", "handheld car vacuum", "12v vacuum car"]
     },
     {
       "name": "Aluminium extension ladder, 3.5m",
@@ -1174,11 +846,7 @@
       "valueCents": 15000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "extension ladder",
-        "aluminium ladder",
-        "telescopic extension ladder"
-      ]
+      "imageQueries": ["extension ladder", "aluminium ladder", "telescopic extension ladder"]
     },
     {
       "name": "6ft fibreglass step ladder",
@@ -1188,11 +856,7 @@
       "valueCents": 9000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "step ladder",
-        "fibreglass stepladder",
-        "folding step ladder"
-      ]
+      "imageQueries": ["step ladder", "fibreglass stepladder", "folding step ladder"]
     },
     {
       "name": "8-inch Dobsonian telescope",
@@ -1202,11 +866,7 @@
       "valueCents": 42000,
       "dailyRateCents": 1400,
       "status": "available",
-      "imageQueries": [
-        "dobsonian telescope",
-        "amateur telescope",
-        "reflecting telescope"
-      ]
+      "imageQueries": ["dobsonian telescope", "amateur telescope", "reflecting telescope"]
     },
     {
       "name": "1080p home projector",
@@ -1216,11 +876,7 @@
       "valueCents": 22000,
       "dailyRateCents": 800,
       "status": "available",
-      "imageQueries": [
-        "projector",
-        "home cinema projector",
-        "video projector"
-      ]
+      "imageQueries": ["projector", "home cinema projector", "video projector"]
     },
     {
       "name": "55-inch 4K TV",
@@ -1230,11 +886,7 @@
       "valueCents": 42000,
       "dailyRateCents": 1500,
       "status": "available",
-      "imageQueries": [
-        "4k tv",
-        "television screen",
-        "flat screen tv"
-      ]
+      "imageQueries": ["4k tv", "television screen", "flat screen tv"]
     },
     {
       "name": "Games console with two controllers",
@@ -1244,11 +896,7 @@
       "valueCents": 30000,
       "dailyRateCents": 1000,
       "status": "unavailable",
-      "imageQueries": [
-        "games console",
-        "video game console",
-        "gaming controller console"
-      ]
+      "imageQueries": ["games console", "video game console", "gaming controller console"]
     },
     {
       "name": "Camera drone with extra battery",
@@ -1258,11 +906,7 @@
       "valueCents": 38000,
       "dailyRateCents": 1400,
       "status": "available",
-      "imageQueries": [
-        "camera drone",
-        "quadcopter drone",
-        "drone aerial camera"
-      ]
+      "imageQueries": ["camera drone", "quadcopter drone", "drone aerial camera"]
     },
     {
       "name": "10-inch tablet",
@@ -1272,11 +916,7 @@
       "valueCents": 18000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "tablet computer",
-        "tablet device",
-        "tablet touchscreen"
-      ]
+      "imageQueries": ["tablet computer", "tablet device", "tablet touchscreen"]
     },
     {
       "name": "Soundbar with subwoofer",
@@ -1286,11 +926,7 @@
       "valueCents": 16000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "soundbar",
-        "soundbar speaker",
-        "tv soundbar subwoofer"
-      ]
+      "imageQueries": ["soundbar", "soundbar speaker", "tv soundbar subwoofer"]
     },
     {
       "name": "27-inch QHD monitor",
@@ -1300,11 +936,7 @@
       "valueCents": 20000,
       "dailyRateCents": 700,
       "status": "available",
-      "imageQueries": [
-        "computer monitor",
-        "desktop monitor screen",
-        "qhd monitor"
-      ]
+      "imageQueries": ["computer monitor", "desktop monitor screen", "qhd monitor"]
     },
     {
       "name": "Wireless printer and scanner",
@@ -1314,11 +946,7 @@
       "valueCents": 9000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "printer scanner",
-        "wireless printer",
-        "office printer scanner"
-      ]
+      "imageQueries": ["printer scanner", "wireless printer", "office printer scanner"]
     },
     {
       "name": "VR headset, 128GB",
@@ -1328,11 +956,7 @@
       "valueCents": 28000,
       "dailyRateCents": 1000,
       "status": "available",
-      "imageQueries": [
-        "vr headset",
-        "virtual reality headset",
-        "vr goggles"
-      ]
+      "imageQueries": ["vr headset", "virtual reality headset", "vr goggles"]
     },
     {
       "name": "Portable air conditioner, 9000 BTU",
@@ -1342,11 +966,7 @@
       "valueCents": 32000,
       "dailyRateCents": 1200,
       "status": "available",
-      "imageQueries": [
-        "portable air conditioner",
-        "air conditioner unit",
-        "portable ac cooling"
-      ]
+      "imageQueries": ["portable air conditioner", "air conditioner unit", "portable ac cooling"]
     },
     {
       "name": "Smart speaker with screen",
@@ -1356,11 +976,7 @@
       "valueCents": 7000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "smart speaker",
-        "smart display speaker",
-        "smart speaker screen"
-      ]
+      "imageQueries": ["smart speaker", "smart display speaker", "smart speaker screen"]
     },
     {
       "name": "500Wh portable power station",
@@ -1370,11 +986,7 @@
       "valueCents": 38000,
       "dailyRateCents": 1400,
       "status": "available",
-      "imageQueries": [
-        "portable power station",
-        "battery power station",
-        "portable power supply"
-      ]
+      "imageQueries": ["portable power station", "battery power station", "portable power supply"]
     },
     {
       "name": "Folding treadmill",
@@ -1384,11 +996,7 @@
       "valueCents": 45000,
       "dailyRateCents": 1500,
       "status": "available",
-      "imageQueries": [
-        "treadmill",
-        "folding treadmill",
-        "home treadmill machine"
-      ]
+      "imageQueries": ["treadmill", "folding treadmill", "home treadmill machine"]
     },
     {
       "name": "Adjustable dumbbells, pair of 24kg",
@@ -1398,11 +1006,7 @@
       "valueCents": 26000,
       "dailyRateCents": 900,
       "status": "available",
-      "imageQueries": [
-        "dumbbells",
-        "adjustable dumbbells",
-        "dumbbell weights set"
-      ]
+      "imageQueries": ["dumbbells", "adjustable dumbbells", "dumbbell weights set"]
     },
     {
       "name": "Yoga mat and blocks set",
@@ -1412,11 +1016,7 @@
       "valueCents": 4500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "yoga mat",
-        "yoga blocks",
-        "exercise mat fitness"
-      ]
+      "imageQueries": ["yoga mat", "yoga blocks", "exercise mat fitness"]
     },
     {
       "name": "Kettlebell set, 6 to 16kg",
@@ -1426,11 +1026,7 @@
       "valueCents": 15000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "kettlebell",
-        "kettlebell weights",
-        "kettlebell fitness"
-      ]
+      "imageQueries": ["kettlebell", "kettlebell weights", "kettlebell fitness"]
     },
     {
       "name": "Rowing machine",
@@ -1440,11 +1036,7 @@
       "valueCents": 38000,
       "dailyRateCents": 1300,
       "status": "unavailable",
-      "imageQueries": [
-        "rowing machine",
-        "indoor rower",
-        "rowing ergometer"
-      ]
+      "imageQueries": ["rowing machine", "indoor rower", "rowing ergometer"]
     },
     {
       "name": "Magnetic exercise bike",
@@ -1454,11 +1046,7 @@
       "valueCents": 32000,
       "dailyRateCents": 1100,
       "status": "available",
-      "imageQueries": [
-        "exercise bike",
-        "stationary bike fitness",
-        "indoor cycling bike"
-      ]
+      "imageQueries": ["exercise bike", "stationary bike fitness", "indoor cycling bike"]
     },
     {
       "name": "Resistance band set",
@@ -1468,11 +1056,7 @@
       "valueCents": 3500,
       "dailyRateCents": 100,
       "status": "available",
-      "imageQueries": [
-        "resistance bands",
-        "fitness bands workout",
-        "exercise resistance band"
-      ]
+      "imageQueries": ["resistance bands", "fitness bands workout", "exercise resistance band"]
     },
     {
       "name": "Boxing gloves and pads",
@@ -1482,11 +1066,7 @@
       "valueCents": 7000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "boxing gloves",
-        "boxing pads training",
-        "boxing equipment"
-      ]
+      "imageQueries": ["boxing gloves", "boxing pads training", "boxing equipment"]
     },
     {
       "name": "Badminton set with net",
@@ -1496,11 +1076,7 @@
       "valueCents": 5500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "badminton set",
-        "badminton rackets net",
-        "badminton equipment"
-      ]
+      "imageQueries": ["badminton set", "badminton rackets net", "badminton equipment"]
     },
     {
       "name": "Hardtail mountain bike, 29er",
@@ -1510,11 +1086,7 @@
       "valueCents": 42000,
       "dailyRateCents": 1400,
       "status": "available",
-      "imageQueries": [
-        "mountain bike",
-        "hardtail mountain bike",
-        "mtb bicycle"
-      ]
+      "imageQueries": ["mountain bike", "hardtail mountain bike", "mtb bicycle"]
     },
     {
       "name": "Aluminium road bike, 54cm",
@@ -1524,11 +1096,7 @@
       "valueCents": 65000,
       "dailyRateCents": 2000,
       "status": "available",
-      "imageQueries": [
-        "road bike",
-        "racing bicycle road",
-        "road bicycle"
-      ]
+      "imageQueries": ["road bike", "racing bicycle road", "road bicycle"]
     },
     {
       "name": "Bike repair stand",
@@ -1538,11 +1106,7 @@
       "valueCents": 9000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "bicycle repair stand",
-        "bike work stand",
-        "bike maintenance stand"
-      ]
+      "imageQueries": ["bicycle repair stand", "bike work stand", "bike maintenance stand"]
     },
     {
       "name": "Floor pump with gauge",
@@ -1552,11 +1116,7 @@
       "valueCents": 3500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "bicycle pump",
-        "bike floor pump",
-        "tyre pump gauge"
-      ]
+      "imageQueries": ["bicycle pump", "bike floor pump", "tyre pump gauge"]
     },
     {
       "name": "Tow-bar bike rack, 3 bikes",
@@ -1566,11 +1126,7 @@
       "valueCents": 15000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "bike rack car",
-        "bicycle carrier car",
-        "tow bar bike rack"
-      ]
+      "imageQueries": ["bike rack car", "bicycle carrier car", "tow bar bike rack"]
     },
     {
       "name": "Kids' 20-inch bike",
@@ -1580,11 +1136,7 @@
       "valueCents": 12000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "kids bicycle",
-        "childrens bike",
-        "child bicycle"
-      ]
+      "imageQueries": ["kids bicycle", "childrens bike", "child bicycle"]
     },
     {
       "name": "Adult kick scooter",
@@ -1594,11 +1146,7 @@
       "valueCents": 8000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "kick scooter",
-        "adult scooter",
-        "folding scooter"
-      ]
+      "imageQueries": ["kick scooter", "adult scooter", "folding scooter"]
     },
     {
       "name": "Electric city bike, 60km range",
@@ -1608,11 +1156,7 @@
       "valueCents": 90000,
       "dailyRateCents": 2500,
       "status": "unavailable",
-      "imageQueries": [
-        "electric bike",
-        "e-bike city",
-        "electric bicycle"
-      ]
+      "imageQueries": ["electric bike", "e-bike city", "electric bicycle"]
     },
     {
       "name": "Acoustic guitar with hard case",
@@ -1622,11 +1166,7 @@
       "valueCents": 18000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "acoustic guitar",
-        "guitar acoustic",
-        "dreadnought guitar"
-      ]
+      "imageQueries": ["acoustic guitar", "guitar acoustic", "dreadnought guitar"]
     },
     {
       "name": "Electric guitar and practice amp",
@@ -1636,11 +1176,7 @@
       "valueCents": 32000,
       "dailyRateCents": 1000,
       "status": "available",
-      "imageQueries": [
-        "electric guitar",
-        "guitar electric",
-        "guitar amplifier practice"
-      ]
+      "imageQueries": ["electric guitar", "guitar electric", "guitar amplifier practice"]
     },
     {
       "name": "88-key digital piano",
@@ -1650,11 +1186,7 @@
       "valueCents": 55000,
       "dailyRateCents": 1800,
       "status": "available",
-      "imageQueries": [
-        "digital piano",
-        "electric piano keyboard",
-        "piano keyboard 88 keys"
-      ]
+      "imageQueries": ["digital piano", "electric piano keyboard", "piano keyboard 88 keys"]
     },
     {
       "name": "40W guitar amplifier",
@@ -1664,11 +1196,7 @@
       "valueCents": 14000,
       "dailyRateCents": 500,
       "status": "available",
-      "imageQueries": [
-        "guitar amplifier",
-        "combo amp guitar",
-        "electric guitar amp"
-      ]
+      "imageQueries": ["guitar amplifier", "combo amp guitar", "electric guitar amp"]
     },
     {
       "name": "12-channel audio mixer",
@@ -1678,11 +1206,7 @@
       "valueCents": 25000,
       "dailyRateCents": 900,
       "status": "available",
-      "imageQueries": [
-        "audio mixer",
-        "mixing console audio",
-        "sound mixer board"
-      ]
+      "imageQueries": ["audio mixer", "mixing console audio", "sound mixer board"]
     },
     {
       "name": "DJ controller, 2-channel",
@@ -1692,11 +1216,7 @@
       "valueCents": 28000,
       "dailyRateCents": 1000,
       "status": "unavailable",
-      "imageQueries": [
-        "dj controller",
-        "dj mixer controller",
-        "dj equipment"
-      ]
+      "imageQueries": ["dj controller", "dj mixer controller", "dj equipment"]
     },
     {
       "name": "Wireless microphone, pair",
@@ -1706,11 +1226,7 @@
       "valueCents": 11000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "wireless microphone",
-        "handheld microphone wireless",
-        "microphone set"
-      ]
+      "imageQueries": ["wireless microphone", "handheld microphone wireless", "microphone set"]
     },
     {
       "name": "Powered PA speaker, 12-inch",
@@ -1720,11 +1236,7 @@
       "valueCents": 22000,
       "dailyRateCents": 800,
       "status": "available",
-      "imageQueries": [
-        "pa speaker",
-        "powered speaker pa",
-        "loudspeaker public address"
-      ]
+      "imageQueries": ["pa speaker", "powered speaker pa", "loudspeaker public address"]
     },
     {
       "name": "DSLR camera with 18-55mm lens",
@@ -1734,11 +1246,7 @@
       "valueCents": 38000,
       "dailyRateCents": 1200,
       "status": "available",
-      "imageQueries": [
-        "dslr camera",
-        "digital slr camera",
-        "camera dslr lens"
-      ]
+      "imageQueries": ["dslr camera", "digital slr camera", "camera dslr lens"]
     },
     {
       "name": "Mirrorless camera, body only",
@@ -1748,11 +1256,7 @@
       "valueCents": 70000,
       "dailyRateCents": 2200,
       "status": "available",
-      "imageQueries": [
-        "mirrorless camera",
-        "camera mirrorless body",
-        "digital camera mirrorless"
-      ]
+      "imageQueries": ["mirrorless camera", "camera mirrorless body", "digital camera mirrorless"]
     },
     {
       "name": "70-200mm telephoto lens",
@@ -1762,11 +1266,7 @@
       "valueCents": 85000,
       "dailyRateCents": 2500,
       "status": "available",
-      "imageQueries": [
-        "telephoto lens",
-        "zoom lens camera",
-        "camera lens telephoto"
-      ]
+      "imageQueries": ["telephoto lens", "zoom lens camera", "camera lens telephoto"]
     },
     {
       "name": "Carbon fibre tripod",
@@ -1776,11 +1276,7 @@
       "valueCents": 16000,
       "dailyRateCents": 600,
       "status": "available",
-      "imageQueries": [
-        "tripod camera",
-        "carbon tripod",
-        "camera tripod ball head"
-      ]
+      "imageQueries": ["tripod camera", "carbon tripod", "camera tripod ball head"]
     },
     {
       "name": "Ring light with stand",
@@ -1790,11 +1286,7 @@
       "valueCents": 8000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "ring light",
-        "ring light photography",
-        "led ring light stand"
-      ]
+      "imageQueries": ["ring light", "ring light photography", "led ring light stand"]
     },
     {
       "name": "3-axis gimbal stabiliser",
@@ -1804,11 +1296,7 @@
       "valueCents": 22000,
       "dailyRateCents": 800,
       "status": "available",
-      "imageQueries": [
-        "gimbal stabilizer",
-        "camera gimbal",
-        "video stabilizer gimbal"
-      ]
+      "imageQueries": ["gimbal stabilizer", "camera gimbal", "video stabilizer gimbal"]
     },
     {
       "name": "Instant camera with film",
@@ -1818,11 +1306,7 @@
       "valueCents": 11000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "instant camera",
-        "polaroid camera",
-        "instant film camera"
-      ]
+      "imageQueries": ["instant camera", "polaroid camera", "instant film camera"]
     },
     {
       "name": "Photo backdrop and stand kit",
@@ -1832,11 +1316,7 @@
       "valueCents": 9000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "photo backdrop",
-        "backdrop stand photography",
-        "studio backdrop kit"
-      ]
+      "imageQueries": ["photo backdrop", "backdrop stand photography", "studio backdrop kit"]
     },
     {
       "name": "6ft folding table",
@@ -1846,11 +1326,7 @@
       "valueCents": 4500,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "folding table",
-        "banquet table folding",
-        "trestle table"
-      ]
+      "imageQueries": ["folding table", "banquet table folding", "trestle table"]
     },
     {
       "name": "Folding chairs, set of 6",
@@ -1860,11 +1336,7 @@
       "valueCents": 6000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "folding chairs",
-        "stacking chairs",
-        "party chairs folding"
-      ]
+      "imageQueries": ["folding chairs", "stacking chairs", "party chairs folding"]
     },
     {
       "name": "3x3m pop-up gazebo",
@@ -1874,11 +1346,7 @@
       "valueCents": 11000,
       "dailyRateCents": 400,
       "status": "available",
-      "imageQueries": [
-        "pop up gazebo",
-        "gazebo canopy garden",
-        "event gazebo"
-      ]
+      "imageQueries": ["pop up gazebo", "gazebo canopy garden", "event gazebo"]
     },
     {
       "name": "Disco ball and light",
@@ -1888,11 +1356,7 @@
       "valueCents": 5000,
       "dailyRateCents": 200,
       "status": "available",
-      "imageQueries": [
-        "disco ball",
-        "mirror ball disco",
-        "disco ball light"
-      ]
+      "imageQueries": ["disco ball", "mirror ball disco", "disco ball light"]
     },
     {
       "name": "Chafing dish set, 3 pans",
@@ -1902,11 +1366,7 @@
       "valueCents": 7000,
       "dailyRateCents": 300,
       "status": "available",
-      "imageQueries": [
-        "chafing dish",
-        "buffet food warmer",
-        "chafing dish set"
-      ]
+      "imageQueries": ["chafing dish", "buffet food warmer", "chafing dish set"]
     },
     {
       "name": "Warm-white string lights, 20m",
@@ -1916,11 +1376,7 @@
       "valueCents": 3000,
       "dailyRateCents": 100,
       "status": "available",
-      "imageQueries": [
-        "string lights",
-        "festoon lights garden",
-        "fairy lights outdoor"
-      ]
+      "imageQueries": ["string lights", "festoon lights garden", "fairy lights outdoor"]
     }
   ]
 }

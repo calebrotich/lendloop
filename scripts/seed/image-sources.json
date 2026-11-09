@@ -1,429 +1,138 @@
 {
-  "18V brushless cordless drill": [
-    "Cordless drills"
-  ],
-  "20V hammer drill and masonry bits": [
-    "Hammer drills",
-    "Rotary hammers"
-  ],
-  "Impact driver with 60-piece bit set": [
-    "Impact drivers"
-  ],
-  "7\u00bc-inch circular saw, corded": [
-    "Circular saws",
-    "Handheld circular saws"
-  ],
-  "Variable-speed jigsaw with blades": [
-    "Jigsaws"
-  ],
-  "4\u00bd-inch angle grinder": [
-    "Angle grinders"
-  ],
-  "Random orbital sander, 125mm": [
-    "Random orbital sanders"
-  ],
-  "Corded reciprocating saw": [
-    "Reciprocating saws"
-  ],
-  "Brad nailer and small compressor": [
-    "Nail guns"
-  ],
-  "2000W heat gun with nozzles": [
-    "Heat guns"
-  ],
-  "Plunge router with 12 bits": [
-    "Routers (woodworking)",
-    "Woodworking routers"
-  ],
-  "Rotary multi-tool kit": [
-    "Rotary tools"
-  ],
-  "6-inch bench grinder": [
-    "Bench grinders"
-  ],
-  "10-inch sliding mitre saw": [
-    "Miter saws",
-    "Mitre saws"
-  ],
-  "94-piece socket and spanner set": [
-    "Socket wrenches",
-    "Spanners"
-  ],
-  "Adjustable spanner set, 3 sizes": [
-    "Adjustable wrenches"
-  ],
-  "Precision screwdriver set, 60 bits": [
-    "Screwdrivers",
-    "Screwdriver bits"
-  ],
-  "16oz fibreglass claw hammer": [
-    "Claw hammers",
-    "Hammers"
-  ],
-  "Heavy-duty hacksaw with blades": [
-    "Hacksaws"
-  ],
-  "14-inch pipe wrench": [
-    "Pipe wrenches"
-  ],
-  "1/2-inch torque wrench, 40\u2013210Nm": [
-    "Torque wrenches"
-  ],
-  "Pliers and cutters set, 5-piece": [
-    "Pliers"
-  ],
-  "Wood chisel set, 6-piece": [
-    "Chisels"
-  ],
-  "1200mm spirit level": [
-    "Spirit levels"
-  ],
-  "8m steel tape measure": [
-    "Tape measures"
-  ],
-  "Rolling tool chest with tools": [
-    "Toolboxes"
-  ],
-  "Corded hedge trimmer, 500W": [
-    "Hedge trimmers"
-  ],
-  "Petrol lawn mower, 46cm cut": [
-    "Lawn mowers"
-  ],
-  "Cordless grass strimmer": [
-    "String trimmers"
-  ],
-  "Electric leaf blower": [
-    "Leaf blowers"
-  ],
-  "Petrol chainsaw, 40cm bar": [
-    "Chainsaws"
-  ],
-  "Electric pressure washer, 130 bar": [
-    "Pressure washers"
-  ],
-  "Galvanised wheelbarrow": [
-    "Wheelbarrows"
-  ],
-  "Garden tool set with border spade": [
-    "Garden tools",
-    "Spades"
-  ],
-  "Bypass secateurs and loppers": [
-    "Pruning shears",
-    "Loppers"
-  ],
-  "30m garden hose reel": [
-    "Garden hoses"
-  ],
-  "Mini rotavator, petrol": [
-    "Tillers"
-  ],
-  "Telescopic pole pruner": [
-    "Pruning saws",
-    "Pole pruners"
-  ],
-  "5.5L stand mixer with bowl": [
-    "Stand mixers"
-  ],
-  "11-cup food processor": [
-    "Food processors"
-  ],
-  "High-speed blender, 1.8L": [
-    "Blenders"
-  ],
-  "5.8L air fryer": [
-    "Air fryers"
-  ],
-  "Bean-to-cup espresso machine": [
-    "Espresso machines"
-  ],
-  "6L slow cooker": [
-    "Slow cookers"
-  ],
-  "Bread maker with gluten-free cycle": [
-    "Bread machines"
-  ],
-  "Stainless pasta machine": [
-    "Pasta machines"
-  ],
-  "Ice cream maker, 1.5L": [
-    "Ice cream makers"
-  ],
-  "Belgian waffle maker": [
-    "Waffle irons"
-  ],
-  "9-tray food dehydrator": [
-    "Food dehydrators"
-  ],
-  "Sous-vide circulator": [
-    "Sous-vide"
-  ],
-  "Cold-press juicer": [
-    "Juicers"
-  ],
-  "3-person tunnel tent": [
-    "Tunnel tents"
-  ],
-  "Two-person three-season tent": [
-    "Tents"
-  ],
-  "Down sleeping bag, -5\u00b0C": [
-    "Sleeping bags"
-  ],
-  "Twin-burner camping stove": [
-    "Camping stoves"
-  ],
-  "45L hard cooler box": [
-    "Coolers"
-  ],
-  "Rechargeable headlamp, 400lm": [
-    "Headlamps"
-  ],
-  "Folding camping chairs, pair": [
-    "Camping chairs"
-  ],
-  "Double camping hammock": [
-    "Hammocks"
-  ],
-  "Aluminium camping table": [
-    "Camping tables"
-  ],
-  "Gravity water filter, 10L": [
-    "Water filters"
-  ],
-  "LED camping lantern": [
-    "Camping lanterns",
-    "Lanterns"
-  ],
-  "Steam cleaner with floor head": [
-    "Steam cleaners"
-  ],
-  "Cylinder vacuum cleaner, 2000W": [
-    "Vacuum cleaners"
-  ],
-  "Carpet and upholstery cleaner": [
-    "Carpet cleaners"
-  ],
-  "Wet and dry shop vacuum, 30L": [
-    "Vacuum cleaners"
-  ],
-  "Rotary floor polisher": [
-    "Floor polishers"
-  ],
-  "Window cleaning kit, 3m pole": [
-    "Squeegees"
-  ],
-  "Upholstery spot cleaner": [
-    "Carpet cleaners"
-  ],
-  "Drain cleaning auger, 10m": [
-    "Drain snakes"
-  ],
-  "Gutter cleaning vacuum kit": [
-    "Gutters"
-  ],
-  "Dehumidifier, 20L per day": [
-    "Dehumidifiers"
-  ],
-  "3-ton trolley jack": [
-    "Trolley jacks"
-  ],
-  "Digital tyre inflator": [
-    "Tire inflators"
-  ],
-  "OBD-II diagnostic scanner": [
-    "OBD-II"
-  ],
-  "12V battery charger and maintainer": [
-    "Battery chargers"
-  ],
-  "Jump starter power pack": [
-    "Jump starters"
-  ],
-  "1/2-inch impact wrench": [
-    "Impact wrenches"
-  ],
-  "4-ton axle stands, pair": [
-    "Axle stands"
-  ],
-  "Car ramps, pair": [
-    "Car ramps"
-  ],
-  "Telescopic wheel brace": [
-    "Lug wrenches"
-  ],
-  "Car vacuum cleaner, 12V": [
-    "Vacuum cleaners"
-  ],
-  "Aluminium extension ladder, 3.5m": [
-    "Extension ladders",
-    "Ladders"
-  ],
-  "6ft fibreglass step ladder": [
-    "Step ladders"
-  ],
-  "8-inch Dobsonian telescope": [
-    "Dobsonian telescopes"
-  ],
-  "1080p home projector": [
-    "Video projectors"
-  ],
-  "55-inch 4K TV": [
-    "Televisions"
-  ],
-  "Games console with two controllers": [
-    "Video game consoles"
-  ],
-  "Camera drone with extra battery": [
-    "Camera drones",
-    "Unmanned aerial vehicles"
-  ],
-  "10-inch tablet": [
-    "Tablet computers"
-  ],
-  "Soundbar with subwoofer": [
-    "Soundbars"
-  ],
-  "27-inch QHD monitor": [
-    "Computer monitors"
-  ],
-  "Wireless printer and scanner": [
-    "Printers (computing)"
-  ],
-  "VR headset, 128GB": [
-    "Virtual reality headsets"
-  ],
-  "Portable air conditioner, 9000 BTU": [
-    "Air conditioners"
-  ],
-  "Smart speaker with screen": [
-    "Smart speakers"
-  ],
-  "500Wh portable power station": [
-    "Power banks",
-    "Battery packs"
-  ],
-  "Folding treadmill": [
-    "Treadmills"
-  ],
-  "Adjustable dumbbells, pair of 24kg": [
-    "Dumbbells"
-  ],
-  "Yoga mat and blocks set": [
-    "Yoga mats"
-  ],
-  "Kettlebell set, 6 to 16kg": [
-    "Kettlebells"
-  ],
-  "Rowing machine": [
-    "Rowing machines"
-  ],
-  "Magnetic exercise bike": [
-    "Exercise bicycles"
-  ],
-  "Resistance band set": [
-    "Resistance bands"
-  ],
-  "Boxing gloves and pads": [
-    "Boxing gloves"
-  ],
-  "Badminton set with net": [
-    "Badminton equipment"
-  ],
-  "Hardtail mountain bike, 29er": [
-    "Mountain bikes"
-  ],
-  "Aluminium road bike, 54cm": [
-    "Racing bicycles"
-  ],
-  "Bike repair stand": [
-    "Bicycle tools",
-    "Bicycle repair stands"
-  ],
-  "Floor pump with gauge": [
-    "Bicycle pumps"
-  ],
-  "Tow-bar bike rack, 3 bikes": [
-    "Bicycle carriers"
-  ],
-  "Kids' 20-inch bike": [
-    "Children's bicycles"
-  ],
-  "Adult kick scooter": [
-    "Kick scooters"
-  ],
-  "Electric city bike, 60km range": [
-    "Electric bicycles"
-  ],
-  "Acoustic guitar with hard case": [
-    "Acoustic guitars"
-  ],
-  "Electric guitar and practice amp": [
-    "Electric guitars"
-  ],
-  "88-key digital piano": [
-    "Digital pianos"
-  ],
-  "40W guitar amplifier": [
-    "Guitar amplifiers"
-  ],
-  "12-channel audio mixer": [
-    "Mixing consoles"
-  ],
-  "DJ controller, 2-channel": [
-    "DJ controllers"
-  ],
-  "Wireless microphone, pair": [
-    "Wireless microphones",
-    "Microphones"
-  ],
-  "Powered PA speaker, 12-inch": [
-    "PA systems"
-  ],
-  "DSLR camera with 18-55mm lens": [
-    "DSLR cameras",
-    "Digital single-lens reflex cameras"
-  ],
-  "Mirrorless camera, body only": [
-    "Mirrorless cameras"
-  ],
-  "70-200mm telephoto lens": [
-    "Telephoto lenses"
-  ],
-  "Carbon fibre tripod": [
-    "Tripods"
-  ],
-  "Ring light with stand": [
-    "Ring lights"
-  ],
-  "3-axis gimbal stabiliser": [
-    "Gimbals",
-    "Camera gimbals"
-  ],
-  "Instant camera with film": [
-    "Instant cameras"
-  ],
-  "Photo backdrop and stand kit": [
-    "Backdrops"
-  ],
-  "6ft folding table": [
-    "Folding tables"
-  ],
-  "Folding chairs, set of 6": [
-    "Folding chairs"
-  ],
-  "3x3m pop-up gazebo": [
-    "Pop-up gazebos",
-    "Gazebos"
-  ],
-  "Disco ball and light": [
-    "Disco balls"
-  ],
-  "Chafing dish set, 3 pans": [
-    "Chafing dishes"
-  ],
-  "Warm-white string lights, 20m": [
-    "String lights"
-  ]
+  "18V brushless cordless drill": ["Cordless drills"],
+  "20V hammer drill and masonry bits": ["Hammer drills", "Rotary hammers"],
+  "Impact driver with 60-piece bit set": ["Impact drivers"],
+  "7\u00bc-inch circular saw, corded": ["Circular saws", "Handheld circular saws"],
+  "Variable-speed jigsaw with blades": ["Jigsaws"],
+  "4\u00bd-inch angle grinder": ["Angle grinders"],
+  "Random orbital sander, 125mm": ["Random orbital sanders"],
+  "Corded reciprocating saw": ["Reciprocating saws"],
+  "Brad nailer and small compressor": ["Nail guns"],
+  "2000W heat gun with nozzles": ["Heat guns"],
+  "Plunge router with 12 bits": ["Routers (woodworking)", "Woodworking routers"],
+  "Rotary multi-tool kit": ["Rotary tools"],
+  "6-inch bench grinder": ["Bench grinders"],
+  "10-inch sliding mitre saw": ["Miter saws", "Mitre saws"],
+  "94-piece socket and spanner set": ["Socket wrenches", "Spanners"],
+  "Adjustable spanner set, 3 sizes": ["Adjustable wrenches"],
+  "Precision screwdriver set, 60 bits": ["Screwdrivers", "Screwdriver bits"],
+  "16oz fibreglass claw hammer": ["Claw hammers", "Hammers"],
+  "Heavy-duty hacksaw with blades": ["Hacksaws"],
+  "14-inch pipe wrench": ["Pipe wrenches"],
+  "1/2-inch torque wrench, 40\u2013210Nm": ["Torque wrenches"],
+  "Pliers and cutters set, 5-piece": ["Pliers"],
+  "Wood chisel set, 6-piece": ["Chisels"],
+  "1200mm spirit level": ["Spirit levels"],
+  "8m steel tape measure": ["Tape measures"],
+  "Rolling tool chest with tools": ["Toolboxes"],
+  "Corded hedge trimmer, 500W": ["Hedge trimmers"],
+  "Petrol lawn mower, 46cm cut": ["Lawn mowers"],
+  "Cordless grass strimmer": ["String trimmers"],
+  "Electric leaf blower": ["Leaf blowers"],
+  "Petrol chainsaw, 40cm bar": ["Chainsaws"],
+  "Electric pressure washer, 130 bar": ["Pressure washers"],
+  "Galvanised wheelbarrow": ["Wheelbarrows"],
+  "Garden tool set with border spade": ["Garden tools", "Spades"],
+  "Bypass secateurs and loppers": ["Pruning shears", "Loppers"],
+  "30m garden hose reel": ["Garden hoses"],
+  "Mini rotavator, petrol": ["Tillers"],
+  "Telescopic pole pruner": ["Pruning saws", "Pole pruners"],
+  "5.5L stand mixer with bowl": ["Stand mixers"],
+  "11-cup food processor": ["Food processors"],
+  "High-speed blender, 1.8L": ["Blenders"],
+  "5.8L air fryer": ["Air fryers"],
+  "Bean-to-cup espresso machine": ["Espresso machines"],
+  "6L slow cooker": ["Slow cookers"],
+  "Bread maker with gluten-free cycle": ["Bread machines"],
+  "Stainless pasta machine": ["Pasta machines"],
+  "Ice cream maker, 1.5L": ["Ice cream makers"],
+  "Belgian waffle maker": ["Waffle irons"],
+  "9-tray food dehydrator": ["Food dehydrators"],
+  "Sous-vide circulator": ["Sous-vide"],
+  "Cold-press juicer": ["Juicers"],
+  "3-person tunnel tent": ["Tunnel tents"],
+  "Two-person three-season tent": ["Tents"],
+  "Down sleeping bag, -5\u00b0C": ["Sleeping bags"],
+  "Twin-burner camping stove": ["Camping stoves"],
+  "45L hard cooler box": ["Coolers"],
+  "Rechargeable headlamp, 400lm": ["Headlamps"],
+  "Folding camping chairs, pair": ["Camping chairs"],
+  "Double camping hammock": ["Hammocks"],
+  "Aluminium camping table": ["Camping tables"],
+  "Gravity water filter, 10L": ["Water filters"],
+  "LED camping lantern": ["Camping lanterns", "Lanterns"],
+  "Steam cleaner with floor head": ["Steam cleaners"],
+  "Cylinder vacuum cleaner, 2000W": ["Vacuum cleaners"],
+  "Carpet and upholstery cleaner": ["Carpet cleaners"],
+  "Wet and dry shop vacuum, 30L": ["Vacuum cleaners"],
+  "Rotary floor polisher": ["Floor polishers"],
+  "Window cleaning kit, 3m pole": ["Squeegees"],
+  "Upholstery spot cleaner": ["Carpet cleaners"],
+  "Drain cleaning auger, 10m": ["Drain snakes"],
+  "Gutter cleaning vacuum kit": ["Gutters"],
+  "Dehumidifier, 20L per day": ["Dehumidifiers"],
+  "3-ton trolley jack": ["Trolley jacks"],
+  "Digital tyre inflator": ["Tire inflators"],
+  "OBD-II diagnostic scanner": ["OBD-II"],
+  "12V battery charger and maintainer": ["Battery chargers"],
+  "Jump starter power pack": ["Jump starters"],
+  "1/2-inch impact wrench": ["Impact wrenches"],
+  "4-ton axle stands, pair": ["Axle stands"],
+  "Car ramps, pair": ["Car ramps"],
+  "Telescopic wheel brace": ["Lug wrenches"],
+  "Car vacuum cleaner, 12V": ["Vacuum cleaners"],
+  "Aluminium extension ladder, 3.5m": ["Extension ladders", "Ladders"],
+  "6ft fibreglass step ladder": ["Step ladders"],
+  "8-inch Dobsonian telescope": ["Dobsonian telescopes"],
+  "1080p home projector": ["Video projectors"],
+  "55-inch 4K TV": ["Televisions"],
+  "Games console with two controllers": ["Video game consoles"],
+  "Camera drone with extra battery": ["Camera drones", "Unmanned aerial vehicles"],
+  "10-inch tablet": ["Tablet computers"],
+  "Soundbar with subwoofer": ["Soundbars"],
+  "27-inch QHD monitor": ["Computer monitors"],
+  "Wireless printer and scanner": ["Printers (computing)"],
+  "VR headset, 128GB": ["Virtual reality headsets"],
+  "Portable air conditioner, 9000 BTU": ["Air conditioners"],
+  "Smart speaker with screen": ["Smart speakers"],
+  "500Wh portable power station": ["Power banks", "Battery packs"],
+  "Folding treadmill": ["Treadmills"],
+  "Adjustable dumbbells, pair of 24kg": ["Dumbbells"],
+  "Yoga mat and blocks set": ["Yoga mats"],
+  "Kettlebell set, 6 to 16kg": ["Kettlebells"],
+  "Rowing machine": ["Rowing machines"],
+  "Magnetic exercise bike": ["Exercise bicycles"],
+  "Resistance band set": ["Resistance bands"],
+  "Boxing gloves and pads": ["Boxing gloves"],
+  "Badminton set with net": ["Badminton equipment"],
+  "Hardtail mountain bike, 29er": ["Mountain bikes"],
+  "Aluminium road bike, 54cm": ["Racing bicycles"],
+  "Bike repair stand": ["Bicycle tools", "Bicycle repair stands"],
+  "Floor pump with gauge": ["Bicycle pumps"],
+  "Tow-bar bike rack, 3 bikes": ["Bicycle carriers"],
+  "Kids' 20-inch bike": ["Children's bicycles"],
+  "Adult kick scooter": ["Kick scooters"],
+  "Electric city bike, 60km range": ["Electric bicycles"],
+  "Acoustic guitar with hard case": ["Acoustic guitars"],
+  "Electric guitar and practice amp": ["Electric guitars"],
+  "88-key digital piano": ["Digital pianos"],
+  "40W guitar amplifier": ["Guitar amplifiers"],
+  "12-channel audio mixer": ["Mixing consoles"],
+  "DJ controller, 2-channel": ["DJ controllers"],
+  "Wireless microphone, pair": ["Wireless microphones", "Microphones"],
+  "Powered PA speaker, 12-inch": ["PA systems"],
+  "DSLR camera with 18-55mm lens": ["DSLR cameras", "Digital single-lens reflex cameras"],
+  "Mirrorless camera, body only": ["Mirrorless cameras"],
+  "70-200mm telephoto lens": ["Telephoto lenses"],
+  "Carbon fibre tripod": ["Tripods"],
+  "Ring light with stand": ["Ring lights"],
+  "3-axis gimbal stabiliser": ["Gimbals", "Camera gimbals"],
+  "Instant camera with film": ["Instant cameras"],
+  "Photo backdrop and stand kit": ["Backdrops"],
+  "6ft folding table": ["Folding tables"],
+  "Folding chairs, set of 6": ["Folding chairs"],
+  "3x3m pop-up gazebo": ["Pop-up gazebos", "Gazebos"],
+  "Disco ball and light": ["Disco balls"],
+  "Chafing dish set, 3 pans": ["Chafing dishes"],
+  "Warm-white string lights, 20m": ["String lights"]
 }

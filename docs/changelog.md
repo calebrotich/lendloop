@@ -225,5 +225,5 @@ One entry per shipped change.
   reduced motion and coarse pointers. Typecheck/lint/format green.
 
 - **2026-11-09** — Documentation refreshed for the portfolio release. README now maps the project,
-  links a public production note, and records live Zoho email from `lendloop@bahasha.app`; stale
+  links a public production note, and records live Zoho email from the project's domain; stale
   Mailpit-only, Playwright and unverified-delivery claims are gone. 191 tests.

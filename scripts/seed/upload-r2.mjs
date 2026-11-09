@@ -35,7 +35,13 @@ function readEnvFile(name) {
         .filter((line) => line && !line.startsWith("#") && line.includes("="))
         .map((line) => {
           const index = line.indexOf("=");
-          return [line.slice(0, index).trim(), line.slice(index + 1).trim().replace(/^["']|["']$/g, "")];
+          return [
+            line.slice(0, index).trim(),
+            line
+              .slice(index + 1)
+              .trim()
+              .replace(/^["']|["']$/g, ""),
+          ];
         }),
     );
   } catch {
@@ -48,7 +54,10 @@ const bucket = env.R2_BUCKET_NAME;
 const accountId = env.R2_ACCOUNT_ID;
 const accessKeyId = env.R2_ACCESS_KEY_ID;
 const secretAccessKey = env.R2_SECRET_ACCESS_KEY;
-const publicHost = (env.R2_PUBLIC_HOST ?? "").trim().replace(/\/+$/, "").replace(/^https?:\/\//, "");
+const publicHost = (env.R2_PUBLIC_HOST ?? "")
+  .trim()
+  .replace(/\/+$/, "")
+  .replace(/^https?:\/\//, "");
 
 if (!bucket || !accountId || !accessKeyId || !secretAccessKey || !publicHost) {
   console.error("R2_* is not fully configured in .env.local");

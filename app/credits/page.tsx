@@ -34,8 +34,8 @@ export default function CreditsPage() {
           <p className="mt-5 max-w-2xl text-[14.5px] leading-relaxed text-ink-muted">
             Listing photography comes from Wikimedia Commons and is used under the licence shown
             beneath each image. Photos are representative of the item type rather than the exact
-            item being lent, and were resized and converted to WebP; those converted copies keep
-            the source licence. If you own a photo and would like it removed, contact the LendLoop
+            item being lent, and were resized and converted to WebP; those converted copies keep the
+            source licence. If you own a photo and would like it removed, contact the LendLoop
             operator and it will be taken down.
           </p>
           <p className="mt-3 text-[13px] text-ink-muted">

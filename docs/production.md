@@ -2,8 +2,8 @@
 
 LendLoop is live at <https://lendloopnow.vercel.app>.
 
-Email is live: Convex renders every message and n8n sends it through Zoho SMTP from
-`lendloop@bahasha.app` to real recipients. Local development uses Mailpit and never sends mail.
+Email is live: Convex renders every message and n8n sends it through Zoho SMTP from the
+project's verified domain to real recipients. Local development uses Mailpit and never sends mail.
 
 ## What runs where
 
@@ -13,7 +13,7 @@ Email is live: Convex renders every message and n8n sends it through Zoho SMTP f
 | Data + backend | Convex Cloud — schema, functions, HTTP actions, crons                |
 | Auth           | Clerk                                                                |
 | Automation     | n8n 2.46 on a small VPS, Postgres 17, Caddy behind Cloudflare        |
-| Email          | Zoho SMTP from `lendloop@bahasha.app` — live, real recipients        |
+| Email          | Zoho SMTP from the project's domain — live, real recipients          |
 | Media          | Cloudflare R2 — public CDN host, uploads through a same-origin proxy |
 | Monitoring     | Sentry (errors/replay) and PostHog (analytics/logs)                  |
 
