@@ -14,7 +14,7 @@ async function approvedForTool(ctx: DbCtx, toolId: Id<"tools">) {
 }
 
 /**
- * T6/T9 — does an approved loan for this tool overlap the requested days?
+ * Does an approved loan for this tool overlap the requested days?
  *
  * Checked inside `create` for fast feedback and again inside `approve`, in the
  * same transaction that flips the status, so two owners approving at once can

@@ -1,4 +1,4 @@
-# Stage 5 spikes — raw body & tunnel
+# Raw body and tunnel spikes
 
 Two assumptions could have invalidated the whole automation design, so they were
 tested against the real n8n 2.46.4 container before any product code was written.
@@ -70,7 +70,7 @@ cloudflared tunnel --config /tmp/empty.yml --url http://localhost:5678
 This is a local-environment quirk, not an n8n one, but it will bite anyone who
 uses cloudflared for more than one project. `docs/n8n.md` documents it.
 
-## Consequences for the build
+## Consequences for the integration
 
 1. HMAC verification happens on `binary.data.data` (base64 → UTF-8), never on
    `$json.body`.
@@ -78,5 +78,4 @@ uses cloudflared for more than one project. `docs/n8n.md` documents it.
 3. `N8N_REQUEST_WEBHOOK_URL` is a single env switch: a tunnel URL in development,
    any public n8n URL in production.
 4. The tunnel hostname changes when cloudflared restarts, so
-   `pnpm exec convex env set N8N_REQUEST_WEBHOOK_URL …` is a documented one-liner
-   (risk 6 in the build map).
+   `pnpm exec convex env set N8N_REQUEST_WEBHOOK_URL …` is a documented one-liner.

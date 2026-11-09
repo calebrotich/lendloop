@@ -117,7 +117,7 @@ function priceFor(request: Doc<"loanRequests">, tool: Doc<"tools"> | null) {
   };
 }
 
-/** T6 — ask to borrow a listing for a date range. */
+/** Ask to borrow a listing for a date range. */
 export const create = mutation({
   args: {
     toolId: v.id("tools"),
@@ -203,7 +203,7 @@ export const create = mutation({
   },
 });
 
-/** T10 — the borrower's view. Scoped by `borrowerId`, never by an argument. */
+/** The borrower's view. Scoped by `borrowerId`, never by an argument. */
 export const listMine = query({
   args: {},
   returns: v.array(mineValidator),
@@ -248,7 +248,7 @@ export const listMine = query({
   },
 });
 
-/** T10 — the owner's inbox for their own tools. */
+/** The owner's inbox for their own tools. */
 export const listIncoming = query({
   args: {},
   returns: v.array(incomingValidator),
@@ -355,7 +355,7 @@ export const incomingSummary = query({
 });
 
 /**
- * T7 — approve a pending request on one of your own tools.
+ * Approve a pending request on one of your own tools.
  *
  * The overlap check runs again here, in the same transaction as the status
  * change, so two approvals for the same days cannot both land.
@@ -390,7 +390,7 @@ export const approve = mutation({
   },
 });
 
-/** T7 — decline a pending request on one of your own tools. */
+/** Decline a pending request on one of your own tools. */
 export const decline = mutation({
   args: { requestId: v.id("loanRequests") },
   returns: v.null(),
@@ -433,7 +433,7 @@ export const cancel = mutation({
 });
 
 /**
- * T8 — mark a loan returned. Either party can do it: the owner often gets the
+ * Mark a loan returned. Either party can do it: the owner often gets the
  * tool back in hand, the borrower knows when they dropped it off. Documented in
  * the README.
  */

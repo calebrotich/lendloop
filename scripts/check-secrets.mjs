@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Secret hygiene gate (T22).
+ * Secret hygiene gate.
  *
  * Scans files tracked by git for credential-shaped strings, and refuses to let
  * a populated `.env` reach the repository at all. Runs in CI and via

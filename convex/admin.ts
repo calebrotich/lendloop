@@ -39,7 +39,7 @@ async function record(
   });
 }
 
-/** T13 — an admin can take any listing down, including someone else's. */
+/** An admin can take any listing down, including someone else's. */
 export const removeListing = mutation({
   args: { toolId: v.id("tools") },
   returns: v.null(),
@@ -65,7 +65,7 @@ export const removeListing = mutation({
   },
 });
 
-/** T14 — every loan in the app, with the parties named for the admin view. */
+/** Every loan in the app, with the parties named for the admin view. */
 export const listAllLoans = query({
   args: {},
   returns: v.array(
@@ -114,7 +114,7 @@ export const listAllLoans = query({
   },
 });
 
-/** T15 — the list an admin picks a lender from. Admin-only PII, no tokens. */
+/** The list an admin picks a lender from. Admin-only PII, no tokens. */
 export const listUsers = query({
   args: {},
   returns: v.array(
@@ -139,7 +139,7 @@ export const listUsers = query({
   },
 });
 
-/** T15 — mark, or unmark, a lender as trusted. */
+/** Mark, or unmark, a lender as trusted. */
 export const setTrustedLender = mutation({
   args: { userId: v.id("users"), trusted: v.boolean() },
   returns: v.null(),
@@ -193,7 +193,7 @@ export const listAudit = query({
 });
 
 /**
- * Operator bootstrap for T12: promote existing accounts whose verified email is
+ * Operator bootstrap: promote existing accounts whose verified email is
  * on `ADMIN_EMAIL_ALLOWLIST`. Internal-only — no client can call it, and it can
  * only grant a role to an address an operator already configured.
  */

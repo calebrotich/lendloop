@@ -50,7 +50,7 @@ Thumbs.db
 .claude/
 skills-lock.json
 
-# Local build map — kept out of the published repo
+# Local agent notes — kept out of the published repo
 AGENTS.md
 
 # Local deployment runbook — kept out of the published repo

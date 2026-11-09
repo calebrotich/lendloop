@@ -248,7 +248,7 @@ export const getPublicListing = query({
 });
 
 /**
- * T3 — the only anonymous read in the app.
+ * The only anonymous read in the app.
  *
  * Deliberately returns a projection of the name, category and cover photo. No
  * `_id`, no `ownerId`, no `description`, no `condition`: the public page cannot
@@ -375,7 +375,7 @@ function validatePricing(
   return { valueCents, dailyRateCents };
 }
 
-/** T10 — My listings. Scoped to the caller by `ownerId`, never by an argument. */
+/** My listings. Scoped to the caller by `ownerId`, never by an argument. */
 export const listMine = query({
   args: {},
   returns: v.array(myToolValidator),
@@ -404,7 +404,7 @@ export const listMine = query({
   },
 });
 
-/** T5, T16 — create a listing owned by the caller. */
+/** Create a listing owned by the caller. */
 export const create = mutation({
   args: {
     name: v.string(),
@@ -445,7 +445,7 @@ export const create = mutation({
 });
 
 /**
- * T16 — edit one of your own listings.
+ * Edit one of your own listings.
  *
  * Status is limited to `available`/`unavailable`: "on loan" is owned by the loan
  * lifecycle and derived on read, so a client cannot mark their tool as out on
@@ -483,7 +483,7 @@ export const update = mutation({
 });
 
 /**
- * T16 — soft-remove a listing. The row stays for the audit trail and for any
+ * Soft-remove a listing. The row stays for the audit trail and for any
  * loan history that references it; `removedAt` is what every read filters on.
  *
  * An owner may remove a listing while a loan is active. The loan rows are not
@@ -539,7 +539,7 @@ interface BrowseTool {
 }
 
 /**
- * T9 — every listing with its *derived* availability, optionally by category.
+ * Every listing with its *derived* availability, optionally by category.
  *
  * `on_loan` comes from an approved request covering today, `paused` from the
  * owner's own status. There is no stored availability flag that a missed cron

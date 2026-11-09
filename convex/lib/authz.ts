@@ -74,7 +74,7 @@ export async function requireRequestParty(ctx: AuthCtx, requestId: Id<"loanReque
 }
 
 /**
- * T12/T18 — administration. The role is read from the `users` row, never from
+ * Administration. The role is read from the `users` row, never from
  * the token or the request, so a client cannot claim it.
  */
 export async function requireAdmin(ctx: AuthCtx) {

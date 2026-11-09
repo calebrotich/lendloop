@@ -41,7 +41,7 @@ const eventViewValidator = v.object({
 });
 
 /**
- * T25 — the automation trail for one loan. Participants only (admins may audit
+ * The automation trail for one loan. Participants only (admins may audit
  * any loan); the check reads the request row, never a caller-supplied role.
  */
 export const listForLoan = query({
@@ -77,7 +77,7 @@ export const listForLoan = query({
 });
 
 /**
- * T24 — an admin's view of automation health: how much is queued, what has
+ * An admin's view of automation health: how much is queued, what has
  * permanently failed, and the most recent events. Counts are bounded reads
  * (`take`, not `collect().length`); the UI says "up to" where it matters.
  */
@@ -132,7 +132,7 @@ export const adminHealth = query({
 });
 
 /**
- * T20 — the loans W2 should remind about. Approved, past their end date, and
+ * The loans W2 should remind about. Approved, past their end date, and
  * only where there is an address to send to. `asOf` is passed in so the HTTP
  * caller and the tests see the same "today".
  */
@@ -210,7 +210,7 @@ export const listOverdue = internalQuery({
 });
 
 /**
- * T20/T23 — n8n writes a reminder back. The idempotency key is derived from
+ * n8n writes a reminder back. The idempotency key is derived from
  * `(loan, dueDate, dayOffset)`, so a duplicate POST returns
  * `{ accepted: true, deduped: true }` and creates nothing.
  *
@@ -255,7 +255,7 @@ export const recordReminder = internalMutation({
 });
 
 /**
- * T24 — errors and run summaries from W2/W3. An error is recorded as `failed`
+ * Errors and run summaries from W2/W3. An error is recorded as `failed`
  * so it shows up in the admin health panel and, when linked, on the loan.
  */
 export const recordWorkflowEvent = internalMutation({
@@ -459,7 +459,7 @@ export const finishOutbox = internalMutation({
 });
 
 /**
- * T19/T24 — drain the outbox. Runs from the one-minute cron; each row is signed
+ * Drain the outbox. Runs from the one-minute cron; each row is signed
  * with a fresh timestamp and sent with a 10s timeout. Failures are recorded, not
  * swallowed, and the action itself never throws on a delivery failure so one bad
  * row cannot stop the batch.

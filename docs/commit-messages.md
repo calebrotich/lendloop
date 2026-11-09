@@ -34,14 +34,12 @@ such as `Closes #123`.
   `requests`, `admin`, `automation`, `ui`, `docs`, `tooling`.
 - **One change per commit.** If the summary needs "and", the commit probably
   needs splitting.
-- **No requirement IDs in the message.** `T*` and `J*` IDs live in the project's
-  traceability notes and in pull request notes. They do not belong in the history.
+- **No internal references.** Plan labels, ticket IDs and private codenames mean
+  nothing to a future maintainer. Say what the change does.
 - **No verification transcripts.** Test counts, deployment names, command
   output and "verified against..." lists belong in the pull request or CI. A
   short sentence about what was tested is enough, and only when it changes how
   the reader understands the change.
-- **No internal shorthand.** Stage numbers, plan labels and private codenames
-  mean nothing outside the build log. Say what the change does.
 - **No secrets or personal data.** Never include a key, token, real email or
   customer detail.
 
@@ -84,21 +82,16 @@ is returned.
 Bad:
 
 ```text
-feat(requests): loan lifecycle [T6 T7 T8 T9 T10 T11]
+feat(requests): loan lifecycle
 
-Stage 3.
-
-- requests.create validates the window ...
-- approve/decline are owner-only ...
-
-Verified: 70 tests green, pnpm build green, anonymous
-route returns UNAUTHORIZED on the live deployment.
+- added a bunch of stuff
+- fixed the validation
+- tests pass
 ```
 
-The second message names the internal plan, tags every
-requirement, and spends its body on implementation detail and
-verification output. A reader learns what the code does only
-after decoding the shorthand.
+The second message is vague, mixes several changes and spends
+its body on implementation detail rather than user impact. A
+reader learns what the code does only by reading the diff.
 
 ## What the reader should be able to answer
 
@@ -112,7 +105,7 @@ If the answer is only in the diff, the message is not finished.
 
 ## Where everything else goes
 
-- **Requirement coverage:** the project's traceability notes.
+- **Product rationale:** `docs/` and the pull request.
 - **Test results and deployment checks:** the pull request and CI.
 - **Design decisions and trade-offs:** `docs/` and the pull request.
-- **Stage history:** [`docs/changelog.md`](changelog.md).
+- **Change history:** [`docs/changelog.md`](changelog.md).

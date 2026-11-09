@@ -10,7 +10,7 @@ import { DAY_MS, startOfDay } from "./lib/dates";
  * seed:seedDemoShelf`), never a client-callable mutation. Idempotent — a second
  * run reuses the demo owner and creates nothing.
  *
- * Loans are seeded in Stage 3, once the request lifecycle exists.
+ * Demo loans are seeded by `seedDemoLoans`, once the request lifecycle exists.
  */
 const DEMO_OWNER = {
   tokenIdentifier: "seed|demo-neighbour",

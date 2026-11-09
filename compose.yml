@@ -56,7 +56,7 @@ services:
       N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
       # The Code node sandbox has no WebCrypto (`globalThis.crypto` is
       # undefined), so HMAC uses Node's `crypto` module. Allow that one builtin
-      # — never `*` — and note it in docs/n8n.md. Verified by the Stage 5 spike.
+      # — never `*` — and note it in docs/n8n.md. See docs/spikes/raw-body-and-tunnel.md.
       NODE_FUNCTION_ALLOW_BUILTIN: crypto
 
       # --- values the workflows interpolate ---

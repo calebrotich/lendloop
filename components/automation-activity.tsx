@@ -28,7 +28,7 @@ function describe(event: AutomationEvent): string {
 }
 
 /**
- * T25 — the automation trail under one loan ("Reminder sent 2 days ago").
+ * The automation trail under one loan ("Reminder sent 2 days ago").
  *
  * Renders nothing while loading or when nothing has happened, so a loan card
  * does not grow a permanent empty heading. Rows are already participant-scoped

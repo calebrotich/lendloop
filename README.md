@@ -2,145 +2,116 @@
 
 **Borrow what you need. Lend what you don't.**
 
-LendLoop is a neighbourhood tool-lending board. Neighbours list the tools they are willing to
-lend, borrowers ask for a date range, owners approve or decline, and [n8n](https://n8n.io)
-automates the notifications and the overdue reminders in both directions.
+LendLoop is a neighbourhood tool-lending board. Neighbours list tools with a daily rate and a
+replacement value; borrowers ask for a date range; owners approve, decline or mark the loan
+returned. [n8n](https://n8n.io) carries the notifications and overdue reminders in both directions.
 
-> **Status: Stage 6 in progress — hardening.** Automation is complete (n8n in both directions,
-> HMAC, outbox, error workflow) and Sentry reports errors from the server, edge and browser. The
-> public and authenticated experiences are now designed end to end: a landing page with a
-> three-part search and category shelf, public item pages at `/listings/[id]`, a range calendar
-> that shows pending and approved bookings, per-day pricing with a booking total, a live incoming-
-> request signal, and a request board shared by My requests and Incoming. Remaining: the Playwright
-> happy path and the production note.
+**Live:** <https://lendloopnow.vercel.app>
+
+**Email is live.** Convex renders every message and n8n sends it through Zoho SMTP from
+`lendloop@bahasha.app` to real recipients. Local development uses Mailpit and never sends mail.
+
+## Project map
+
+| Artifact                         | Where                                                                                        |
+| -------------------------------- | -------------------------------------------------------------------------------------------- |
+| Live app                         | <https://lendloopnow.vercel.app>                                                             |
+| Source                           | this repository · [github.com/calebrotich/lendloop](https://github.com/calebrotich/lendloop) |
+| n8n workflows                    | [`automation/workflows/`](automation/workflows) — W1, W2, W3                                 |
+| Production note                  | [`docs/production.md`](docs/production.md)                                                   |
+| Setup, architecture and security | this file                                                                                    |
+
+## What it does
+
+- **Public shelf** — landing page with search, category filter, real listing photography and
+  shareable item pages at `/listings/[id]`.
+- **Listing flow** — create, edit, pause and remove your own listings; up to six photos with a cover
+  and gallery.
+- **Requests** — a range calendar that blocks pending and approved bookings, a live incoming-request
+  signal, and one shared board for My requests and Incoming.
+- **Loan lifecycle** — approve, decline, withdraw, mark returned; both parties can close a loan.
+- **Admin** — moderate any listing, view all loans, set a Trusted Lender flag, and read the audit
+  trail and automation health.
+- **Pricing** — USD daily rate plus replacement value, with the agreed values snapshotted on the
+  request. Payment settles directly between neighbours; there is no payment processor.
 
 ## Stack
 
-| Layer          | Choice                                                       |
-| -------------- | ------------------------------------------------------------ |
-| App            | Next.js 16 (App Router) · React 19 · TypeScript 5.9 (strict) |
-| Styling        | Tailwind CSS v4                                              |
-| Auth           | Clerk 7 (JWT template `convex`)                              |
-| Data + backend | Convex (schema v1 · dev deployment)                          |
-| Automation     | n8n 2.46 self-hosted via Docker Compose                      |
-| Dev email      | Mailpit (SMTP sink, UI on :8025)                             |
-| Monitoring     | Sentry 11 — errors, traces, masked session replay            |
-| Media          | Cloudflare R2 (S3 API) — presigned uploads, public CDN host  |
-| Tests          | Vitest · `convex-test` · Playwright                          |
+| Layer          | Choice                                                                  |
+| -------------- | ----------------------------------------------------------------------- |
+| App            | Next.js 16 (App Router) · React 19 · TypeScript 5.9 (strict)            |
+| Styling        | Tailwind CSS v4                                                         |
+| Auth           | Clerk 7 (JWT template `convex`)                                         |
+| Data + backend | Convex (schema, queries, mutations, actions, HTTP actions, crons)       |
+| Automation     | n8n 2.46 self-hosted via Docker Compose                                 |
+| Email          | Convex-rendered HTML → n8n SMTP (Mailpit locally, Zoho in production)   |
+| Media          | Cloudflare R2 — presigned uploads, public CDN host                      |
+| Observability  | Sentry 11 (errors, masked replay) · PostHog (analytics + logs, proxied) |
+| Tests          | Vitest · `convex-test` — 191 tests, 1 opt-in R2 integration test        |
 
-## Quickstart
+## Run locally
 
 ```bash
 pnpm install
-cp .env.example .env.local    # app + Convex: Clerk keys, Convex URLs
-cp .env.example .env          # compose: n8n encryption key, Postgres, SMTP
+cp .env.example .env.local    # Next.js + Convex
+cp .env.example .env          # Docker Compose
+# fill both files; then:
 docker compose up -d          # n8n :5678 · Mailpit :8025 · Postgres
 pnpm exec convex dev          # first run: browser login, writes CONVEX_DEPLOYMENT
-pnpm exec convex run seed:seedDemoShelf   # six demo tools, safe to re-run
-pnpm exec convex run seed:seedDemoLoans   # pending + upcoming + overdue loan
+pnpm exec convex run seed:seedDemoShelf
+pnpm exec convex run seed:seedDemoLoans
 pnpm dev                      # http://localhost:3000
 ```
 
-The automation stack needs one more pass — a tunnel, five Convex env vars, an SMTP credential and
-the three workflow imports. It is written out step by step in [`docs/n8n.md`](docs/n8n.md).
+The automation stack needs a tunnel, one SMTP credential and three workflow imports. The exact steps
+are in [`docs/n8n.md`](docs/n8n.md). Two env files exist because two tools own them: `.env.local` is
+read by Next.js, `.env` by Docker Compose. Convex functions cannot read either, so their values are
+set on the deployment.
 
-Two env files because two tools own them: `.env.local` is written by the Convex CLI and read by
-Next.js, `.env` is read by `docker compose`. Both are gitignored. Anything Convex functions read is
-set on the deployment instead, because functions cannot see either file:
+## Configuration
 
-```bash
-pnpm exec convex env set CLERK_JWT_ISSUER_DOMAIN '<value>'
-pnpm exec convex env set ADMIN_EMAIL_ALLOWLIST 'you@example.com'
-pnpm exec convex run admin:promoteFromAllowlist   # promote existing accounts to admin
+- **`.env.local`** — Clerk publishable/secret keys and the Convex URL written by `convex dev`.
+- **`.env`** — Compose only: `N8N_ENCRYPTION_KEY`, `POSTGRES_PASSWORD`, `N8N_HMAC_SECRET`,
+  `LENDLOOP_MAIL_FROM`.
+- **Convex deployment** — `CLERK_JWT_ISSUER_DOMAIN`, `N8N_HMAC_SECRET` (same value as `.env`),
+  `N8N_REQUEST_WEBHOOK_URL`, `N8N_ERROR_WEBHOOK_URL`, `APP_BASE_URL`, `ADMIN_EMAIL_ALLOWLIST`, and
+  the five `R2_*` values.
 
-# Listing photos (Cloudflare R2)
-pnpm exec convex env set R2_BUCKET_NAME '<bucket>'
-pnpm exec convex env set R2_ACCOUNT_ID '<cloudflare-account-id>'
-pnpm exec convex env set R2_ACCESS_KEY_ID '<access-key-id>'
-pnpm exec convex env set R2_SECRET_ACCESS_KEY '<secret-access-key>'
-pnpm exec convex env set R2_PUBLIC_HOST 'cdn.example.com'
-pnpm exec convex run media:verifyStorage          # presign → PUT → verify → delete
+Every variable is documented in [`.env.example`](.env.example). Set a deployment value with
+`pnpm exec convex env set KEY value`; never commit a filled env file.
+
+## Architecture
+
+```text
+Browser ─┬─> Next.js + Clerk ─────────> Convex (schema, authz, crons, actions)
+         └─> /api/media/upload ───────> Cloudflare R2
+
+Convex outbox ─> signed webhook ──────> n8n ─> SMTP (Mailpit locally, Zoho in production)
+n8n ─> signed Convex HTTP actions (overdue fetch, reminder write-back, automation events)
 ```
 
-The first visit to <http://localhost:5678> creates the n8n owner account. Generate the two
-compose secrets with `openssl rand -hex 32`; `compose.yml` refuses to start without them.
+Convex owns all state and authorization. Notifications are written to an outbox in the same
+transaction as the status change, then drained by n8n with retries and a visible audit trail.
 
-## Commands
+## Security and data minimisation
 
-| Command                                                                                          | What it does                                              |
-| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
-| `pnpm dev`                                                                                       | Next.js dev server                                        |
-| `pnpm build`                                                                                     | Production build                                          |
-| `pnpm check`                                                                                     | typecheck → lint → secret scan → unit tests (the CI gate) |
-| `pnpm test`                                                                                      | Vitest only                                               |
-| `pnpm format` / `pnpm format:check`                                                              | Prettier                                                  |
-| `docker compose up -d`                                                                           | n8n + Postgres + Mailpit                                  |
-| `pnpm exec convex dev`                                                                           | Convex functions + schema push                            |
-| `pnpm exec convex run seed:seedDemoShelf`                                                        | Seed the demo shelf (idempotent, internal mutation)       |
-| `pnpm exec convex run seed:seedDemoLoans`                                                        | Seed pending/upcoming/overdue demo loans                  |
-| `pnpm exec convex run migrations:backfillPricing`                                                | Price listings created before pricing existed             |
-| `pnpm exec convex run media:verifyStorage`                                                       | Live R2 smoke test (presign → PUT → verify → delete)      |
-| `docker compose run --rm --no-deps --entrypoint n8n n8n execute --id=lendloop-overdue-reminders` | Run W2 now (manual trigger)                               |
-
-## Pricing and requests
-
-Owners set a **daily rate** for each listing and a **replacement value**. The value drives the
-recommended 3–5% rate band (4% one-tap) and is the amount a borrower agrees to reimburse if the
-item is lost or not returned. A listing may be free. The rate is shown on every card, the detail
-page, the date picker and the request form, and the booking total is the rate × the days
-requested. The replacement value is shown on the detail page, the request form, the request card
-and in notification email. Both the agreed rate and the value are snapshotted on the request, so
-editing a listing later does not rewrite an existing booking. Pricing is informational for now:
-neighbours settle directly, with no payment processor. Amounts are in USD.
-
-`/my-requests` and `/incoming-requests` share one board: cover photos, booking totals, trusted
-neighbour badges, filters, search, and a collapsed notification trail. A signed-in owner sees an
-incoming count in both headers and a strip as soon as they land, so a pending request is never
-buried behind a page navigation.
-
-## Listing photos (Cloudflare R2)
-
-Listings can carry up to **six photos**. Owners add, remove and promote a cover from **My listings**;
-the cover is shown on the public shelf, and the full set opens in the gallery on the public item page.
-
-- **Upload path:** browser → same-origin `/api/media/upload` → R2. Convex mints a short-lived
-  presigned PUT scoped to the caller's own upload ticket; the Next.js route authenticates Clerk,
-  checks the declared size, and forwards the bytes. R2 credentials never reach the browser, and the
-  bucket needs **no public CORS rule**.
-- **Server-side verification:** `completeUpload` HEADs the stored object, compares size and content
-  type with the ticket, and reads the first bytes to confirm the image signature before inserting a
-  `toolImages` row. An SVG or an HTML payload labelled as a photo is rejected and deleted.
-- **Preview:** a local preview appears the moment a file is selected; the upload then prepares,
-  uploads and verifies it. HEIC/HEIF sources are accepted where the browser can decode them.
-- **Privacy:** the browser resizes each file and re-encodes it before upload, which strips EXIF/GPS
-  metadata. Photos are served from the public `R2_PUBLIC_HOST`, so they are public by design; the
-  UI says so next to the picker. Cache TTL is one day, so a deleted photo leaves edge caches within
-  a day while the object itself is removed by the media cron.
-- **Delivery:** `next/image` optimises the stored photo per viewport (AVIF/WebP) through
-  `/_next/image`. `R2_PUBLIC_HOST` is allow-listed in `next.config.ts`; without it the app falls
-  back to unoptimised URLs rather than breaking. The original object stays the source of truth.
-- **Reliability:** deletes go through a `storageDeletes` outbox drained every 15 minutes with
-  backoff; expired upload tickets and their orphaned objects are cleaned up by the same cron.
-- **Limits:** 6 per listing · 4 MB after client re-encode · JPEG, PNG, WebP or AVIF · SVG excluded.
-
-Full design, operations and failure modes: [`docs/media-storage.md`](docs/media-storage.md).
-
-## Repository layout
-
-```
-app/                 Next.js App Router — landing, /listings/[id], (app) routes, /api/health
-components/          shared client UI — forms, image manager, gallery, status views
-convex/              schema, queries, mutations, actions, httpActions, crons
-automation/workflows exported, sanitised n8n workflow JSON
-docs/                architecture, security, media, n8n contract, production readiness
-scripts/             secret scanner, seed
-tests/               Vitest suites; Playwright specs later
-compose.yml          n8n 2.46 + Postgres 16 + Mailpit, bound to 127.0.0.1
-```
+- **Authorization lives in Convex functions**, never only in the UI. Every user-reachable mutation
+  checks the caller's identity and the ownership or role the action requires.
+- **Both directions are HMAC-signed** with a 300-second timestamp window and a timing-safe compare.
+  Signatures are verified before parsing or any side effect.
+- **Failures are visible.** The outbox retries with backoff, permanent failures become events, the
+  loan feed shows the automation trail, and W3 alerts the operator.
+- **Public reads are narrow.** `tools.listPublic` returns only name, category and a cover summary.
+  The item page adds description, condition, a Trusted Lender flag and busy date ranges — never the
+  owner's identity, email or request details.
+- **Notification payloads are minimal**: one recipient address, tool, dates and a deep link. No
+  descriptions, third-party addresses or internal IDs.
+- **Photos are validated server-side** (size, content type, magic bytes), resized and re-encoded
+  client-side to strip EXIF/GPS. R2 credentials stay on the Convex deployment.
+- **Analytics is privacy-conscious**: Sentry has user data, cookies, headers, query strings and
+  bodies disabled with masked replay; PostHog is served through a same-origin proxy.
 
 ## Automation (n8n)
-
-Three committed workflows in `automation/workflows/`:
 
 | Workflow                      | Trigger                                  | What it does                                                                    |
 | ----------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------- |
@@ -148,62 +119,58 @@ Three committed workflows in `automation/workflows/`:
 | **W2** `overdue-reminders`    | Daily 09:00 `Africa/Nairobi`             | Fetches overdue loans, emails each borrower, writes the reminder back           |
 | **W3** `error-handler`        | n8n Error Trigger + Convex alert webhook | Records failures in Convex and emails the operator                              |
 
+Every call is signed `HMAC-SHA256(secret, "${timestamp}.${rawBody}")`. Convex mutations only enqueue
+an outbox row; a cron drains it with 1m→30m backoff and six attempts, so a request cannot be
+approved without its notification being queued and a delivery failure cannot be silent. The
+contract, local setup and failure playbook are in [`docs/n8n.md`](docs/n8n.md).
+
+## Seed the shelf
+
+`convex/seed.ts` is the tiny demo shelf for local work. The **production shelf** is built from
+`scripts/seed/catalog/*.json`: 136 realistic listings across 14 categories, each with one to three
+photos in R2, distributed across the deployment's real accounts. The whole dataset is reproducible:
+
 ```bash
-docker compose run --rm --no-deps --entrypoint n8n n8n execute --id=lendloop-overdue-reminders
-open http://localhost:8025   # the reminder email, in Mailpit
+node scripts/seed/build-catalog.mjs        # validate + merge the catalogue
+python3 scripts/seed/fetch-images.py       # pick photos, resize/convert to WebP (.seed-cache/)
+node scripts/seed/generate-convex-data.mjs # write convex/seedData.ts + lib/image-credits.ts
+node scripts/seed/upload-r2.mjs            # upload the WebP files to R2 (idempotent)
 ```
 
-Every call is signed `HMAC-SHA256(secret, "${timestamp}.${rawBody}")` and verified before any side
-effect, in both directions. Convex mutations only enqueue an outbox row; a cron drains it with
-backoff and records every outcome, so a request cannot be approved without its notification being
-queued and a delivery failure cannot be silent. The full contract, setup and failure playbook are in
-[`docs/n8n.md`](docs/n8n.md).
+Then deploy and run the operator mutation with the owner emails (they must already exist in
+`users` — signing in once creates the row):
 
-## Observability
+```bash
+pnpm exec convex deploy
+pnpm exec convex run seedProd:seedProduction \
+  '{"ownerEmails":["calebrotich10@gmail.com","bahasha.app@gmail.com","crotich3@gmail.com","lendloop@bahasha.app"]}'
+```
 
-Sentry is wired through Next's App Router hooks:
+`seedProduction` is idempotent by (owner, exact name) and runs in one transaction, so re-running
+repairs a partial seed instead of duplicating it. `seedProd:removeProductionSeed` reverses it;
+add `"deleteObjects":true` to queue the R2 objects as well (the bucket is shared with dev, so
+that is opt-in). Photos are from Wikimedia Commons under public domain, CC0, CC BY or CC BY-SA,
+and every credit is rendered at [`/credits`](app/credits/page.tsx).
 
-- `instrumentation.ts` initialises the server and edge SDKs and forwards `onRequestError`;
-  `instrumentation-client.ts` initialises the browser SDK, Replay and router transitions.
-- `app/global-error.tsx` captures render failures, so an error before the app shell still reports.
-- Source maps upload during `pnpm build` when `SENTRY_AUTH_TOKEN` is present (a CI secret). Without
-  it the build still succeeds; the upload is skipped.
-- `/monitoring` tunnels browser traffic through Next so ad-blockers do not drop it, and it is
-  excluded from the Clerk proxy matcher so envelopes are never redirected to sign-in.
-- **Privacy:** `sendDefaultPii` is off and user info, cookies, headers, query strings and HTTP
-  bodies are all disabled. Replay masks every text node and input, and blocks media. Convex
-  functions are not instrumented by the Next SDK — their trail is `automationEvents` plus the admin
-  health panel.
-- The DSN is a public client key with a built-in fallback; `NEXT_PUBLIC_SENTRY_DSN` (browser) or
-  `SENTRY_DSN` (server) point a fork at its own project. `SENTRY_ORG` / `SENTRY_PROJECT` do the same
-  for source-map upload.
+## Verify
 
-## Security posture (short version)
+```bash
+pnpm check        # typecheck → lint → secret scan → 191 tests
+pnpm test         # Vitest only
+pnpm build        # production build
+pnpm format:check
+```
 
-- Authorization is enforced in **Convex functions** — the UI never decides access.
-- Every Convex → n8n and n8n → Convex call is **HMAC-signed** with a timestamp window; inbound
-  verification happens before parsing or any database write.
-- Mutations write to an **outbox**; the drain retries with backoff, and permanent failures surface in
-  the loan's activity feed and the admin health panel.
-- `secrets:check` runs in CI and fails on credential-shaped strings or a committed `.env`.
-- Notification payloads are **minimised**: a name, a tool, a date range, a deep link. No
-  third-party emails, no descriptions.
-- Listing photos are **validated server-side** (content type, byte size, magic bytes) before they
-  become visible; R2 credentials exist only on the Convex deployment, and the upload proxy needs no
-  bucket CORS. Photos are public, resized and re-encoded (EXIF stripped) client-side.
-- The public item page exposes only what a listing needs to be understood: name, category,
-  condition, description, a “Trusted lender” flag, derived availability and **busy date ranges**
-  (pending + approved, never who asked). No owner id, email or any part of the owner's name —
-  trusted owners are marked, not named. No request details. The original minimal
-  `tools.listPublic` projection is still there for the T3 contract.
-- Sentry is configured **not** to collect user fields, cookies, headers, query strings or bodies,
-  and Replay masks the UI.
-- Dependencies are pinned; TypeScript is held at 5.9 because `typescript-eslint` does not yet
-  support the 7.x compiler line.
+CI runs `pnpm check`, `pnpm format:check` and `pnpm build`. The only skipped test is the opt-in live
+R2 check (`R2_INTEGRATION=1`).
 
-The full threat model lands in `docs/security.md` (Stage 6). Until then, the security section above
-and [`docs/n8n.md`](docs/n8n.md) are the source of truth.
+## Docs
+
+- [`docs/n8n.md`](docs/n8n.md) — workflow contract, signing, local setup, failure playbook.
+- [`docs/production.md`](docs/production.md) — production shape, live email and next hardening
+  steps.
+- [`docs/media-storage.md`](docs/media-storage.md) — R2 upload flow, limits and housekeeping.
 
 ## License
 
-Private take-home project. Fictional product; seed data is invented.
+Portfolio project. LendLoop is a fictional product; the seed data is invented.

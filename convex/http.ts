@@ -13,7 +13,7 @@ import {
 import { overdueRequestSchema, reminderSchema, workflowEventSchema } from "./lib/n8n";
 
 /**
- * Inbound n8n endpoints (T20/T21/T23).
+ * Inbound n8n endpoints.
  *
  * Every route is POST with a JSON body. That is deliberate: the signature covers
  * `${timestamp}.${rawBody}`, so a GET would have to sign an empty body and lose
@@ -71,7 +71,7 @@ async function verifiedJson(req: Request): Promise<Gate> {
 
 const http = httpRouter();
 
-/** T20 — W2 fetches the loans that need a reminder. */
+/** W2 fetches the loans that need a reminder. */
 http.route({
   path: "/n8n/overdue-loans",
   method: "POST",
@@ -88,7 +88,7 @@ http.route({
   }),
 });
 
-/** T20/T23 — W2 writes one reminder back. Duplicates are a 200, not a 500. */
+/** W2 writes one reminder back. Duplicates are a 200, not a 500. */
 http.route({
   path: "/n8n/reminders",
   method: "POST",
@@ -112,7 +112,7 @@ http.route({
   }),
 });
 
-/** T24 — W3 reports errors and run summaries; both are deduped on execution id. */
+/** W3 reports errors and run summaries; both are deduped on execution id. */
 http.route({
   path: "/n8n/automation-events",
   method: "POST",

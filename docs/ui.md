@@ -1,20 +1,20 @@
 # UI system — LendLoop
 
-![Landing page](./landing.jpg)
+![Landing page](./ui/landing.jpg)
 
 The public surface is designed to feel like a neighbourhood product, not a
 dashboard: a warm page, editorial display type, real photography, and one
 obvious action on every screen. This note records the decisions so the next UI
 change extends the system instead of restyling around it.
 
-More captures: [listing detail](./listing.jpg), [search focus](./search-focus.jpg),
-[category picker](./search-category.jpg), [mobile](./landing-mobile.jpg). Captures are from a
+More captures: [listing detail](./ui/listing.jpg), [search focus](./ui/search-focus.jpg),
+[category picker](./ui/search-category.jpg), [mobile](./ui/landing-mobile.jpg). Captures are from a
 production build so they do not include the dev overlay.
 
 ## Palette
 
 Source of truth: the brand sheet already used by the transactional email
-templates (`convex/lib/emailTemplates.ts`) and `docs/deployment-vps.md`.
+templates (`convex/lib/emailTemplates.ts`) and the token set below.
 
 | Token           | Value     | Use                                                     |
 | --------------- | --------- | ------------------------------------------------------- |
@@ -217,8 +217,7 @@ letting someone tap into a dead end.
 ## Data and privacy
 
 Two anonymous queries were added for the public pages, alongside the original
-minimal `tools.listPublic` (which stays name/category/cover only for the T3
-contract):
+minimal `tools.listPublic` (which stays name/category/cover only):
 
 - `tools.listShowcase` returns the bounded public shelf: id, name, category,
   condition, description, a trusted-lender flag (never a name), derived
@@ -235,7 +234,7 @@ because it is the offer; the replacement value is public on the detail page
 because it is the reimbursement a borrower is agreeing to. When a listing is clicked, the page is shareable and the request
 card only exposes the name, dates and note the person chooses to send. This is
 a deliberate widening of the old public projection because a listing detail
-page is part of the product brief; both queries are anonymous, bounded and
+page is part of the product design; both queries are anonymous, bounded and
 validated at runtime by their return validators.
 
 ## Incoming signal

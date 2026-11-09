@@ -10,5 +10,5 @@ next-env.d.ts
 # Convex generates these; formatting them fights the generator.
 convex/_generated/
 
-# Hand-maintained build map with a hard 64 KiB instruction budget; Prettier table padding pushes it over.
+# Local agent instructions have a hard 64 KiB budget; Prettier table padding pushes them over.
 AGENTS.md

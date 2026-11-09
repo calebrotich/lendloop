@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 import { requestNotificationSchema } from "../convex/lib/n8n";
 
 /**
- * Contract checks for the committed n8n exports (T22/T27).
+ * Contract checks for the committed n8n exports.
  *
  * These are intentionally structural, not decorative: they fail if a workflow
  * loses its error handler, if a credential value is ever exported, if a URL is

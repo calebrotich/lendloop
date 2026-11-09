@@ -6,7 +6,7 @@ import type { RequestEventKind } from "./constants";
 import { readEnv } from "./env";
 
 /**
- * The wire contract between Convex and n8n, in one file (T19/T21).
+ * The wire contract between Convex and n8n, in one file.
  *
  * `docs/n8n.md` is the human-readable copy; this module is the executable one.
  * The outbox stores exactly `JSON.stringify(payload)`, and the workflows verify
@@ -124,7 +124,7 @@ export interface OverdueLoan {
 
 /**
  * Alert sent to the error workflow when an outbox row exhausts its retries
- * (T24). Deliberately small: a human needs to know what failed, not the payload.
+ * Deliberately small: a human needs to know what failed, not the payload.
  */
 export interface AutomationAlertPayload {
   kind: "automation.failed";

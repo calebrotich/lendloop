@@ -1,5 +1,5 @@
 /**
- * HMAC-SHA256 for both directions of the n8n integration (T21).
+ * HMAC-SHA256 for both directions of the n8n integration.
  *
  * Signed string format, shared by Convex and the n8n Code nodes:
  *

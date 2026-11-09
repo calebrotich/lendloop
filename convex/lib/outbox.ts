@@ -23,7 +23,7 @@ import { deepLinkFor, type RequestNotificationPayload } from "./n8n";
  *    its notification being queued.
  * 2. Every insert is guarded by a read of its idempotency key. Convex has no
  *    unique constraint, so the index lookup + insert in one transaction is the
- *    uniqueness guarantee (T23).
+ *    uniqueness guarantee.
  */
 
 export const MAX_ATTEMPTS = 6;
@@ -62,7 +62,7 @@ export interface EventInput {
 
 /**
  * Insert an event unless its key already exists. Returns `deduped: true` for a
- * duplicate — the caller treats that as success, not as an error (T23).
+ * duplicate — the caller treats that as success, not as an error.
  */
 export async function recordAutomationEvent(
   ctx: MutationCtx,
