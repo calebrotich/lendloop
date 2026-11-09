@@ -8,10 +8,13 @@
 import * as Sentry from "@sentry/nextjs";
 import posthog from "posthog-js";
 
+import { POSTHOG_PROXY_PATH, resolvePostHogUpstreams } from "./lib/posthog";
 import { SENTRY_BASE_OPTIONS } from "./sentry.options";
 
 const posthogToken = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
 const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST;
+const posthogUpstreams = resolvePostHogUpstreams(posthogHost);
+const posthogEnabled = Boolean(posthogToken && posthogUpstreams);
 
 if (!posthogToken) {
   if (process.env.NODE_ENV !== "production") {
@@ -19,7 +22,7 @@ if (!posthogToken) {
       "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN is configured",
     );
   }
-} else if (!posthogHost) {
+} else if (posthogUpstreams === null) {
   if (process.env.NODE_ENV !== "production") {
     throw new Error(
       "NEXT_PUBLIC_POSTHOG_HOST variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once NEXT_PUBLIC_POSTHOG_HOST is configured",
@@ -27,7 +30,12 @@ if (!posthogToken) {
   }
 } else {
   posthog.init(posthogToken, {
-    api_host: posthogHost,
+    // Capture and config requests go to this app, not posthog.com, so ad
+    // blockers matching the PostHog domains do not drop them. The rewrites in
+    // next.config.ts forward the path to the configured upstream, and ui_host
+    // keeps the toolbar pointed at the real PostHog app.
+    api_host: `/${POSTHOG_PROXY_PATH}`,
+    ui_host: posthogUpstreams.ui,
     defaults: "2025-05-24",
     capture_exceptions: true,
     debug: process.env.NODE_ENV === "development",
@@ -53,7 +61,7 @@ export function onRouterTransitionStart(
 ) {
   Sentry.captureRouterTransitionStart(...args);
 
-  if (posthogToken && posthogHost) {
+  if (posthogEnabled) {
     posthog.capture("$pageview");
   }
 }

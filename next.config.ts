@@ -1,6 +1,8 @@
 import { withSentryConfig } from "@sentry/nextjs/config";
 import type { NextConfig } from "next";
 
+import { POSTHOG_PROXY_PATH, resolvePostHogUpstreams } from "./lib/posthog";
+
 /**
  * Photos live on the R2 public host, not under /public. Next's optimiser will
  * resize and re-encode them to AVIF/WebP, but it refuses a remote host that is
@@ -23,6 +25,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // Never advertise the framework in responses.
   poweredByHeader: false,
+  // PostHog's API paths end in a slash. Without this Next answers each one
+  // with a 308 before the rewrite runs, doubling every capture request.
+  skipTrailingSlashRedirect: true,
   images: {
     // A clean clone without R2 still renders: unoptimised images load from the
     // stored URL instead of failing the optimiser's allow-list check.
@@ -35,6 +40,30 @@ const nextConfig: NextConfig = {
     return [
       // The old signed-in browse page is now the public shelf.
       { source: "/tools", destination: "/#shelf", permanent: false },
+    ];
+  },
+  async rewrites() {
+    // Analytics traffic goes to this app first, so blockers that know the
+    // PostHog hostnames never see it. The specific static/config paths must
+    // come before the capture catch-all because rewrites are evaluated in
+    // order. Without a configured host the rewrites stay off and the app runs
+    // without analytics.
+    const upstreams = resolvePostHogUpstreams(process.env.NEXT_PUBLIC_POSTHOG_HOST);
+    if (upstreams === null) return [];
+
+    return [
+      {
+        source: `/${POSTHOG_PROXY_PATH}/static/:path*`,
+        destination: `${upstreams.assets}/static/:path*`,
+      },
+      {
+        source: `/${POSTHOG_PROXY_PATH}/array/:path*`,
+        destination: `${upstreams.assets}/array/:path*`,
+      },
+      {
+        source: `/${POSTHOG_PROXY_PATH}/:path*`,
+        destination: `${upstreams.api}/:path*`,
+      },
     ];
   },
 };
